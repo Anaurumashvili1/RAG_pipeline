@@ -1,0 +1,10 @@
+llama-index-core>=0.11
+llama-index-embeddings-huggingface>=0.3
+llama-index-vector-stores-faiss>=0.2
+faiss-cpu>=1.8
+sentence-transformers>=3.0
+torch>=2.2
+openai>=1.40
+python-dotenv>=1.0
+PyYAML>=6.0
+tqdm>=4.66

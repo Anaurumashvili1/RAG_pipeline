@@ -1,0 +1,12 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# 713MB corpus and the FAISS index built from it - never commit these.
+# Match *.jsonl anywhere, not just data/: a stray copy under src/ is what
+# blocked the first push, since GitHub rejects any file over 100MB.
+*.jsonl
+storage/
+results/

@@ -1,0 +1,46 @@
+# UniTn RAG - configuration
+# Everything environment-specific lives here. No paths or model names in code.
+# Override any field with a second file:  python scripts/build_index.py --config config.uni.yaml
+
+paths:
+  # JSONL, one document per line, keys: url, title, text (plus optional lang, hreflang, last_modified)
+  corpus: data/unitn_crawl.jsonl
+  index_dir: storage/index
+  eval_set: data/evaluation_set.json
+  eval_results: results/eval_results.json
+
+data:
+  min_chars: 150          # drop near-empty / boilerplate pages
+  max_docs: null          # set to e.g. 2000 for a fast local smoke test
+
+chunking:
+  chunk_size: 512         # was 256 - larger keeps facts attached to their headers
+  chunk_overlap: 100      # ~20% overlap, per your notes
+  inject_header: true     # prepend TITLE/SOURCE/LANGUAGE/YEAR into the chunk text itself
+
+embedding:
+  # bge-base-en-v1.5 is English-only; bge-m3 is multilingual and handles the IT corpus.
+  model_name: BAAI/bge-m3
+  device: auto            # auto | cpu | cuda | mps
+  batch_size: 32
+  # dimension is auto-detected from the model - never hardcode it again
+
+retrieval:
+  similarity_top_k: 20    # chunks pulled from FAISS before dedup
+  max_pages: 5            # distinct documents passed to the LLM
+  dedup_by: doc_group     # doc_group | url  (doc_group collapses IT/EN translations)
+  prefer_query_language: true
+  chunk_char_limit: 1200  # was 800 - truncating context was costing answers
+
+llm:
+  # Base URL and API key come from .env - never commit them
+  # /v1/models lists the platform catalogue, not what is resident on this machine.
+  # ollama-mac1 currently serves only llama3.2:latest; everything else 401s with
+  # "not loaded on machine". Ask the platform admins which host has gpt-oss:20b -
+  # that is the model the Colab notebook used, so eval numbers are only comparable
+  # to the notebook baseline once we are pointed at it.
+  # llama3.2 is 3B: fine for wiring up the pipeline, too weak to trust for scores.
+  model: llama3.2:latest
+  temperature: 0.0
+  max_tokens: 700         # was 256, which truncated longer procedural answers
+  timeout: 60
