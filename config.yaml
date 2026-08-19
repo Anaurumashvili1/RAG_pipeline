@@ -4,7 +4,7 @@
 
 paths:
   # JSONL, one document per line, keys: url, title, text (plus optional lang, hreflang, last_modified)
-  corpus: ~/scraper/unitn_corpus.final_with_pdfs.jsonl
+  corpus: dataset.jsonl
   index_dir: storage/index
   eval_set: data/evaluation_set.json
   eval_results: results/eval_results.json
