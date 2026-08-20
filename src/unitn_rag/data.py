@@ -12,6 +12,7 @@ from .text import (
     detect_language,
     doc_group_id,
     doc_id_from_url,
+    is_latin_script,
     resolve_effective_year,
 )
 
@@ -65,6 +66,14 @@ def load_documents(
     seen_ids: set[str] = set()
     skipped_lang: dict[str, int] = {}
 
+    # Normalise once: YAML may give ["IT", "en-GB"], and a raw list membership
+    # test against that silently drops the entire corpus.
+    allowed = (
+        {str(x).strip().lower().split("-")[0] for x in keep_languages}
+        if keep_languages
+        else None
+    )
+
     for raw in iter_jsonl(path):
         url = (raw.get("url") or "").strip()
         title = clean_text(raw.get("title"))
@@ -84,15 +93,21 @@ def load_documents(
             continue
 
         # Language scope. The crawler's `lang` is authoritative - it read
-        # <html lang> - and it is the only place zh is recorded correctly:
-        # detect_language() knows only it/en, so a Chinese page silently
-        # resolves to 'en' and then competes for English queries.
-        # Only drop when the crawler actually declared something; a null lang
-        # falls through to detection as before.
-        if keep_languages:
+        # <html lang> - and it is the only place a non-it/en language is
+        # recorded at all: detect_language() knows only it/en and defaults to
+        # 'it', so an out-of-scope page silently becomes Italian and then
+        # competes for Italian queries.
+        if allowed is not None:
             declared = (raw.get("lang") or "").strip().lower().split("-")[0]
-            if declared and declared not in keep_languages:
-                skipped_lang[declared] = skipped_lang.get(declared, 0) + 1
+            if declared:
+                if declared not in allowed:
+                    skipped_lang[declared] = skipped_lang.get(declared, 0) + 1
+                    continue
+            elif not is_latin_script(text):
+                # No declared language and the text is not Latin script, so
+                # detect_language() would default it to 'it'. This is the case
+                # that let Chinese flyer PDFs into the corpus as Italian.
+                skipped_lang["non-latin"] = skipped_lang.get("non-latin", 0) + 1
                 continue
 
         did = doc_id_from_url(url)

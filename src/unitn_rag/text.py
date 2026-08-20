@@ -82,6 +82,37 @@ _EN_MARKERS = {
 _WORD_RE = re.compile(r"[a-zàèéìòù]+", re.IGNORECASE)
 
 
+# Scripts that rule out Italian or English outright. Checked only when the
+# crawler declared no language, since detect_language() defaults to 'it' and
+# would otherwise file a Chinese PDF as Italian.
+_NON_LATIN_RE = re.compile(
+    r"[一-鿿"      # CJK
+    r"぀-ヿ"       # kana
+    r"가-힯"       # hangul
+    r"Ѐ-ӿ"       # Cyrillic
+    r"֐-׿"       # Hebrew
+    r"؀-ۿ"       # Arabic
+    r"]"
+)
+
+
+def is_latin_script(text: str, sample_chars: int = 2000, threshold: float = 0.10) -> bool:
+    """False when a meaningful share of the sample is non-Latin script.
+
+    Deliberately tolerant: a single Chinese character in an otherwise Italian
+    page (a name, a quotation) should not disqualify it. The threshold asks
+    whether the *document* is non-Latin, not whether it contains any.
+    """
+    if not text:
+        return True
+    sample = text[:sample_chars]
+    letters = [c for c in sample if c.isalpha()]
+    if len(letters) < 20:
+        return True
+    non_latin = sum(1 for c in letters if _NON_LATIN_RE.match(c))
+    return (non_latin / len(letters)) < threshold
+
+
 def detect_language_from_url(url: str) -> str | None:
     """Language from URL structure. Returns 'en', 'it' or None."""
     if not url:

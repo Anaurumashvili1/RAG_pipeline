@@ -85,7 +85,7 @@ class RagPipeline:
             verdict = self.client.complete(
                 intent_messages(question), max_tokens=5, temperature=0.0
             )
-        except Exception:  # noqa: BLE001
+        except Exception:  
             return True
         return "BLOCK" not in verdict.upper()
 
