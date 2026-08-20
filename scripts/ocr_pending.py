@@ -29,7 +29,9 @@ import subprocess
 import sys
 import tempfile
 import time
+import ssl
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -66,30 +68,83 @@ def cache_path(url: str, cache: Path | None = None) -> Path:
     return (cache or CACHE) / f"{hashlib.sha1(url.encode('utf-8')).hexdigest()}.pdf"
 
 
-def fetch_pdf(url: str, dest: Path, timeout: int = FETCH_TIMEOUT) -> tuple[bool, str]:
-    """Download one PDF. Returns (ok, message)."""
+def is_junk_url(url: str) -> bool:
+    """AppleDouble resource forks: '._name.pdf' files a Mac left on a web server.
+
+    They carry Content-Type: application/pdf but contain no document - just
+    finder metadata. Fetching and OCRing them wastes time and pollutes the
+    corpus with empty records.
+    """
+    name = urllib.parse.urlsplit(url).path.rsplit("/", 1)[-1]
+    return name.startswith("._")
+
+
+def _request(url: str) -> urllib.request.Request:
+    return urllib.request.Request(url, headers={
+        "User-Agent": USER_AGENT,
+        # Some unitn hosts return an empty body without a browser-ish Accept.
+        "Accept": "application/pdf,application/octet-stream,*/*",
+        "Accept-Language": "it,en;q=0.8",
+    })
+
+
+def fetch_pdf(
+    url: str,
+    dest: Path,
+    timeout: int = FETCH_TIMEOUT,
+    allow_insecure: bool = False,
+    expected_sha256: str | None = None,
+) -> tuple[bool, str]:
+    """Download one PDF. Returns (ok, message).
+
+    Some unitn subdomains (disi.unitn.it) present a chain this server cannot
+    verify. With --insecure we retry without verification, but *only* accept the
+    result if its SHA-256 matches what the crawler recorded - so the content is
+    still proven identical to what was originally fetched, even though the
+    transport was not authenticated.
+    """
     if dest.exists() and dest.stat().st_size > 0:
         return True, "cached"
 
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    tmp = dest.with_suffix(".part")
+    data: bytes | None = None
+    note = ""
+
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            ctype = (r.headers.get("Content-Type") or "").lower()
+        with urllib.request.urlopen(_request(url), timeout=timeout) as r:
             data = r.read()
     except urllib.error.HTTPError as e:
         return False, f"http {e.code}"
+    except urllib.error.URLError as e:
+        if not (allow_insecure and isinstance(e.reason, ssl.SSLCertVerificationError)):
+            return False, f"error {type(e).__name__}: {e}"
+        if not expected_sha256 or expected_sha256 == "None":
+            return False, "ssl verify failed, and no recorded hash to fall back on"
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        try:
+            with urllib.request.urlopen(_request(url), timeout=timeout, context=ctx) as r:
+                data = r.read()
+        except Exception as e2:  # noqa: BLE001
+            return False, f"insecure retry failed: {type(e2).__name__}"
+        if hashlib.sha256(data).hexdigest() != expected_sha256:
+            return False, "insecure fetch, hash does not match the crawl - rejected"
+        note = " (unverified TLS, hash matched)"
     except Exception as e:  # noqa: BLE001
         return False, f"error {type(e).__name__}: {e}"
 
     if not data:
         return False, "empty response"
-    if not data.startswith(b"%PDF") and "pdf" not in ctype:
-        return False, f"not a pdf (content-type {ctype!r})"
 
+    # Magic bytes only. Content-Type lies: AppleDouble stubs are served as
+    # application/pdf, and that is what let nine non-documents through.
+    if not data.startswith(b"%PDF"):
+        return False, f"not a pdf (starts {data[:8]!r})"
+
+    tmp = dest.with_suffix(".part")
     tmp.write_bytes(data)
     tmp.rename(dest)                      # atomic: a .pdf on disk is always complete
-    return True, f"{len(data) / 1024:.0f} KB"
+    return True, f"{len(data) / 1024:.0f} KB{note}"
 
 
 def verify_sha256(path: Path, expected: str | None) -> bool | None:
@@ -161,15 +216,32 @@ def page_count(pdf: Path) -> int:
 # --------------------------------------------------------------------------
 
 
-def load_pending(path: Path, limit: int | None) -> list[dict]:
-    rows = []
+def load_pending(path: Path, limit: int | None, keep_junk: bool = False) -> list[dict]:
+    """Read the pending list, drop non-documents, order for useful sampling."""
+    rows, junk = [], 0
     with open(path, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
-            if line:
-                rows.append(json.loads(line))
-    # Smallest first: fastest feedback, and a crash costs the least work.
-    rows.sort(key=lambda r: int(r.get("page_count") or 0))
+            if not line:
+                continue
+            r = json.loads(line)
+            if not keep_junk and is_junk_url(r.get("url", "")):
+                junk += 1
+                continue
+            rows.append(r)
+    if junk:
+        log(f"skipped {junk} AppleDouble '._' stubs - not documents")
+
+    def pages(r: dict) -> int:
+        try:
+            return int(r.get("page_count") or 0)
+        except (TypeError, ValueError):
+            return 0
+
+    # Smallest first, but documents with a *known* page count come before
+    # unknowns. Sorting purely by page count floats every count-less record to
+    # the top, so a --limit sample sees only the records we know least about.
+    rows.sort(key=lambda r: (pages(r) == 0, pages(r)))
     return rows[:limit] if limit else rows
 
 
@@ -242,6 +314,11 @@ def main() -> int:
     ap.add_argument("--delay", type=float, default=FETCH_DELAY)
     ap.add_argument("--fetch-only", action="store_true")
     ap.add_argument("--ocr-only", action="store_true")
+    ap.add_argument("--insecure", action="store_true",
+                    help="on SSL verify failure, retry unverified and accept only "
+                         "if the SHA-256 matches the crawl")
+    ap.add_argument("--keep-junk", action="store_true",
+                    help="do not skip AppleDouble '._' stubs")
     args = ap.parse_args()
 
     CACHE = args.cache
@@ -253,7 +330,7 @@ def main() -> int:
             log(f"FAIL {tool} not found on PATH")
             return 1
 
-    rows = load_pending(args.pending, args.limit)
+    rows = load_pending(args.pending, args.limit, keep_junk=args.keep_junk)
     log(f"{len(rows)} documents pending, {sum(int(r.get('page_count') or 0) for r in rows)} pages")
 
     # ---------------- fetch ----------------
@@ -263,7 +340,11 @@ def main() -> int:
             url = row["url"]
             dest = cache_path(url)
             was_cached = dest.exists()
-            good, msg = fetch_pdf(url, dest)
+            good, msg = fetch_pdf(
+                url, dest,
+                allow_insecure=args.insecure,
+                expected_sha256=row.get("content_sha256"),
+            )
 
             if good:
                 if was_cached:
