@@ -29,6 +29,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import re
 import ssl
 import urllib.error
 import urllib.parse
@@ -52,6 +53,46 @@ OCR_LANG = "ita+eng"     # corpus is Italian with English pages mixed in
 # Below this, the "text" is almost certainly noise from a map or a photograph
 # rather than a failed scan of real prose.
 MIN_CHARS_PER_PAGE = 100
+
+# Quality thresholds. Chars-per-page alone is not enough: OCR run over a graphic
+# poster hallucinates letterforms and yields *more* characters than real prose
+# ("Cee] = ni Tri + d a rai = E n ki i m n n a i |g" scored 2,720 chars/page).
+# Measuring whether the output behaves like language catches that; counting it
+# does not.
+# Share of tokens that are 4+ characters. Measured on the first sample:
+#   real prose            83%      OCR'd event poster    53-59%
+#   hallucinated noise    14%
+# A stopword-frequency check was tried first and failed - noise contains enough
+# stray 'a', 'i', 'e', 'di' to score 0.121, indistinguishable from real text.
+# Word *length* separates cleanly because noise fragments into single letters.
+MIN_LONG_TOKEN_RATIO = 0.35
+
+_TOKEN_RE = re.compile(r"[A-Za-zÀ-ÖØ-öø-ÿ']+")
+
+
+def text_quality(text: str) -> dict:
+    """Does this read like language, or like OCR noise over a graphic?
+
+    Tesseract run across a design-heavy poster invents letterforms and emits
+    more characters than a page of real prose, so volume cannot be the test.
+    Token length can: real words are long, hallucinated ones are debris.
+    """
+    empty = {"long_token_ratio": 0.0, "one_char_ratio": 0.0,
+             "mean_token_len": 0.0, "tokens": 0}
+    if not text:
+        return empty
+
+    tokens = _TOKEN_RE.findall(text)
+    n = len(tokens)
+    if n == 0:
+        return empty
+
+    return {
+        "long_token_ratio": round(sum(1 for t in tokens if len(t) >= 4) / n, 4),
+        "one_char_ratio": round(sum(1 for t in tokens if len(t) == 1) / n, 4),
+        "mean_token_len": round(sum(len(t) for t in tokens) / n, 2),
+        "tokens": n,
+    }
 
 
 def log(msg: str) -> None:
@@ -216,7 +257,12 @@ def page_count(pdf: Path) -> int:
 # --------------------------------------------------------------------------
 
 
-def load_pending(path: Path, limit: int | None, keep_junk: bool = False) -> list[dict]:
+def load_pending(
+    path: Path,
+    limit: int | None,
+    keep_junk: bool = False,
+    min_pages: int = 0,
+) -> list[dict]:
     """Read the pending list, drop non-documents, order for useful sampling."""
     rows, junk = [], 0
     with open(path, encoding="utf-8") as f:
@@ -237,6 +283,11 @@ def load_pending(path: Path, limit: int | None, keep_junk: bool = False) -> list
             return int(r.get("page_count") or 0)
         except (TypeError, ValueError):
             return 0
+
+    if min_pages:
+        before = len(rows)
+        rows = [r for r in rows if pages(r) >= min_pages]
+        log(f"{len(rows)} of {before} have {min_pages}+ pages")
 
     # Smallest first, but documents with a *known* page count come before
     # unknowns. Sorting purely by page count floats every count-less record to
@@ -282,6 +333,19 @@ def process(row: dict, dpi: int, lang: str, cache: Path) -> dict:
         return {"url": url, "ok": False, "error": f"{type(e).__name__}: {e}"}
 
     per_page = len(text) / pages if pages else 0
+    q = text_quality(text)
+
+    # Two distinct failure modes, worth naming separately rather than collapsing
+    # into one boolean:
+    #   empty  - almost nothing came out (a map, a photograph, a blank scan)
+    #   noise  - plenty came out, but it does not read like language
+    empty = per_page < MIN_CHARS_PER_PAGE
+    noise = (
+        not empty
+        and q["tokens"] >= 20
+        and q["long_token_ratio"] < MIN_LONG_TOKEN_RATIO
+    )
+
     return {
         "url": url,
         "ok": True,
@@ -290,9 +354,12 @@ def process(row: dict, dpi: int, lang: str, cache: Path) -> dict:
         "ocr_chars": len(text),
         "ocr_pages": pages,
         "chars_per_page": round(per_page, 1),
+        **q,
         # Flag rather than drop: a bus map legitimately has almost no text, and
         # that is a fact about the document, not a failure of the OCR.
-        "ocr_suspect": per_page < MIN_CHARS_PER_PAGE,
+        "ocr_empty": empty,
+        "ocr_noise": noise,
+        "ocr_suspect": empty or noise,
         "ocr_engine": "tesseract",
         "ocr_lang": lang,
         "ocr_dpi": dpi,
@@ -319,6 +386,9 @@ def main() -> int:
                          "if the SHA-256 matches the crawl")
     ap.add_argument("--keep-junk", action="store_true",
                     help="do not skip AppleDouble '._' stubs")
+    ap.add_argument("--min-pages", type=int, default=0,
+                    help="only documents with at least N pages - use to sample "
+                         "substantial documents rather than one-page posters")
     args = ap.parse_args()
 
     CACHE = args.cache
@@ -330,7 +400,8 @@ def main() -> int:
             log(f"FAIL {tool} not found on PATH")
             return 1
 
-    rows = load_pending(args.pending, args.limit, keep_junk=args.keep_junk)
+    rows = load_pending(args.pending, args.limit,
+                        keep_junk=args.keep_junk, min_pages=args.min_pages)
     log(f"{len(rows)} documents pending, {sum(int(r.get('page_count') or 0) for r in rows)} pages")
 
     # ---------------- fetch ----------------
