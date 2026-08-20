@@ -18,14 +18,33 @@ from urllib.parse import urlsplit, urlunsplit, parse_qsl
 # --------------------------------------------------------------------------
 
 _WS_RE = re.compile(r"\s+")
+# Whitespace that is *not* a newline. Used when paragraph structure must survive.
+_INLINE_WS_RE = re.compile(r"[^\S\n]+")
+_BLANK_LINES_RE = re.compile(r"\n{3,}")
 
 
-def clean_text(t: str | None) -> str:
-    """Collapse whitespace and strip non-breaking spaces."""
+def clean_text(t: str | None, keep_breaks: bool = False) -> str:
+    """Collapse whitespace and strip non-breaking spaces.
+
+    ``keep_breaks`` preserves line and paragraph breaks. This matters more than
+    it looks: the crawler emits markdown (trafilatura), so headings and
+    paragraph boundaries are present in the source. Collapsing all whitespace
+    flattened them away, which silently disabled ``SentenceSplitter``'s
+    ``paragraph_separator="\\n\\n"`` - it could never match, so chunk boundaries
+    ignored document structure entirely.
+
+    Default stays False so titles and short fields collapse to one line.
+    """
     if not t:
         return ""
     t = t.replace("\u00a0", " ").replace("\u200b", "")
-    return _WS_RE.sub(" ", t).strip()
+
+    if not keep_breaks:
+        return _WS_RE.sub(" ", t).strip()
+
+    t = _INLINE_WS_RE.sub(" ", t)          # spaces and tabs, not newlines
+    t = _BLANK_LINES_RE.sub("\n\n", t)     # at most one blank line
+    return "\n".join(line.strip() for line in t.split("\n")).strip()
 
 
 def doc_id_from_url(url: str) -> str:

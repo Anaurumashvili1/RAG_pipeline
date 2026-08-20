@@ -16,9 +16,15 @@ from .embeddings import configure_settings, embedding_dim
 MANIFEST = "index_manifest.json"
 
 
-def build_index(nodes: list[TextNode], cfg: Config) -> VectorStoreIndex:
-    """Embed nodes and persist a FAISS index to disk."""
-    embed_model = configure_settings(cfg.embedding)
+def build_index(nodes: list[TextNode], cfg: Config, embed_model=None) -> VectorStoreIndex:
+    """Embed nodes and persist a FAISS index to disk.
+
+    ``embed_model`` may be passed in when the caller already built one - semantic
+    chunking needs the model before chunking, and loading BGE-M3 twice is 2.3GB
+    of wasted work.
+    """
+    if embed_model is None:
+        embed_model = configure_settings(cfg.embedding)
     dim = embedding_dim(embed_model)
     print(f"[index] embedding dimension detected: {dim}")
 
@@ -44,6 +50,10 @@ def build_index(nodes: list[TextNode], cfg: Config) -> VectorStoreIndex:
                 "chunk_size": cfg.chunking.chunk_size,
                 "chunk_overlap": cfg.chunking.chunk_overlap,
                 "header_injected": cfg.chunking.inject_header,
+                # Recorded so an ablation run can be identified after the fact.
+                "semantic_min_chars": cfg.chunking.semantic_min_chars,
+                "semantic_buffer_size": cfg.chunking.semantic_buffer_size,
+                "semantic_percentile": cfg.chunking.semantic_percentile,
             },
             indent=2,
         ),

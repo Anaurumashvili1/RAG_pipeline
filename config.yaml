@@ -22,6 +22,17 @@ chunking:
   chunk_overlap: 100      # ~20% overlap, per your notes
   inject_header: true     # prepend TITLE/SOURCE/LANGUAGE/YEAR into the chunk text itself
 
+  # Hybrid chunking. Documents >= semantic_min_chars are split semantically;
+  # shorter ones keep fixed-size splitting.
+  #   0     fixed-size everywhere (baseline for the ablation)
+  #   8000  10,065 docs / 81% of corpus text - 96% of them PDFs with no headings
+  #   2000  more aggressive; risks fragmenting single-topic pages
+  # The median document is ~1,540 chars, so a corpus-wide setting would cut up
+  # pages that should stay whole.
+  semantic_min_chars: 8000
+  semantic_buffer_size: 1     # sentences grouped before comparing
+  semantic_percentile: 95     # split where distance exceeds this percentile
+
 embedding:
   # bge-base-en-v1.5 is English-only; bge-m3 is multilingual and handles the IT corpus.
   model_name: BAAI/bge-m3

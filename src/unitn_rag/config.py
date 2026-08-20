@@ -18,7 +18,6 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 def _resolve(p: str | None) -> Path | None:
-    """Make a config path absolute, relative to the project root."""
     if p is None:
         return None
     path = Path(p)
@@ -37,12 +36,9 @@ class Paths:
 class DataCfg:
     min_chars: int = 150
     max_docs: int | None = None
-    # Quality flags emitted by the v2 crawler. Turn one off to measure what it costs.
     drop_duplicates: bool = True
     drop_low_content: bool = True
     drop_boilerplate: bool = True
-    # Languages in scope. The corpus contains ~200 Chinese pages on
-    # master-m3.unitn.it; set to null to keep everything.
     keep_languages: list[str] | None = field(default_factory=lambda: ["it", "en"])
 
 
@@ -51,6 +47,11 @@ class ChunkingCfg:
     chunk_size: int = 512
     chunk_overlap: int = 100
     inject_header: bool = True
+    # Hybrid chunking. 0 disables semantic splitting entirely (fixed-size
+    # baseline). Above 0, documents at least this long are split semantically.
+    semantic_min_chars: int = 0
+    semantic_buffer_size: int = 1
+    semantic_percentile: int = 95
 
 
 @dataclass
@@ -86,7 +87,11 @@ class Config:
     chunking: ChunkingCfg = field(default_factory=ChunkingCfg)
     embedding: EmbeddingCfg = field(default_factory=EmbeddingCfg)
     retrieval: RetrievalCfg = field(default_factory=RetrievalCfg)
-    llm: LLMCfg = field(default_factory=lambda: LLMCfg(model="gpt-4o-mini"))
+    # No default model. A silent fallback (this used to be "gpt-4o-mini", left
+    # over from the notebook's OpenAI backend) turns a missing config key into a
+    # confusing "model not loaded" from whatever endpoint is configured, instead
+    # of saying the model was never set.
+    llm: LLMCfg = field(default_factory=lambda: LLMCfg(model=""))
 
 
 def load_config(path: str | Path = "config.yaml") -> Config:
@@ -101,15 +106,20 @@ def load_config(path: str | Path = "config.yaml") -> Config:
 
     p = raw.get("paths", {})
     paths = Paths(
-        corpus=_resolve(p.get("corpus", "data/corpus.jsonl")),
+        corpus=_resolve(p.get("corpus", "dataset.jsonl")),
         index_dir=_resolve(p.get("index_dir", "storage/index")),
-        eval_set=_resolve(p.get("eval_set", "data/evaluation_set.json")),
+        eval_set=_resolve(p.get("eval_set", "evaluation_set.json")),
         eval_results=_resolve(p.get("eval_results", "results/eval_results.json")),
     )
 
     llm_raw = raw.get("llm", {})
+    if not llm_raw.get("model"):
+        raise ValueError(
+            f"llm.model is not set in {cfg_path}. Run "
+            "'python scripts/check_llm.py --list' to see what the endpoint serves."
+        )
     llm = LLMCfg(
-        model=llm_raw.get("model", "gpt-4o-mini"),
+        model=llm_raw["model"],
         temperature=llm_raw.get("temperature", 0.0),
         max_tokens=llm_raw.get("max_tokens", 700),
         timeout=llm_raw.get("timeout", 60),
@@ -128,7 +138,6 @@ def load_config(path: str | Path = "config.yaml") -> Config:
 
 
 def resolve_device(requested: str = "auto") -> str:
-    """Pick a torch device. 'auto' works on your laptop and on the uni GPU unchanged."""
     if requested != "auto":
         return requested
     try:

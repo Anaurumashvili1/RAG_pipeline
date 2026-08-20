@@ -1,8 +1,5 @@
 """System and user prompts.
 
-This is the file your Obsidian note "System prompts for llm.md" was going to be.
-
-Design decisions carried over from the notes:
   - user input is isolated inside <user_query> tags (prompt-injection defence)
   - the model is told to answer in the language of the question, even when the
     supporting context is in the other language

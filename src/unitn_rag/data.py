@@ -33,7 +33,6 @@ class Doc:
 
 
 def iter_jsonl(path: str | Path) -> Iterator[dict]:
-    """Stream a JSONL corpus. Streaming matters at 1M pages - never load it all at once."""
     with open(path, "r", encoding="utf-8") as f:
         for line_no, line in enumerate(f, 1):
             line = line.strip()
@@ -69,7 +68,8 @@ def load_documents(
     for raw in iter_jsonl(path):
         url = (raw.get("url") or "").strip()
         title = clean_text(raw.get("title"))
-        text = clean_text(raw.get("text"))
+        # keep_breaks: paragraph structure is what SentenceSplitter splits on.
+        text = clean_text(raw.get("text"), keep_breaks=True)
 
         if not url or len(text) < min_chars:
             continue

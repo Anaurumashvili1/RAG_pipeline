@@ -1,8 +1,8 @@
 """Chunking with metadata header injection.
 
-The v1 pipeline embedded raw body text only. That caused the failure mode
-documented in the paper: a query matching a page *title* could retrieve the
-right page but the wrong chunk, because the title was never part of any vector.
+The v1 pipeline embedded raw body text only. That caused the failure:
+ a query matching a page *title* could retrieve the right page but the wrong chunk,
+because the title was never part of any vector.
 
 Here every chunk carries its own header in the embedded text:
 
@@ -23,11 +23,12 @@ import hashlib
 from typing import Iterable
 
 from llama_index.core.node_parser import SentenceSplitter
-from llama_index.core.schema import TextNode
+from llama_index.core.schema import Document as LIDocument, TextNode
 
 from .data import Doc
 
-_META_KEYS = ["doc_id", "url", "title", "lang", "doc_group_id", "effective_year", "chunk_index"]
+_META_KEYS = ["doc_id", "url", "title", "lang", "doc_group_id", "effective_year",
+              "chunk_index", "chunk_strategy"]
 
 
 def build_header(doc: Doc) -> str:
@@ -44,8 +45,9 @@ def make_splitter(chunk_size: int = 512, chunk_overlap: int = 100) -> SentenceSp
 
     Note on sizes: v1 used 256/50. The error analysis showed facts being severed
     from their section headers, so the default here is 512/100 (~20% overlap).
-    Paragraph breaks are preferred boundaries, which approximates the structural
-    splitting in your notes without requiring HTML to still be present.
+    Paragraph breaks are preferred boundaries - which only works because
+    ``clean_text(keep_breaks=True)`` now preserves newlines. It previously
+    collapsed them, so ``paragraph_separator`` could never match.
     """
     return SentenceSplitter(
         chunk_size=chunk_size,
@@ -54,13 +56,67 @@ def make_splitter(chunk_size: int = 512, chunk_overlap: int = 100) -> SentenceSp
     )
 
 
+def make_semantic_splitter(
+    embed_model,
+    buffer_size: int = 1,
+    breakpoint_percentile_threshold: int = 95,
+):
+    """Embedding-based splitter: cut where consecutive sentences diverge.
+
+    Applied only to long documents - see ``semantic_min_chars`` in
+    ``chunk_documents``. On a short page the percentile threshold is computed
+    over that page's own similarity distribution, so *something* always looks
+    like a boundary and a single-topic page gets fragmented. Long documents have
+    real topic shifts to find.
+    """
+    from llama_index.core.node_parser import SemanticSplitterNodeParser
+
+    return SemanticSplitterNodeParser(
+        buffer_size=buffer_size,
+        breakpoint_percentile_threshold=breakpoint_percentile_threshold,
+        embed_model=embed_model,
+    )
+
+
+def _split_semantic(parser, text: str) -> list[str]:
+    """Run the semantic parser and return plain strings.
+
+    Returns the pieces only; node construction stays in one place so both
+    strategies produce identically-shaped nodes. If the two paths built nodes
+    differently, an ablation between them would be measuring two changes.
+    """
+    nodes = parser.get_nodes_from_documents([LIDocument(text=text)])
+    return [n.get_content() for n in nodes]
+
+
 def chunk_document(
     doc: Doc,
     splitter: SentenceSplitter,
     inject_header: bool = True,
+    semantic_parser=None,
+    semantic_min_chars: int = 0,
 ) -> list[TextNode]:
-    """Split one document into embed-ready nodes."""
-    pieces = splitter.split_text(doc.text)
+    """Split one document into embed-ready nodes.
+
+    Routes on document length: long documents go to the semantic parser when one
+    is supplied, everything else uses the sentence splitter.
+    """
+    use_semantic = (
+        semantic_parser is not None
+        and semantic_min_chars > 0
+        and len(doc.text) >= semantic_min_chars
+    )
+
+    if use_semantic:
+        try:
+            pieces = _split_semantic(semantic_parser, doc.text)
+        except Exception as e:  # noqa: BLE001 - never lose a document to a parser error
+            print(f"[chunk] semantic split failed ({type(e).__name__}), "
+                  f"falling back to sentence split: {doc.url}")
+            pieces = splitter.split_text(doc.text)
+    else:
+        pieces = splitter.split_text(doc.text)
+
     header = build_header(doc) if inject_header else ""
 
     nodes: list[TextNode] = []
@@ -80,6 +136,10 @@ def chunk_document(
                 "doc_group_id": doc.doc_group_id,
                 "effective_year": doc.effective_year,
                 "chunk_index": i,
+                # Which strategy produced this chunk. Needed for the ablation:
+                # without it you cannot tell whether a retrieval win came from
+                # semantically-split documents or the fixed-size ones.
+                "chunk_strategy": "semantic" if use_semantic else "fixed",
             },
         )
         # Header already carries this information; don't send it twice.
@@ -96,22 +156,58 @@ def chunk_documents(
     chunk_overlap: int = 100,
     inject_header: bool = True,
     deduplicate: bool = True,
+    semantic_min_chars: int = 0,
+    embed_model=None,
+    semantic_buffer_size: int = 1,
+    semantic_percentile: int = 95,
 ) -> list[TextNode]:
     """Chunk the whole corpus.
 
-    ``deduplicate`` implements the pass from your Chunking note: boilerplate
-    blocks (cookie banners, footers, contact strips) repeat across thousands of
-    pages. Identical bodies are stored once, with every URL they appeared on
-    recorded in ``duplicate_urls``. On a 71k-page corpus this typically removes
-    a large share of nodes and keeps retrieval results clean.
+    Identical bodies are stored once, with every URL they appeared on recorded
+    in ``duplicate_urls``.
+
+    ``semantic_min_chars`` enables hybrid chunking: documents at or above that
+    length are split semantically, shorter ones by sentence count. Set to 0 to
+    disable semantic chunking entirely (the fixed-size baseline).
+
+    Why a threshold rather than corpus-wide: the median document here is ~1,540
+    characters - a single coherent page. The semantic parser has no minimum size
+    and its breakpoint threshold is a percentile over each document's own
+    similarity distribution, so it will always find "boundaries" and fragment a
+    single-topic page. Long documents (>=8k chars, 81% of corpus text, 96% of
+    them PDFs with no headings) have real topic shifts and no other structural
+    signal.
     """
     splitter = make_splitter(chunk_size, chunk_overlap)
 
+    semantic_parser = None
+    if semantic_min_chars > 0:
+        if embed_model is None:
+            raise ValueError(
+                "semantic_min_chars is set but no embed_model was passed - "
+                "semantic chunking needs one to measure sentence similarity"
+            )
+        semantic_parser = make_semantic_splitter(
+            embed_model,
+            buffer_size=semantic_buffer_size,
+            breakpoint_percentile_threshold=semantic_percentile,
+        )
+
     nodes: list[TextNode] = []
     by_hash: dict[str, TextNode] = {}
+    n_semantic = n_fixed = 0
 
     for doc in docs:
-        for node in chunk_document(doc, splitter, inject_header):
+        if semantic_parser is not None and len(doc.text) >= semantic_min_chars:
+            n_semantic += 1
+        else:
+            n_fixed += 1
+
+        for node in chunk_document(
+            doc, splitter, inject_header,
+            semantic_parser=semantic_parser,
+            semantic_min_chars=semantic_min_chars,
+        ):
             if not deduplicate:
                 nodes.append(node)
                 continue
@@ -129,5 +225,9 @@ def chunk_documents(
                 dupes = existing.metadata.setdefault("duplicate_urls", [])
                 if node.metadata["url"] not in dupes:
                     dupes.append(node.metadata["url"])
+
+    if semantic_parser is not None:
+        print(f"[chunk] semantic: {n_semantic:,} docs (>={semantic_min_chars:,} chars) · "
+              f"fixed: {n_fixed:,} docs · {len(nodes):,} chunks")
 
     return nodes

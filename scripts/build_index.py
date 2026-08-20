@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from unitn_rag.chunking import chunk_documents          # noqa: E402
 from unitn_rag.config import load_config                # noqa: E402
 from unitn_rag.data import corpus_stats, load_documents  # noqa: E402
+from unitn_rag.embeddings import configure_settings     # noqa: E402
 from unitn_rag.indexing import build_index              # noqa: E402
 
 
@@ -27,11 +28,19 @@ def main() -> None:
                     help="Override data.max_docs for a quick test run")
     ap.add_argument("--no-dedup", action="store_true",
                     help="Skip boilerplate chunk deduplication")
+    ap.add_argument("--index-dir", type=Path, default=None,
+                    help="Override paths.index_dir - keep ablation runs side by side")
+    ap.add_argument("--semantic-min-chars", type=int, default=None,
+                    help="Override chunking.semantic_min_chars. 0 disables "
+                         "semantic chunking (fixed-size baseline). For the "
+                         "ablation, run 0 / 2000 / 8000 into separate index dirs.")
     args = ap.parse_args()
 
     cfg = load_config(args.config)
     if args.max_docs:
         cfg.data.max_docs = args.max_docs
+    if args.index_dir:
+        cfg.paths.index_dir = args.index_dir
 
     print(f"[build] corpus: {cfg.paths.corpus}")
     docs = load_documents(
@@ -51,16 +60,29 @@ def main() -> None:
     for k, v in stats.items():
         print(f"        {k}: {v}")
 
+    # Semantic chunking needs the embedding model before chunking, so build it
+    # once here and hand the same instance to both stages.
+    semantic_min = args.semantic_min_chars
+    if semantic_min is None:
+        semantic_min = cfg.chunking.semantic_min_chars
+    cfg.chunking.semantic_min_chars = semantic_min
+
+    embed_model = configure_settings(cfg.embedding) if semantic_min > 0 else None
+
     nodes = chunk_documents(
         docs,
         chunk_size=cfg.chunking.chunk_size,
         chunk_overlap=cfg.chunking.chunk_overlap,
         inject_header=cfg.chunking.inject_header,
         deduplicate=not args.no_dedup,
+        semantic_min_chars=semantic_min,
+        embed_model=embed_model,
+        semantic_buffer_size=cfg.chunking.semantic_buffer_size,
+        semantic_percentile=cfg.chunking.semantic_percentile,
     )
     print(f"[build] {len(nodes)} chunks after dedup")
 
-    build_index(nodes, cfg)
+    build_index(nodes, cfg, embed_model=embed_model)
     print("[build] done")
 
 
