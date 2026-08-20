@@ -52,6 +52,7 @@ def load_documents(
     drop_duplicates: bool = True,
     drop_low_content: bool = True,
     drop_boilerplate: bool = True,
+    keep_languages: tuple[str, ...] | list[str] | None = ("it", "en"),
     current_year: int | None = None,
 ) -> list[Doc]:
     """Load, clean, filter and enrich the crawl output.
@@ -63,6 +64,7 @@ def load_documents(
     """
     docs: list[Doc] = []
     seen_ids: set[str] = set()
+    skipped_lang: dict[str, int] = {}
 
     for raw in iter_jsonl(path):
         url = (raw.get("url") or "").strip()
@@ -80,6 +82,18 @@ def load_documents(
             continue
         if drop_boilerplate and raw.get("boilerplate"):
             continue
+
+        # Language scope. The crawler's `lang` is authoritative - it read
+        # <html lang> - and it is the only place zh is recorded correctly:
+        # detect_language() knows only it/en, so a Chinese page silently
+        # resolves to 'en' and then competes for English queries.
+        # Only drop when the crawler actually declared something; a null lang
+        # falls through to detection as before.
+        if keep_languages:
+            declared = (raw.get("lang") or "").strip().lower().split("-")[0]
+            if declared and declared not in keep_languages:
+                skipped_lang[declared] = skipped_lang.get(declared, 0) + 1
+                continue
 
         did = doc_id_from_url(url)
         if did in seen_ids:          # same URL crawled twice
@@ -102,6 +116,10 @@ def load_documents(
 
         if max_docs and len(docs) >= max_docs:
             break
+
+    if skipped_lang:
+        summary = ", ".join(f"{k}={v}" for k, v in sorted(skipped_lang.items()))
+        print(f"[data] skipped out-of-scope languages: {summary}")
 
     return docs
 

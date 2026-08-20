@@ -41,6 +41,7 @@ def main() -> None:
         drop_duplicates=cfg.data.drop_duplicates,
         drop_low_content=cfg.data.drop_low_content,
         drop_boilerplate=cfg.data.drop_boilerplate,
+        keep_languages=cfg.data.keep_languages,
     )
     if not docs:
         raise SystemExit("No documents loaded - check paths.corpus in config.yaml")

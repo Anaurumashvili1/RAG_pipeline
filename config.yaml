@@ -12,6 +12,10 @@ paths:
 data:
   min_chars: 150          # drop near-empty / boilerplate pages
   max_docs: null          # set to e.g. 2000 for a fast local smoke test
+  # Languages in scope. The crawler's `lang` decides; detect_language() only
+  # knows it/en, so a zh page would silently resolve to 'en' and compete for
+  # English queries. Set to null to keep every language.
+  keep_languages: [it, en]
 
 chunking:
   chunk_size: 512         # was 256 - larger keeps facts attached to their headers

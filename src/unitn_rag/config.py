@@ -41,6 +41,9 @@ class DataCfg:
     drop_duplicates: bool = True
     drop_low_content: bool = True
     drop_boilerplate: bool = True
+    # Languages in scope. The corpus contains ~200 Chinese pages on
+    # master-m3.unitn.it; set to null to keep everything.
+    keep_languages: list[str] | None = field(default_factory=lambda: ["it", "en"])
 
 
 @dataclass
