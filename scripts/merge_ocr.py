@@ -15,6 +15,7 @@ a rerun rather than the corpus.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -61,6 +62,12 @@ def merge_record(doc: dict, ocr: dict) -> dict:
     doc["text"] = text
     doc["text_len"] = len(text)
     doc["extractor"] = "tesseract"
+
+    # The crawler left text_sha256 as None because there was no text layer.
+    # Downstream deduplication compares that hash, so leaving it None means two
+    # URLs serving the identical scanned PDF both survive - which is exactly
+    # what Alfresco does, exposing each file under a UUID and a filename.
+    doc["text_sha256"] = hashlib.sha256(text.encode("utf-8")).hexdigest()
 
     # The crawler flagged these as low_content because they had no text layer.
     # That is now false, and it matters: the loader drops low_content records,
