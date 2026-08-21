@@ -11,11 +11,12 @@ Two changes from the notebook version:
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from datetime import date
 
 from .config import RetrievalCfg
-from .text import detect_language_from_text, recency_penalty
+from .text import _WORD_RE, detect_language_from_text, recency_penalty
 
 
 @dataclass
@@ -33,9 +34,61 @@ class RetrievedPage:
         return f"[{self.rank}] {self.title or self.url} - {self.url}"
 
 
+_IT_QUERY_WORDS = frozenset("""
+quando come quali quale dove chi perche cosa quanto quanta quanti quante che
+posso devo serve sono e un una il lo la le gli dei delle degli di da in con su
+per tra fra non si ci mi ti al alla allo ai agli alle dal della del nel nella
+iscrizione iscrizioni laurea corso corsi esame esami tasse borsa borse studenti
+scadenza scadenze domanda requisiti ateneo universita
+""".split())
+
+_EN_QUERY_WORDS = frozenset("""
+when how what where who why which can could should do does did is are was were
+a an the of to in for with on at from my i you it and or if there
+enrollment enrolment admission deadline application requirements tuition
+scholarship course courses exam exams student students degree
+""".split())
+
+# à è é ì í ò ó ù ú - present in Italian, essentially absent from English.
+_IT_ACCENT_RE = re.compile(r"[àèéìíòóùú]", re.IGNORECASE)
+
+
 def detect_query_language(question: str) -> str:
-    """Language of the incoming question. Short queries default to English."""
+    """Language of a *question*, which is far shorter than a document.
+
+    The document detector requires 20+ words before it will commit, and a
+    question is typically 5-12. It therefore returned None for every query ever
+    asked, and the ``or "en"`` fallback meant Italian users received English
+    refusal messages and had English pages preferred by the retrieval
+    tie-break. This detector is tuned for short text: interrogatives, function
+    words, and Italian accented characters.
+    """
+    if not question:
+        return "en"
+
+    q = question.lower()
+    words = _WORD_RE.findall(q)
+
+    it = sum(1 for w in words if w in _IT_QUERY_WORDS)
+    en = sum(1 for w in words if w in _EN_QUERY_WORDS)
+
+    # Accents are near-decisive on their own: English does not use them, and
+    # Italian question words are full of them (perché, può, università).
+    if _IT_ACCENT_RE.search(q):
+        it += 3
+
+    if it != en:
+        return "it" if it > en else "en"
+
+    # Nothing conclusive. The fallback decides only which refusal wording an
+    # unidentifiable user sees - the answer language comes from the model
+    # following the question (prompts.py rule 6), and is_refusal() matches both
+    # languages, so neither retrieval nor the metrics depend on this. Left at
+    # 'en' because that was the existing behaviour and there is no evidence
+    # either way.
     return detect_language_from_text(question, sample_chars=400) or "en"
+
+
 
 
 def _group_key(node_meta: dict, dedup_by: str) -> str:
