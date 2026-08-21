@@ -1,0 +1,91 @@
+=== targets NOT index-eligible ===
+    3  scholarship / duplicate_of
+    3  trap / lang_zh
+    1  trap / low_content
+    1  trap / duplicate_of
+
+8 of 72 targets un-retrievable by construction
+
+--- admissions ---
+  OK   en 2026  admissions     5639c  Admission and enrollment for non-Europeans | Sito Corsi https://corsi.unitn.it/en/international-management/enrollment/admission-non-eu
+  OK   it 2026  admissions     3538c  Altro                                                   https://webapps.unitn.it/Apply/it/Web/Home/altro
+  OK   en 2026  admissions     4975c  Admission and enrollment for Europeans and equivalents  https://corsi.unitn.it/en/agrifood-innovation-management/enrollment/admission-
+  OK   it 2026  admissions     1892c  Iscrizione annuale e rinnovo | UniTrento                https://www.unitn.it/it/studiare/iscriversi/guida-alle-iscrizioni/iscrizione-a
+  OK   it 2026  admissions     3776c  Corsi singoli | UniTrento                               https://www.unitn.it/it/studiare/iscriversi/altre-iscrizioni-e-opportunita-di-
+  OK   en 2014  admissions    34964c  Project Specific Grants / Reserved topic scholarships 2 https://iecs.unitn.it/education/admission/past-calls/project_specific_grants-2
+  OK   en 2026  admissions     5749c  Admission and enrollment for Europeans and equivalents  https://corsi.unitn.it/en/innovation-management/enrollment/admission-europeans
+  OK   en 2026  admissions     5137c  Admission and enrollment for Europeans and equivalents  https://corsi.unitn.it/en/international-management/enrollment/admission-europe
+  OK   en 2026  admissions     4711c  Admission and enrollment for non-Europeans | Sito Corsi https://corsi.unitn.it/en/information-engineering/enrollment/admission-non-eur
+  OK   it 2026  admissions     4840c  Ammissione e immatricolazione | Filologia e critica let https://corsi.unitn.it/it/filologia-e-critica-letteraria/iscriversi/ammissione
+  OK   en 2024  admissions    28539c  Reserved topic scholarships - 2024 - 2nd call | Doctora https://iecs.unitn.it/education/admission/past-calls/reserved-topic-scholarshi
+  OK   it 2026  admissions     1036c  Ammissione a un master universitario | UniTrento        https://www.unitn.it/it/studiare/iscriversi/guida-alle-ammissioni/master-unive
+
+--- course ---
+  OK   en 2026  course         1658c  Computer Science | UniTrento                            https://corsi.unitn.it/en/computer-science-bachelor
+  OK   it 2026  course         1335c  Competenze linguistiche | Scienze motorie, sport e bene https://corsi.unitn.it/it/scienze-motorie-sport-e-benessere/studiare/competenz
+  OK   it 2026  course         3144c  Scheda del corso | Mechatronics Engineering | UniTrento https://corsi.unitn.it/it/mechatronics-engineering/il-corso/scheda-del-corso
+  OK   it 2026  course         7503c  Scheda del corso | Ingegneria Informatica, delle Comuni https://corsi.unitn.it/it/ingegneria-informatica-delle-comunicazioni-ed-elettr
+  OK   it 2026  course         3615c  Lezioni, programmi, esami Medicina e chirugia | Medicin https://corsi.unitn.it/it/medicina-e-chirurgia/studiare/lezioni-programmi-esam
+  OK   en 2026  course         2720c  Graduation calendar and deadlines | Sito Corsi | UniTre https://corsi.unitn.it/en/agrifood-innovation-management/graduation/graduation
+  OK   it 2026  course         2113c  Scheda del corso | Filologia e critica letteraria | Uni https://corsi.unitn.it/it/filologia-e-critica-letteraria/il-corso/scheda-del-c
+  OK   it 2026  course         1155c  Esame di laurea | Educazione professionale | UniTrento  https://corsi.unitn.it/it/educazione-professionale/laurearsi/esame-di-laurea
+  OK   it 2026  course         6207c  Scheda del corso | Viticoltura ed enologia | UniTrento  https://corsi.unitn.it/it/viticoltura-ed-enologia/il-corso/scheda-del-corso
+  OK   it 2026  course         1191c  Agrifood Innovation Management | UniTrento              https://corsi.unitn.it/it/agrifood-innovation-management
+  OK   en 2026  course         1782c  Behavioural and Applied Economics | UniTrento           https://corsi.unitn.it/en/behavioural-and-applied-economics
+  OK   it 2026  course          854c  Manifesti e documenti | Energy Engineering | UniTrento  https://corsi.unitn.it/it/energy-engineering/studiare/manifesti-e-documenti
+
+--- scholarship ---
+  OK   it 2026  scholarship     966c  Dipartimento CIBIO - Avviso di selezione per il conferi https://borse.unitn.it/borse/dipartimento-cibio-avviso-di-selezione-il-conferi
+  OK   it 2026  scholarship    1265c  DISI - Dipartimento di Ingegneria e Scienza dell'Inform https://borse.unitn.it/assegni-di-tutorato/disi-dipartimento-di-ingegneria-e-s
+  DROP en 2026  scholarship    1038c  Department of CIBIO - Call for the selections for the a https://borse.unitn.it/en/borse/department-cibio-call-selections-awarding-no-1
+  OK   it 2026  scholarship    1915c  Import singola borsa | Dipartimento di Fisica           https://www.physics.unitn.it/premi/bando-di-selezione-lassegnazione-di-n-2-pre
+  OK   it 2026  scholarship     962c  Dipartimento di Ingegneria Industriale - Avviso di sele https://borse.unitn.it/borse/dipartimento-di-ingegneria-industriale-avviso-di-
+  OK   en 2026  scholarship    1716c  Other scholarships and grants | Borse Premi UniTrento   https://borse.unitn.it/en/scolarships?page=17
+  DROP it 2026  scholarship     876c  School of Innovation: avviso di selezione pubblica per  https://borse.unitn.it/borse/school-innovation-avviso-di-selezione-pubblica-il
+  OK   it 2026  scholarship    1022c  Premio di laurea per studi sull'Europa intitolato a Hel https://borse.unitn.it/premi/premio-di-laurea-studi-sulleuropa-intitolato-hele
+  DROP en 2026  scholarship    6246c  Import singola borsa | Dipartimento di Psicologia e Sci https://www.cogsci.unitn.it/en/borse/dipsco-dipartimento-di-psicologia-e-scien
+  OK   it 2026  scholarship    5912c  La buona pratica di HydroVjosa | UniTrentoMag           https://mag.unitn.it/premi-e-riconoscimenti/121567/la-buona-pratica-di-hydrovj
+  OK   it 2026  scholarship    1837c  A Chiara Lago l'Ibidi Paper Award | UniTrentoMag        https://mag.unitn.it/premi-e-riconoscimenti/121072/a-chiara-lago-libidi-paper-
+  OK   it 2026  scholarship    1201c  Dipartimento di Ingegneria Civile, Ambientale e Meccani https://borse.unitn.it/borse/dipartimento-di-ingegneria-civile-ambientale-e-me
+
+--- bilingual ---
+  OK   it 2026  research        937c  Paolo Turrini | Pubblicazioni | Università di Trento    https://webapps.unitn.it/du/it/Persona/PER0172913/Pubblicazioni
+  OK   it 2026  people          279c  Corso di Dottorato - Le Forme del Testo | Persone | Uni https://webapps.unitn.it/du/it/StrutturaAccademica/STO0010809/Persone
+  OK   it 2026  page           1374c  Erica Alfinelli | Tesi | Università di Trento           https://webapps.unitn.it/du/it/Persona/PER0176915/Tesi
+  OK   it 2026  page            675c  Jeroen Andre Filip Vaes | Proposte tesi | Università di https://webapps.unitn.it/du/it/Persona/PER0172144/ProposteTesi
+  OK   it 2026  page            565c  Segni mostruosi - ONLINE                                https://webapps.unitn.it/form/it/Web/Application/convegni/segnimostruosizoom
+  OK   it 2026  event           356c  Festival della Famiglia - PANEL 1 - Fare figli oggi tra https://eventi.unitn.it/it/festival-della-famiglia-panel-1-fare-figli-oggi-tra
+  OK   it 2026  research        851c  Chiara Gioia | Pubblicazioni | Università di Trento     https://webapps.unitn.it/du/it/Persona/PER0228085/Pubblicazioni
+  OK   it 2026  research        861c  Federica Ricci Garotti | Pubblicazioni | Università di  https://webapps.unitn.it/du/it/Persona/PER0000776/Pubblicazioni
+  OK   it 2026  event           500c  Metrikè Ananke. Laboratorio di metrica greca - 6° incon https://eventi.unitn.it/it/metrike-ananke-laboratorio-di-metrica-greca-6deg-in
+  OK   it 2026  page           1154c  Sara Lorenzini | Didattica | Università di Trento       https://webapps.unitn.it/du/it/Persona/PER0000845/Didattica
+  OK   it 2026  people         1532c  CSIRT UniTrento | Persone | Università di Trento        https://webapps.unitn.it/du/it/StrutturaGestionale/STO0014837/Persone
+  OK   it 2026  page            413c  Annaluisa Pedrotti | Orario ricevimento | Università di https://webapps.unitn.it/du/it/Persona/PER0004905/OrarioRicevimento
+
+--- temporal ---
+  OK   it 2025  event          4036c  Pensa Trasversale - 24, 25 ottobre 2025 | PENSA TRASVER https://event.unitn.it/2025/pensatrasversale/
+  OK   it 2024  event           497c  Sedi                                                    https://event.unitn.it/festivalmeteorologia2024/le-sedi-del-festival/
+  OK   en 2025  pdf           31916c  HANDOUTS-13-QuantifyingUncertainty.pdf                  https://disi.unitn.it/rseba/DIDATTICA/fai_2025/SLIDES/HANDOUTS-13-QuantifyingU
+  OK   en 2025  pdf           96755c  talk.pdf                                                http://disi.unitn.it/~passerini/teaching/2025-2026/AdvancedTopicsInMachineLear
+  OK   en 2025  pdf            7886c  00-introcorso.pdf                                       http://disi.unitn.it/~passerini/teaching/2025-2026/sci-pro/slides/00-introcors
+  OK   en 2025  pdf           63180c  A02-datastructures.pdf                                  http://disi.unitn.it/~passerini/teaching/2025-2026/sci-pro/slides/A02-datastru
+  OK   en 2025  admissions    25876c  Reserved topic scholarships and PhD Executive positions https://iid.unitn.it/education/admission/past-calls/reserved-topic-scholarship
+  OK   it 2025  news            423c  Comunicati Stampa | UniTrento Press Room                https://pressroom.unitn.it/comunicati-stampa/2025-12?page=1
+  OK   en 2025  news           5476c  Calendario Giurisprudenza | UniTrento | UniTrento       https://webmagazine.unitn.it/en/calendario/giurisprudenza/year/2025
+  OK   en 2024  pdf          158217c  09-TimedHybridMC_slides.pdf                             https://disi.unitn.it/rseba/DIDATTICA/fm2024/SLIDES/09-TimedHybridMC_slides.pd
+  OK      2024  page           1111c  Index of /rseba/DIDATTICA/fm2024/EXAMPLE-TESTS          https://disi.unitn.it/rseba/DIDATTICA/fm2024/EXAMPLE-TESTS/
+  OK   en 2025  pdf           28316c  HANDOUTS-08-FOL.pdf                                     https://disi.unitn.it/rseba/DIDATTICA/fai_2025/SLIDES/HANDOUTS-08-FOL.pdf
+
+--- trap ---
+  OK   it 2026  people          286c  Corso di Dottorato (D.M.226/2021) - Management | Person https://webapps.unitn.it/du/it/StrutturaAccademica/STO0014882/Persone
+  DROP en 2026  page            102c  Master's degrees | Department of information engineerin https://www.disi.unitn.it/master-student
+  OK   it 2026  research       4376c  DOTTORATO EUROPEO: DAL BRAIN-DRAIN AL BRAIN-EXCHANGE |  https://mag.unitn.it/ricerca/3062/dottorato-europeo-dal-brain-drain-al-brain-e
+  OK   en 2027  page           4319c  Laboratory on Additive Manufacturing of Metamaterials ( https://master-m3.unitn.it/2027-laboratory-on-additive-manufacturing-of-metama
+  DROP it 2026  scholarship     915c  Dipartimento di Ingegneria e Scienza dell’Informazione  https://borse.unitn.it/borse/dipartimento-di-ingegneria-e-scienza-dellinformaz
+  OK   it 2025  pdf             822c  Graduatoria_borsa_Medispa.pdf                           https://borse.unitn.it/system/files/allegati/652/Graduatoria_borsa_Medispa.pdf
+  OK   it 2026  pdf            9085c  master_GeDIE 2026-27_attivit%C3%A0-didattiche-VI-ed.pdf https://www.unitn.it/sites/default/files/2026-07/master_GeDIE%202026-27_attivi
+  DROP zh 2026  news            621c  Prof. Nader ENGHETA Talks about Us! – MASTER-M3         https://master-m3.unitn.it/news/prof-nader-engheta-talks-about-us/
+  DROP zh 2026  news            757c  European Association on Antennas and Propagation (EurAA https://master-m3.unitn.it/news/european-association-on-antennas-and-propagati
+  OK   en 2023  pdf           29822c  2_decr_48_all_bando_borsa_9_mesi_rtaa.pdf               https://borse.unitn.it/system/files/allegati/add/2_decr_48_all_bando_borsa_9_m
+  OK   it 2026  page            803c  Premio per una tesi di laurea magistrale in Scienze Sto https://alumni.unitn.it/bando/2476
+  DROP zh 2026  news           1139c  Standard Courses List (DII) – MASTER-M3                 https://master-m3.unitn.it/news/standard-courses-list-dii/

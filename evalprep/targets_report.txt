@@ -1,0 +1,36 @@
+corpus: dataset.jsonl
+seed: 20260820
+index-eligible documents: 57,275
+
+dropped at load (mirrors data.load_documents):
+    2,426  duplicate_of
+    1,252  short_text
+      417  lang_fr
+      361  lang_zh
+      274  low_content
+       26  lang_es
+        9  lang_de
+
+targets written: 103
+format mix: {'pdf': 38, 'html': 65}
+language mix: {'it': 71, 'en': 32}
+
+stratum          filled/requested
+  admissions         8/8  
+  tuition            8/8  
+  scholarship        8/8  
+  course             8/8  
+  graduation         8/8  
+  mobility           6/6  
+  internship         6/6  
+  housing            5/5  
+  services           6/6  
+  bilingual         10/10 
+  temporal          10/10 
+  nearduplicate     10/10 
+  trap              10/10 
+  ocr                0/8     <-- SHORT
+
+SHORTFALLS - a stratum that cannot fill is telling you
+something about the corpus, not about the quota:
+  ocr: 0 of 8. no extractor=tesseract rows - this is the pre-OCR corpus, so the 668 recovered documents cannot be tested

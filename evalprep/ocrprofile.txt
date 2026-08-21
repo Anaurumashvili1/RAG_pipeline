@@ -1,0 +1,31 @@
+OCR-recovered documents: 668
+  suspect (noise):        0
+  >3000 chars, clean:     470
+  answerable:             200
+  student-facing host:    236
+
+topic (title + final path segment):
+  admissions     6
+  services       4
+  course         1
+  (none)         657
+
+content buckets (body text):
+  unclassified   425
+  governance     107
+  research pub   66
+  staff/union    51
+  teaching       18
+  travel/admin   8
+
+hosts:
+  lavoraconnoi.unitn.it            170
+  teseo.unitn.it                   128
+  www.unitn.it                     88
+  eventi.unitn.it                  69
+  www.sociologia.unitn.it          53
+  www.sis.unitn.it                 25
+  webmagazine.unitn.it             24
+  grace.unitn.it                   21
+  www.lettere.unitn.it             20
+  www.cogsci.unitn.it              15

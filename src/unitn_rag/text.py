@@ -300,6 +300,33 @@ def extract_effective_year(
     return None
 
 
+_TITLE_AY_RE = re.compile(
+    r"\b((?:19|20)\d{2})\s*[/\-_]\s*((?:19|20)?\d{2})\b"
+)
+
+
+def year_from_title(title: str | None, current_year: int | None = None) -> int | None:
+    """Academic year stated in a filename, e.g. '09_Guida Facolta 2012-2013.pdf'.
+
+    Alfresco-hosted PDFs have UUID URLs and often do not repeat the year inside
+    the first 500 characters of text, so the filename is the only place it
+    appears. Six Faculty of Law handbooks from 2007-2010 were dated to the
+    current year for exactly this reason - and under a 1/(1+age) decay that
+    made obsolete handbooks rank as freshly published.
+    """
+    if not title:
+        return None
+    m = _TITLE_AY_RE.search(title)
+    if not m:
+        return None
+    start, end = int(m.group(1)), int(m.group(2))
+    if end < 100:                        # '2012-13' shorthand
+        end += (start // 100) * 100
+    if end - start != 1:                 # not an academic year span
+        return None
+    return _valid(start, current_year)
+
+
 def resolve_effective_year(raw: dict, current_year: int | None = None) -> int | None:
     """Effective year for one crawl record, trusting the crawler first.
 
@@ -318,6 +345,17 @@ def resolve_effective_year(raw: dict, current_year: int | None = None) -> int | 
     crawled = raw.get("effective_year")
     if isinstance(crawled, str) and crawled.isdigit():
         crawled = int(crawled)
+
+    # The crawler returns the *current* year when it finds no signal at all, so
+    # effective_year == current_year is ambiguous: either genuinely current, or
+    # simply unknown. Only in that ambiguous case do we consult the filename -
+    # elsewhere a stray year in a title ("Premio 2019 assegnato") would override
+    # a correctly derived one.
+    if isinstance(crawled, int) and crawled == max_plausible_year(current_year) - 1:
+        from_title = year_from_title(raw.get("title"), current_year)
+        if from_title and from_title != crawled:
+            return from_title
+
     if isinstance(crawled, int):
         year = _valid(crawled, current_year)
         if year:

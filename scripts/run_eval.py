@@ -54,7 +54,7 @@ def main() -> None:
             eval_max_pages=args.eval_max_pages,
             include_baseline=not args.no_baseline,
         )
-        save_results(results, cfg.paths.eval_results)
+        save_results(results, cfg.paths.eval_results, cfg=cfg)
         export_for_review(results, Path(cfg.paths.eval_results).with_suffix(".review.csv"))
 
     print("\n" + json.dumps(summarise(results), ensure_ascii=False, indent=2))

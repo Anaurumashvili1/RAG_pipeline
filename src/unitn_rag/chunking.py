@@ -20,6 +20,7 @@ model. Metadata keys are excluded from embedding to avoid duplicating it.
 from __future__ import annotations
 
 import hashlib
+import time
 from typing import Iterable
 
 from llama_index.core.node_parser import SentenceSplitter
@@ -197,11 +198,24 @@ def chunk_documents(
     by_hash: dict[str, TextNode] = {}
     n_semantic = n_fixed = 0
 
-    for doc in docs:
+    # Semantic chunking is slow and gives no output of its own: it embeds every
+    # sentence, one document at a time. Without this the run looks hung.
+    docs = list(docs)
+    total = len(docs)
+    report_every = 100 if semantic_parser is not None else 5000
+    t0 = time.time()
+
+    for n, doc in enumerate(docs, 1):
         if semantic_parser is not None and len(doc.text) >= semantic_min_chars:
             n_semantic += 1
         else:
             n_fixed += 1
+
+        if n % report_every == 0:
+            rate = n / max(1e-9, time.time() - t0)
+            left = (total - n) / rate / 60
+            print(f"[chunk] {n:,}/{total:,} docs · {len(nodes):,} chunks · "
+                  f"semantic={n_semantic:,} · ~{left:.0f} min left", flush=True)
 
         for node in chunk_document(
             doc, splitter, inject_header,

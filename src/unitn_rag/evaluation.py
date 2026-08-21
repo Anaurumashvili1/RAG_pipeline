@@ -137,15 +137,59 @@ def summarise(results: list[dict]) -> dict:
     }
 
 
-def save_results(results: list[dict], path: str | Path) -> None:
+def run_metadata(cfg) -> dict:
+    """What produced these numbers.
+
+    Without this, an ablation across chunking strategies and models leaves you
+    with several result files and no way to tell which is which. Recorded at
+    save time rather than reconstructed later from memory.
+    """
+    from datetime import datetime, timezone
+
+    return {
+        "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "llm_model": cfg.llm.model,
+        "llm_temperature": cfg.llm.temperature,
+        "llm_max_tokens": cfg.llm.max_tokens,
+        "embedding_model": cfg.embedding.model_name,
+        "embedding_device": cfg.embedding.device,
+        "index_dir": str(cfg.paths.index_dir),
+        "chunk_size": cfg.chunking.chunk_size,
+        "chunk_overlap": cfg.chunking.chunk_overlap,
+        "inject_header": cfg.chunking.inject_header,
+        "semantic_min_chars": cfg.chunking.semantic_min_chars,
+        "semantic_percentile": cfg.chunking.semantic_percentile,
+        "similarity_top_k": cfg.retrieval.similarity_top_k,
+        "max_pages": cfg.retrieval.max_pages,
+        "dedup_by": cfg.retrieval.dedup_by,
+        "corpus": str(cfg.paths.corpus),
+    }
+
+
+def save_results(results: list[dict], path: str | Path, cfg=None) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    payload: dict | list
+    if cfg is not None:
+        payload = {
+            "run": run_metadata(cfg),
+            "summary": summarise(results),
+            "results": results,
+        }
+    else:
+        payload = results
+
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"[eval] saved {len(results)} rows to {path}")
 
 
 def load_results(path: str | Path) -> list[dict]:
-    return json.loads(Path(path).read_text(encoding="utf-8"))
+    """Read a results file. Accepts both the bare-list and wrapped formats."""
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    if isinstance(data, dict):
+        return data.get("results", [])
+    return data
 
 
 def export_for_review(results: list[dict], path: str | Path) -> None:

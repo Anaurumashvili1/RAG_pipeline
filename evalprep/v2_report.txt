@@ -1,0 +1,32 @@
+corpus: dataset.jsonl
+seed: 20260820
+index-eligible documents: 57,275
+
+dropped at load (mirrors data.load_documents):
+    2,426  duplicate_of
+    1,252  short_text
+      417  lang_fr
+      361  lang_zh
+      274  low_content
+       26  lang_es
+        9  lang_de
+
+targets written: 90
+
+category      filled/requested
+  admissions       8/8  
+  course           8/8  
+  scholarship      8/8  
+  tuition          8/8  
+  housing          5/5  
+  service          8/8  
+  phd              5/5  
+  bilingual       10/10 
+  temporal        10/10 
+  nearduplicate   10/10 
+  trap            10/10 
+  ocr              0/8     <-- SHORT
+
+SHORTFALLS - a category that cannot fill is telling you
+something about the corpus, not about the quota:
+  ocr: 0 of 8. no extractor=tesseract rows - this is the pre-OCR corpus

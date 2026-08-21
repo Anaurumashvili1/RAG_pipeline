@@ -1,0 +1,32 @@
+corpus: dataset.ocr.jsonl
+seed: 20260820
+index-eligible documents: 57,941
+
+dropped at load (mirrors data.load_documents):
+    2,426  duplicate_of
+      586  short_text
+      417  lang_fr
+      361  lang_zh
+      274  low_content
+       26  lang_es
+        9  lang_de
+
+targets written: 108
+format mix: {'pdf': 44, 'html': 64}
+language mix: {'it': 69, 'en': 34, '': 5}
+
+stratum          filled/requested
+  admissions         8/8  
+  tuition            8/8  
+  scholarship        8/8  
+  course             8/8  
+  graduation         8/8  
+  mobility           6/6  
+  internship         6/6  
+  housing            5/5  
+  services           6/6  
+  bilingual         10/10 
+  temporal          10/10 
+  nearduplicate     10/10 
+  trap              10/10 
+  ocr                5/5  
