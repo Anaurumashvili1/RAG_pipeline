@@ -12,6 +12,7 @@ from .text import (
     detect_language,
     doc_group_id,
     doc_id_from_url,
+    is_junk_url,
     is_latin_script,
     resolve_effective_year,
 )
@@ -65,6 +66,7 @@ def load_documents(
     docs: list[Doc] = []
     seen_ids: set[str] = set()
     skipped_lang: dict[str, int] = {}
+    skipped_junk = 0
 
     # Normalise once: YAML may give ["IT", "en-GB"], and a raw list membership
     # test against that silently drops the entire corpus.
@@ -80,7 +82,17 @@ def load_documents(
         # keep_breaks: paragraph structure is what SentenceSplitter splits on.
         text = clean_text(raw.get("text"), keep_breaks=True)
 
-        if not url or len(text) < min_chars:
+        if not url:
+            continue
+
+        # AppleDouble stubs: not documents at all. Checked before the length
+        # filter because it is a cheap URL test, and because counting them
+        # separately from "too short" is what makes the log honest.
+        if is_junk_url(url):
+            skipped_junk += 1
+            continue
+
+        if len(text) < min_chars:
             continue
 
         # Quality flags decided during crawling. Cheaper and more accurate than
@@ -132,6 +144,8 @@ def load_documents(
         if max_docs and len(docs) >= max_docs:
             break
 
+    if skipped_junk:
+        print(f"[data] skipped {skipped_junk} AppleDouble '._' stubs")
     if skipped_lang:
         summary = ", ".join(f"{k}={v}" for k, v in sorted(skipped_lang.items()))
         print(f"[data] skipped out-of-scope languages: {summary}")

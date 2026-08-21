@@ -52,6 +52,20 @@ def doc_id_from_url(url: str) -> str:
     return hashlib.sha1(url.encode("utf-8")).hexdigest()[:16]
 
 
+def is_junk_url(url: str) -> bool:
+    """AppleDouble resource forks: '._name.pdf' left on a web server by a Mac.
+
+    They are served as application/pdf and contain Finder metadata, not a
+    document. Twenty are in the corpus, all under disi.unitn.it/locigno, as
+    empty records that would chunk and embed into nothing. ocr_pending.py
+    already skips them; the corpus loader did not.
+    """
+    if not url:
+        return False
+    name = urlsplit(url).path.rsplit("/", 1)[-1]
+    return name.startswith("._")
+
+
 # --------------------------------------------------------------------------
 # Language
 # --------------------------------------------------------------------------
