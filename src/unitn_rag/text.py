@@ -140,8 +140,19 @@ def detect_language_from_url(url: str) -> str | None:
     return None
 
 
-def detect_language_from_text(text: str, sample_chars: int = 1500) -> str | None:
-    """Fallback heuristic: count language-exclusive function words."""
+def detect_language_from_text(
+    text: str,
+    sample_chars: int = 1500,
+    min_ratio: float = 1.0,
+    min_hits: int = 3,
+) -> str | None:
+    """Count language-exclusive function words.
+
+    ``min_ratio`` demands the winner beat the loser by that factor, and
+    ``min_hits`` demands enough evidence to be worth acting on. Both default to
+    permissive values for the plain fallback case; raise them when the result
+    is going to override a declared language.
+    """
     if not text:
         return None
     words = [w.lower() for w in _WORD_RE.findall(text[:sample_chars])]
@@ -149,7 +160,10 @@ def detect_language_from_text(text: str, sample_chars: int = 1500) -> str | None
         return None
     it = sum(1 for w in words if w in _IT_MARKERS)
     en = sum(1 for w in words if w in _EN_MARKERS)
-    if it == en:
+    hi, lo = max(it, en), min(it, en)
+    if hi < min_hits or hi == lo:
+        return None
+    if lo and hi / lo < min_ratio:
         return None
     return "it" if it > en else "en"
 
@@ -157,14 +171,39 @@ def detect_language_from_text(text: str, sample_chars: int = 1500) -> str | None
 def detect_language(url: str = "", text: str = "", declared: str | None = None) -> str:
     """Resolve a document's language.
 
-    Priority: value declared by the scraper (<html lang>) > URL structure > text heuristic.
-    Defaults to 'it', since the Italian side of unitn.it is the larger, authoritative corpus.
+    Priority: URL structure > declared (<html lang>) > text heuristic, with one
+    correction - see below. Defaults to 'it', since the Italian side of unitn.it
+    is the larger, authoritative corpus.
+
+    Why the declared value is not simply trusted: Drupal serves *unaliased*
+    ``/node/N`` URLs under the site default language, so ``<html lang="it">``
+    appears on pages whose body is the English translation. 1,565 documents
+    (2.5% of the corpus) were English text filed as Italian - concentrated on
+    departmental sites, where it broke language preference in retrieval and
+    wrote ``LANGUAGE: it`` into the embedded text of English chunks.
+
+    A URL language marker (/en/, ?lang=, .en.html) is structural and still
+    wins outright. Only where the URL says nothing does the body get to
+    overrule the declaration, and then only on a clear margin - a stray English
+    quotation in an Italian page must not flip it.
     """
+    url_lang = detect_language_from_url(url)
+    if url_lang:
+        return url_lang
+
+    dec: str | None = None
     if declared:
         v = declared.strip().lower().split("-")[0]
-        if v in _LANG_CANON:
-            return _LANG_CANON[v]
-    return detect_language_from_url(url) or detect_language_from_text(text) or "it"
+        dec = _LANG_CANON.get(v)
+
+    if dec:
+        # Demand a 2:1 margin and real evidence before contradicting <html lang>.
+        strong = detect_language_from_text(text, min_ratio=2.0, min_hits=5)
+        if strong and strong != dec:
+            return strong
+        return dec
+
+    return detect_language_from_text(text) or "it"
 
 
 # --------------------------------------------------------------------------
