@@ -37,7 +37,11 @@ embedding:
   # bge-base-en-v1.5 is English-only; bge-m3 is multilingual and handles the IT corpus.
   model_name: BAAI/bge-m3
   device: auto            # auto | cpu | cuda | mps
-  batch_size: 32
+  batch_size: 64          # 64 and 128 measured the same on GB10; 64 is safer
+  # auto | float16 | bfloat16 | float32
+  # Measured on GB10: fp32 50 chunks/sec (128 min), fp16 231 (28 min).
+  # 'auto' selects fp16 on CUDA and full precision elsewhere.
+  dtype: auto
   # dimension is auto-detected from the model - never hardcode it again
 
 retrieval:

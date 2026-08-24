@@ -59,6 +59,11 @@ class EmbeddingCfg:
     model_name: str = "BAAI/bge-m3"
     device: str = "auto"
     batch_size: int = 32
+    # auto | float16 | bfloat16 | float32
+    # Measured on a GB10: fp32 50 chunks/sec, fp16 231 - a 4.6x difference and
+    # the single largest speedup available. 'auto' means fp16 on CUDA, fp32
+    # elsewhere, since half precision is slow or unsupported on CPU.
+    dtype: str = "auto"
 
 
 @dataclass

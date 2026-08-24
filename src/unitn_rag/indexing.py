@@ -46,6 +46,11 @@ def build_index(nodes: list[TextNode], cfg: Config, embed_model=None) -> VectorS
             {
                 "embedding_model": cfg.embedding.model_name,
                 "dimension": dim,
+                # fp16 and fp32 vectors differ slightly. Recorded so a query
+                # run can be checked against the precision the index was
+                # built with.
+                "dtype": cfg.embedding.dtype,
+                "device": cfg.embedding.device,
                 "num_nodes": len(nodes),
                 "chunk_size": cfg.chunking.chunk_size,
                 "chunk_overlap": cfg.chunking.chunk_overlap,

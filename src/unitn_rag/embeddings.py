@@ -23,8 +23,34 @@ def _needs_query_instruction(model_name: str) -> bool:
     return "bge" in n and "-en" in n and "m3" not in n
 
 
+def resolve_dtype(requested: str, device: str):
+    """Torch dtype for the embedding model, or None to leave the default.
+
+    Half precision is the largest single speedup available on GPU (measured
+    4.6x on a GB10) and is a poor idea on CPU, where fp16 kernels are emulated.
+    """
+    if requested and requested != "auto":
+        import torch
+
+        return {
+            "float16": torch.float16,
+            "fp16": torch.float16,
+            "bfloat16": torch.bfloat16,
+            "bf16": torch.bfloat16,
+            "float32": torch.float32,
+            "fp32": torch.float32,
+        }.get(requested.lower())
+
+    if device == "cuda":
+        import torch
+
+        return torch.float16
+    return None
+
+
 def build_embed_model(cfg: EmbeddingCfg) -> HuggingFaceEmbedding:
     device = resolve_device(cfg.device)
+    dtype = resolve_dtype(cfg.dtype, device)
 
     kwargs = {
         "model_name": cfg.model_name,
@@ -33,6 +59,11 @@ def build_embed_model(cfg: EmbeddingCfg) -> HuggingFaceEmbedding:
         # Cosine similarity via inner product requires unit-norm vectors.
         "normalize": True,
     }
+    if dtype is not None:
+        # Passed through to SentenceTransformer(model_kwargs=...). Queries and
+        # chunks must use the same precision - an index built in fp16 and
+        # queried in fp32 compares subtly different vectors.
+        kwargs["model_kwargs"] = {"torch_dtype": dtype}
     if _needs_query_instruction(cfg.model_name):
         kwargs["query_instruction"] = _BGE_EN_QUERY_INSTRUCTION
 
@@ -40,7 +71,9 @@ def build_embed_model(cfg: EmbeddingCfg) -> HuggingFaceEmbedding:
     accepted = set(inspect.signature(HuggingFaceEmbedding.__init__).parameters)
     kwargs = {k: v for k, v in kwargs.items() if k in accepted}
 
-    print(f"[embeddings] loading {cfg.model_name} on {device}")
+    dt = getattr(dtype, "__name__", None) or str(dtype).replace("torch.", "")
+    print(f"[embeddings] loading {cfg.model_name} on {device}"
+          f"{f' ({dt})' if dtype is not None else ''}")
     return HuggingFaceEmbedding(**kwargs)
 
 
