@@ -1,0 +1,10 @@
+raw segment:
+'La prova finale per il conseguimento della Laurea Magistrale \nconsiste nella discussione di un lavoro di tesi originale, redatto in \nlingua inglese, su un tema proposto dallo studente e approvato dal '
+
+codepoints that are not plain ASCII:
+   U+000A  ?                                        '\n'
+
+normalised: 'La prova finale per il conseguimento della Laurea Magistrale consiste nella discussione di un lavoro di tesi originale, redatto in lingua inglese, su un tema proposto dallo student'
+
+literal 'redatto in lingua inglese' in raw : False
+literal 'redatto in lingua inglese' in norm: True

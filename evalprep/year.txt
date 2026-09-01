@@ -1,0 +1,21 @@
+=== FAQ tirocinio 28.10.25.pdf (crawl says 2028) ===
+  crawl effective_year : 2028
+  academic_year        : None
+  resolved by loader   : None
+  contains:
+     15 days rule               False
+     30 days rule               False
+     fifth day of internship    False
+     12 months post-graduate    False
+
+=== FAQ tirocini inglese.pdf (your PDF) ===
+  crawl effective_year : 2026
+  academic_year        : None
+  resolved by loader   : 2026
+  contains:
+     15 days rule               False
+     30 days rule               False
+     fifth day of internship    False
+     12 months post-graduate    False
+
+raw crawl records with effective_year > 2027: 18

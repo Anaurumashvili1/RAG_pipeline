@@ -1,0 +1,20 @@
+probe                  editions containing it
+  1 CFU = 10 ore       . Y . . .      corpus-wide: 3 docs
+  tesi in inglese      . Y Y Y .      corpus-wide: 25 docs
+  piano studi 2 anno   Y Y Y Y Y      corpus-wide: 6 docs
+  lezioni Bolzano+TN   Y . . . .      corpus-wide: 1 docs
+  classe LM-30         Y Y Y Y Y      corpus-wide: 71 docs
+  commissione laurea   Y Y Y Y Y      corpus-wide: 15 docs
+
+  columns, newest first:
+    1) 2026  regolamento-didattico-lm-energy-engineering-2026.pdf
+    2) 2025  regolamento-didattico-lm-energy-engineering-2025.pdf
+    3) 2024  regolamento-didattico-lm-ingegneria-energetica-2024.pdf
+    4) 2024  regolamento-didattico-lm-ingegneria-energetica-2023.pdf
+    5) 2024  regolamento-didattico-lm-ingegneria-energetica-2016.pdf
+
+#### 1 CFU = 10 ore
+   NOT FOUND
+
+#### tesi in inglese
+   biettivi formativi del corso di studio, secondo quanto indicato all’art. 2. Art. 10 – Conseguimento del titolo 1.La prova finale per il conseguimento della Laurea Magistrale consiste nella discussione di un lavoro di tesi originale, redatto in lingua inglese, su un tema proposto dallo studente e approvato dal teilt dessen Ergebnis unverzüglich den zuständigen Büros für die Eintragung in die Studienlaufbahn mit. Bei den Bewertungsverfahren können andere Dozenten oder Experten, die von der verantwortlichen Universitätseinri

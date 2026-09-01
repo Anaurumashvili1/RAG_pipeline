@@ -1,0 +1,10 @@
+=== TYPO 'gestione.assicuazioni': 1 ===
+  en  2026     866c Injury | JobGuidance                                   
+      https://www.jobguidance.unitn.it/en/studenti-e-neolaureati/injury
+
+=== correct 'gestione.assicurazioni': 1 ===
+  it  2026     954c Infortunio | Jobguidance                               
+      https://www.jobguidance.unitn.it/studenti-e-neolaureati/infortunio
+
+=== both spellings: 0 ===
+

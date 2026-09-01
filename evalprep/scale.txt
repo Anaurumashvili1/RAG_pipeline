@@ -1,0 +1,31 @@
+documents stating a 66-110 final-exam scale: 9
+
+en  2026  cum_laude=False Final Exam | Sito Corsi | UniTrento
+    https://corsi.unitn.it/en/european-and-international-studies/graduation/final-exam
+en  2026  cum_laude=True  Final Exam | Sito Corsi | UniTrento
+    https://corsi.unitn.it/en/human-computer-interaction/graduation/final-exam
+en  2026  cum_laude=False Final Exam | Sito Corsi | UniTrento
+    https://corsi.unitn.it/en/international-security-studies/graduation/final-exam
+it  2025  cum_laude=False regolamento-prova-finale-laurea-educazione-professionale-202
+    https://corsi.unitn.it/sites/cds/files/2025-03/regolamento-prova-finale-laurea-educazione-professionale-2023.pdf
+en  2026  cum_laude=False handbook-m-european-international-studies-25-26.pdf
+    https://corsi.unitn.it/sites/cds/files/2026-02/handbook-m-european-international-studies-25-26.pdf
+en  2026  cum_laude=False handbook-m-international-security-studies-25-26_0.pdf
+    https://corsi.unitn.it/sites/cds/files/2026-02/handbook-m-international-security-studies-25-26_0.pdf
+en  2026  cum_laude=False candidati-esame-finale-l-scienze-tecnologie-biomolecolari-lu
+    https://corsi.unitn.it/sites/cds/files/2026-07/candidati-esame-finale-l-scienze-tecnologie-biomolecolari-luglio-26.pdf
+en  2019  cum_laude=False sommer2019veins.pdf
+    https://disi.unitn.it/~msegata/bibfiles/sommer2019veins.pdf
+en  2026  cum_laude=False 9456eff6-1fe8-4454-a94a-db70f1f7dab0
+    https://www.economia.unitn.it/alfresco/download/workspace/SpacesStore/9456eff6-1fe8-4454-a94a-db70f1f7dab0
+
+--- sample context ---
+
+https://disi.unitn.it/~msegata/bibfiles/sommer2019veins.pdf
+  apè, A., Segata, M., Lo Cigno, R.: A Consensus-based Approach for Platooning with Inter-Vehicular Communica- tions and its Validation in Realistic Scenarios. IEEE Transactions on Vehicular Technology 
+
+https://corsi.unitn.it/en/human-computer-interaction/graduation/final-exam
+  al or experimental and simulative theses) - the theoretical proposal and its implications (theoretical thesis). The final exam Committee will evaluate the thesis and the discussion on a scale from 66 
+
+https://corsi.unitn.it/en/international-security-studies/graduation/final-exam
+  the Final examination regulation. Italian and official version Courtesy translation. The only binding version is the Italian one ## Graduation mark The final degree grade is on a scale from 0 to 110 (

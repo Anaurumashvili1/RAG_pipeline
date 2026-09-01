@@ -1,0 +1,13 @@
+=== pages describing the closure procedure ===
+  en    3145c name_rule=True  mentions_socio=False tensorflow.pdf
+      http://disi.unitn.it/~passerini/teaching/2019-2020/MachineLearning/slides/deep_network_lab/tensorflow.pdf
+  en    4656c name_rule=True  mentions_socio=False sklearn.pdf
+      http://disi.unitn.it/~passerini/teaching/2019-2020/MachineLearning/slides/sklearn/sklearn.pdf
+  en    2715c name_rule=True  mentions_socio=True  Changes to the internship and its closure | JobGui
+      https://www.jobguidance.unitn.it/en/studenti-e-neolaureati/changes-to-the-internship-and-its-closure
+  en   19001c name_rule=False mentions_socio=True  Internship | JobGuidance
+      https://www.jobguidance.unitn.it/en/studenti-e-neolaureati/internship
+  it    3277c name_rule=True  mentions_socio=True  Modifiche e chiusura tirocinio | Jobguidance
+      https://www.jobguidance.unitn.it/studenti-e-neolaureati/modifiche-e-chiusura-tirocinio
+
+=== sociology internship pages (the carve-out target) ===

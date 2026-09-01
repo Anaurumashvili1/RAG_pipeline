@@ -1,0 +1,18 @@
+webmagazine.unitn.it records in corpus      : 1740
+  of which /evento/ pages                   : 239
+distinct /evento/ URLs seen in out_links     : 1961
+  linked but NEVER fetched                   : 1722
+  fetched                                    : 239
+
+calendario index pages in corpus            : 205
+  outgoing /evento/ links from those pages   : 10
+
+sample of linked-but-never-fetched:
+   http://webmagazine.unitn.it/en/evento/ateneo/8626/coll-ge-de-france-visiting-professor-at-the-university-of-trento
+   http://webmagazine.unitn.it/en/evento/cimec/11435/neuroscience-society
+   http://webmagazine.unitn.it/en/evento/cimec/20833/decennale-cimec
+   http://webmagazine.unitn.it/en/evento/cimec/4504/neurosciencesociety-lamberto-maffei
+   http://webmagazine.unitn.it/en/evento/cimec/5548/neurosciencesociety-with-massimo-piattelli-palmarini
+   http://webmagazine.unitn.it/en/evento/cjm/28803/the-eu-as-an-empire-by-invitation-enlargement-in-the-history-of-europe
+   http://webmagazine.unitn.it/en/evento/cjm/28923/the-european-parliament-between-institutional-evolution-and-external-r
+   http://webmagazine.unitn.it/en/evento/cjm/29523/a-transatlantic-split-the-eeceu-since-the-70s

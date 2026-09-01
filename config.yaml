@@ -49,7 +49,14 @@ retrieval:
   max_pages: 5            # distinct documents passed to the LLM
   dedup_by: doc_group     # doc_group | url  (doc_group collapses IT/EN translations)
   prefer_query_language: true
-  chunk_char_limit: 1200  # was 800 - truncating context was costing answers
+  chunk_char_limit: 2500  # was 1200. Chunks are 512 *tokens* (~1500-2500 chars
+                          # of Italian) plus the injected header, so 1200 cut the
+                          # tail off every chunk the LLM was shown.
+  resolve_year_from_title: true  # trust the filename's edition year over the
+                                 # crawl's effective_year, which falls back to
+                                 # the upload date for Alfresco PDFs
+  url_affinity_weight: 0.25      # boost documents whose URL host/slug matches
+                                 # words in the question (0.0 disables)
 
 llm:
   # Base URL and API key come from .env - never commit them
@@ -59,7 +66,10 @@ llm:
   # that is the model the Colab notebook used, so eval numbers are only comparable
   # to the notebook baseline once we are pointed at it.
   # llama3.2 is 3B: fine for wiring up the pipeline, too weak to trust for scores.
-  model: llama3.2:latest
+  model: gemma3:27b
   temperature: 0.0
   max_tokens: 700         # was 256, which truncated longer procedural answers
-  timeout: 60
+  # 180, not 60: chunk_char_limit went 1200 -> 2500, so a 10-page eval prompt
+  # is ~25k characters instead of ~12k. gemma3:27b exceeded the old ceiling on
+  # the sem8k arm and one timeout aborted the whole 25-minute run.
+  timeout: 180

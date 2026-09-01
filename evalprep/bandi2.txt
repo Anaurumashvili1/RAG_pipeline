@@ -1,0 +1,33 @@
+bandi di concorso on borse.unitn.it: 6
+
+  2024    33238c B 3_24 Bando di concorso.pdf
+  2026    35584c B 5_26 Bando di concorso.pdf
+  2023    37171c b_2_23_bando_di_concorso.pdf
+  2023    38679c b_3_23_bando_di_concorso.pdf
+  2024    31370c B_5_24_Bando_di_concorso.pdf
+  2022     2434c dr_1348_dd_23.12.2022_-_emanazione_bando_di_concorso_megalizzi_2._edizione_2
+
+series with more than one year:
+
+=== series B_3 : 2 editions ===
+   2024    33238c B 3_24 Bando di concorso.pdf                             amounts=['€ 21.917,80']
+   2023    38679c b_3_23_bando_di_concorso.pdf                             amounts=['€ 13.757,96']
+
+   NEW (2024) https://borse.unitn.it/system/files/allegati/473/B%203_24%20Bando%20di%20concorso.pdf
+      compenso : zamento del progetto e lavori scientifici. Per la borsa di studio è previsto: - un compenso lordo onnicomprensivo di € 21.917,80.= da suddividersi in 12 mensilità; - l’effettuazione di eventuali trasferte/parteci
+      scadenza : sonale in corso di validità. La domanda cartacea firmata e la relativa documentazione allegata possono essere: - consegnate direttamente entro le ore 12:00 del giorno 03 MAGGIO 2024, termine di scadenza per la presentazione della domanda pres
+
+   OLD (2023) https://borse.unitn.it/system/files/allegati/add/b_3_23_bando_di_concorso.pdf
+      compenso : U.O. di Psicologia (Psicologia ospedaliera). Per la borsa di studio è previsto: - un compenso lordo onnicomprensivo di € 13.757,96.= da suddividersi in 12 mensilità; - l’effettuazione di eventuali trasferte/parteci
+      scadenza : l concorso, fermo restando l’obbli go dell’iscrizione all’albo in Italia prima dell’inizio delle attività progettuali; - l’iscrizione all’albo professionale può essere conseguita oltre il termine di scadenza per la presentazione delle domande, fer
+
+=== series B_5 : 2 editions ===
+   2026    35584c B 5_26 Bando di concorso.pdf                             amounts=['€ 16.438,35']
+   2024    31370c B_5_24_Bando_di_concorso.pdf                             amounts=['€ 21.004,56', '€ 700,00', '€ 700,00']
+
+   NEW (2026) https://borse.unitn.it/system/files/allegati/add/B%205_26%20Bando%20di%20concorso.pdf
+      compenso : e e dell’aderenza dei trattamenti previsti. Per la borsa di studio è previsto: - un compenso lordo onnicomprensivo di € 16.438,35 da suddividersi in 12 mensilità; - l’effettuazione di eventuali trasferte/partecipa
+
+   OLD (2024) https://borse.unitn.it/system/files/allegati/add/B_5_24_Bando_di_concorso.pdf
+      compenso : del Registro nominativo delle cause di morte. Per la borsa di studio è previsto: - un compenso lordo onnicomprensivo di € 21.004,56.= da suddividersi in 12 mensilità; - le spese per eventuali trasferte/partecipazion
+      scadenza : sonale in corso di validità. La domanda cartacea firmata e la relativa documentazione allegata possono essere: - consegnate direttamente entro le ore 12:00 del giorno 24 LUGLIO 2024, termine di scadenza per la presentazione della domanda pres

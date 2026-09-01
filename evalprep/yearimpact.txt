@@ -1,0 +1,52 @@
+records 63470   changed 7642  (12.0%)
+
+by reason:
+  academic_year end-year     5953
+  document states it         1138
+  filename edition            549
+  other                         2
+
+by shift (new - old):
+  1              5964
+  -1              361
+  -2              281
+  -3              206
+  -4              195
+  -5              118
+  -6              113
+  -8               84
+  -7               49
+  -10              46
+  -9               46
+  -16              43
+
+documents dated 2026 or later:  old 44652   new 45508
+documents with no year:         old 6   new 6
+
+--- academic_year end-year ---
+   2026 -> 2027   https://www.unitn.it/it
+   2026 -> 2027   https://www.unitn.it/en
+   2026 -> 2027   https://www.cla.unitn.it/
+   2026 -> 2027   https://iid.unitn.it/news
+   2019 -> 2020   https://cjm.unitn.it/geew
+   2026 -> 2027   https://iecs.unitn.it/news
+
+--- document states it ---
+   2026 -> 2025   https://www.sis.unitn.it/node/22
+   2026 -> 2025   https://www.cismed.unitn.it/servizi
+   2026 -> 2025   https://www.sis.unitn.it/it/node/23
+   2026 -> 2024   https://www.economia.unitn.it/node/3122
+   2026 -> 2025   https://www.economia.unitn.it/en/node/144
+   2026 -> 2021   https://teseo.unitn.it/tslr/en/info/terms
+
+--- filename edition ---
+   2025 -> 2005   https://www.unitn.it/sites/default/files/2025-01/Dlsg_139_2005.pdf
+   2024 -> 2022   https://www.unitn.it/sites/default/files/2024-12/Consorzi_2022.pdf
+   2024 -> 2020   https://www.unitn.it/sites/default/files/2024-12/Consorzi_2020.pdf
+   2024 -> 2019   https://www.unitn.it/sites/default/files/2024-12/Consorzi_2019.pdf
+   2024 -> 2021   https://www.unitn.it/sites/default/files/2024-12/Consorzi_2021.pdf
+   2024 -> 2025   https://www.unitn.it/sites/default/files/2024-10/PIAO_2023-2025.pdf
+
+--- other ---
+   2027 -> 2026   https://mag.unitn.it/vita-universitaria/121752/le-persone-al-centro
+   2027 -> 2026   ds/files/2026-07/manifesto-lm-ingegneria-civile-digital-civil%20infrastructure_26-27.pdf

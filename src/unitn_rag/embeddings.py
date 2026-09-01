@@ -71,10 +71,36 @@ def build_embed_model(cfg: EmbeddingCfg) -> HuggingFaceEmbedding:
     accepted = set(inspect.signature(HuggingFaceEmbedding.__init__).parameters)
     kwargs = {k: v for k, v in kwargs.items() if k in accepted}
 
-    dt = getattr(dtype, "__name__", None) or str(dtype).replace("torch.", "")
-    print(f"[embeddings] loading {cfg.model_name} on {device}"
-          f"{f' ({dt})' if dtype is not None else ''}")
-    return HuggingFaceEmbedding(**kwargs)
+    print(f"[embeddings] loading {cfg.model_name} on {device}")
+    model = HuggingFaceEmbedding(**kwargs)
+
+    # The signature filter above silently drops model_kwargs on llama-index
+    # versions that do not accept it, so the dtype request can vanish without a
+    # word - and fp32 is 4.6x slower. Apply it directly to the underlying
+    # SentenceTransformer as a fallback, then report what is *actually* loaded
+    # rather than what was asked for.
+    if dtype is not None:
+        st = getattr(model, "_model", None)
+        if st is not None:
+            try:
+                st.to(dtype)
+            except Exception as e:  # noqa: BLE001
+                print(f"[embeddings] could not cast to {dtype}: {type(e).__name__}")
+
+    print(f"[embeddings] active dtype: {_actual_dtype(model)}")
+    return model
+
+
+def _actual_dtype(model) -> str:
+    """Read the dtype off a real parameter. Reporting the request rather than
+    the result is how a silent fp32 run hides in plain sight."""
+    try:
+        st = getattr(model, "_model", None)
+        for p in st.parameters():
+            return str(p.dtype).replace("torch.", "")
+    except Exception:  # noqa: BLE001
+        pass
+    return "unknown"
 
 
 def embedding_dim(embed_model) -> int:

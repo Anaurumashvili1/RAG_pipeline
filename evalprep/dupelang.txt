@@ -1,0 +1,20 @@
+corpus baseline language mix of KEPT documents:
+  it      34312  58.4%
+  en      22419  38.2%
+  unset    1210   2.1%
+  fr        417   0.7%
+  zh        361   0.6%
+  es         26   0.0%
+  de          9   0.0%
+
+language mix of the 1973 substantial dangling drops:
+  en       1249  63.3%
+  it        693  35.1%
+  unset      14   0.7%
+  de          9   0.5%
+  zh          8   0.4%
+
+what survives for each dangling drop:
+  nothing survives                        1950  98.8%
+  same-language page survives               15   0.8%
+  only other-language sibling survives       8   0.4%

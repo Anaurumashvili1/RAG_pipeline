@@ -1,0 +1,13 @@
+=== 'guidelines transfer' family ===
+  en  2025    7575c dup=False guidelines_trasfer_b-comparative-european_internation_legal_studies.pd
+      https://corsi.unitn.it/sites/cds/files/2025-02/guidelines_trasfer_b-comparative-european_internation_legal_studies.pdf
+  it  2025    7531c dup=False linee-guida-trasferimenti-ammissione-anno-2-lm-global-law-making.pdf
+      https://corsi.unitn.it/sites/cds/files/2025-08/linee-guida-trasferimenti-ammissione-anno-2-lm-global-law-making.pdf
+  en  2025    7717c dup=False guidelines-transfer-2nd-year-admission-ms-global-law-making_0.pdf
+      https://corsi.unitn.it/sites/cds/files/2025-09/guidelines-transfer-2nd-year-admission-ms-global-law-making_0.pdf
+
+=== docs mentioning CEILS with a 30/60 ECTS figure ===
+  en    9517c study-plan-handbook-ms-global-law-making.pdf                
+      https://corsi.unitn.it/sites/cds/files/2025-11/study-plan-handbook-ms-global-law-making.pdf
+  en    7575c guidelines_trasfer_b-comparative-european_internation_legal_studies.pd
+      https://corsi.unitn.it/sites/cds/files/2025-02/guidelines_trasfer_b-comparative-european_internation_legal_studies.pdf

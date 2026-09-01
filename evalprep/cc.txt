@@ -1,0 +1,56 @@
+the single record the crawler has for unitn.coursecatalogue.cineca.it:
+   url        : https://unitn.coursecatalogue.cineca.it/cerca-corsi
+   text       : '-\n\n-'
+   chars      : 4
+   status     : 200
+   content_type: text/html
+   title      : None
+   low_content: True  needs_ocr: None
+
+distinct linked URLs on that host : 3576
+total inbound link occurrences     : 4730
+
+URL shapes:
+   /af/<id>?ad=…&annoOrdinamento=…&coorte=…&corso=…&pds=…     3537
+   /corsi/<id>/<id>/insegnamenti?schemaid=…                   3
+   /insegnamenti/<id>/50896_652087_96422/<id>?annoOrdinamento 1
+   /cerca-insegnamenti                                        1
+   /insegnamenti/<id>/50713_649821_96865/<id>?coorte=…&schema 1
+   /insegnamenti/<id>/50277_645256_95990/<id>?annoOrdinamento 1
+   /insegnamenti/<id>/50713_650543_96850/<id>?coorte=…&schema 1
+   /insegnamenti/<id>/50713_649823_96871/<id>?coorte=…&schema 1
+   /insegnamenti/<id>/50713_649809_96875/<id>?coorte=…&schema 1
+   /insegnamenti/<id>/50713_649818_96853/<id>?coorte=…&schema 1
+   /insegnamenti/<id>/50713_649829_96852/<id>?coorte=…&schema 1
+   /insegnamenti/<id>/50713_649815_96866/<id>?coorte=…&schema 1
+   /insegnamenti/<id>/50713_649820_96859/<id>?coorte=…&schema 1
+   /insegnamenti/<id>/50713_649811_96870/<id>?coorte=…&schema 1
+   /insegnamenti/<id>/50713_649825_96860/<id>?coorte=…&schema 1
+   /insegnamenti/<id>/50261_641831_93056/<id>                 1
+   /insegnamenti/<id>/49406_635243_90745/<id>?annoOrdinamento 1
+   /insegnamenti/<id>/49907_633168_92564/<id>                 1
+   /corsi/<id>/<id>/insegnamenti                              1
+   /insegnamenti/<id>/50423_648343_96634/<id>?annoOrdinamento 1
+
+which sites link to it:
+   corsi.unitn.it                           4668
+   master-m3.unitn.it                       42
+   www.unitn.it                             11
+   r1.unitn.it                              4
+   www.soi.unitn.it                         3
+   cjm.unitn.it                             1
+   mag.unitn.it                             1
+
+sample URLs:
+    77x https://unitn.coursecatalogue.cineca.it/cerca-insegnamenti
+     6x https://unitn.coursecatalogue.cineca.it/cerca-offerta
+     3x https://unitn.coursecatalogue.cineca.it/af/2026?ad=146423&annoOrdinamento=2026&coorte=2026&corso=0536H&pds=P0003
+     3x https://unitn.coursecatalogue.cineca.it/af/2026?ad=146437&annoOrdinamento=2026&coorte=2026&corso=0536H&pds=P0003
+     3x https://unitn.coursecatalogue.cineca.it/af/2026?ad=145857&annoOrdinamento=2026&coorte=2026&corso=0536H&pds=P0003
+     3x https://unitn.coursecatalogue.cineca.it/af/2026?ad=145859&annoOrdinamento=2026&coorte=2026&corso=0536H&pds=P0003
+     3x https://unitn.coursecatalogue.cineca.it/af/2026?ad=145860&annoOrdinamento=2026&coorte=2026&corso=0536H&pds=P0003
+     3x https://unitn.coursecatalogue.cineca.it/af/2026?ad=146214&annoOrdinamento=2026&coorte=2026&corso=0536H&pds=P0003
+     3x https://unitn.coursecatalogue.cineca.it/af/2026?ad=145858&annoOrdinamento=2026&coorte=2026&corso=0536H&pds=P0003
+     3x https://unitn.coursecatalogue.cineca.it/af/2026?ad=145861&annoOrdinamento=2026&coorte=2026&corso=0536H&pds=P0003
+     3x https://unitn.coursecatalogue.cineca.it/af/2026?ad=145863&annoOrdinamento=2026&coorte=2026&corso=0536H&pds=P0003
+     3x https://unitn.coursecatalogue.cineca.it/af/2026?ad=145866&annoOrdinamento=2026&coorte=2026&corso=0536H&pds=P0003

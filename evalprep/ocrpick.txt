@@ -1,0 +1,52 @@
+OCR docs that are answerable AND student-facing: 200
+
+  course                      5604c  DL_ENPC_StudyPlan_Templates.pdf
+        https://www.unitn.it/sites/default/files/2024-10/DL_ENPC_StudyPlan_Templates.pdf
+  services                    1706c  Lavorare in biblioteca - Carrara.pdf
+        https://www.lettere.unitn.it/alfresco/download/workspace/SpacesStore/7860fb07-e54b-4c6b-a0fb-07e54b5c6b49/Lavo
+  services                    1706c  Lavorare in biblioteca - Carrara.pdf
+        https://www.lettere.unitn.it/alfresco/download/workspace/SpacesStore/7dad57fd-e451-49f4-ad57-fde45179f4e1/Lavo
+  services                    1706c  Lavorare in biblioteca - Carrara.pdf
+        https://www.lettere.unitn.it/alfresco/download/workspace/SpacesStore/133f20c7-29b0-4910-bf20-c729b0f9103f/Lavo
+  services                    1706c  Lavorare in biblioteca - Carrara.pdf
+        https://www.lettere.unitn.it/alfresco/download/workspace/SpacesStore/874db653-a392-44eb-8db6-53a392b4ebb2/Lavo
+  admissions                  1464c  Graduatoria D_431.pdf
+        https://borse.unitn.it/system/files/allegati/924/Graduatoria%20D_431.pdf
+  admissions                   899c  ammissione-permanenza-pde-l-stpc-itc-25-26.pdf
+        https://corsi.unitn.it/sites/cds/files/2025-12/ammissione-permanenza-pde-l-stpc-itc-25-26.pdf
+  admissions                   801c  ammissione-permanenza-pde-lm-psicologia-25-26.pdf
+        https://corsi.unitn.it/sites/cds/files/2025-12/ammissione-permanenza-pde-lm-psicologia-25-26.pdf
+  -                         268210c  61 - ad11-12.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/5b0809be-3239-4257-a473-e0bb13e51249/6
+  -                         246846c  scanned-book.pdf
+        http://disi.unitn.it/moschitti/Teaching-slides/NLP-IR/scanned-book.pdf
+  -                         246846c  scanned-book.pdf
+        https://disi.unitn.it/moschitti/Teaching-slides/NLP-IR/scanned-book.pdf
+  -                         242632c  66 - quad5_6.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/e3f74754-f093-452c-91fa-7a7f20c6a306/6
+  -                         200851c  51 - quad22.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/91d3642b-601e-4a8e-baa7-c62f9fc4daff/5
+  -                         200680c  7-9394guidasoc.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/cc99937f-d2a0-4b30-aa59-99c6248165bd/7
+  -                         199499c  52 - quad21.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/4af19c95-3fde-486a-bbae-8f794d9a6e11/5
+  -                         199468c  9-9495guidasoc.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/0337133f-ed6d-44d0-8168-414fbbba763e/9
+  -                         198249c  10-9596guidasoc.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/2fd8b3a4-9286-4e8a-8c87-8586c82b6384/1
+  -                         196213c  65 - quad7.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/31f63d9e-678e-42c0-a908-cb56e5e3c564/6
+  -                         188566c  5-9293facoltadisociologia.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/ce14b971-7fbc-4f7f-93b9-dc06ef018acf/5
+  -                         188249c  58 - quad15.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/a1c70d81-6930-4db8-b678-71929481d57b/5
+  -                         182131c  62 - quad10.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/83e095f7-fd11-4a8f-a815-4c8d11082fee/6
+  -                         181455c  1-guidasoc1972-73.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/7dc1ba9c-5ee9-4aec-a843-854f0ea73ae5/1
+  -                         173715c  3-9192guidasoc.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/9051a70a-3d51-407e-9f78-0740dd308178/3
+  -                         172877c  7677guidasoc.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/8e4693df-f97f-4fc2-ad11-aafbd1bc69a1/7
+  -                         172414c  56 - quad17.pdf
+        https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/fe95760f-777a-4cb0-8f96-1b4c44138628/5

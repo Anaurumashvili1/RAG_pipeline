@@ -1,0 +1,12 @@
+substantial dangling records: 1973
+
+does the dropped content exist anywhere that survived?
+  hash matches NOTHING kept         1973  100.0%
+
+how the dropped URL differs from its declared canonical:
+  same host, different path                676  34.3%
+  CMS alias (node/N <-> pretty URL)        567  28.7%
+  scheme only (http -> https)              312  15.8%
+  different host and path                  264  13.4%
+  host only (www / no-www)                 106   5.4%
+  suffix appended (.1, index.html, /)       48   2.4%

@@ -1,0 +1,196 @@
+matched 84 records
+
+==============================================================================
+CEILS guidelines  |  crawl effective_year=2025  academic_year=None  len=7575
+  rsi.unitn.it/sites/cds/files/2025-02/guidelines_trasfer_b-comparative-european_internation_legal_studies.pdf
+  title: guidelines_trasfer_b-comparative-european_internation_legal_studies.pdf
+  last_modified: 2025-02-07T09:34:42+00:00
+    'last updated ... 2022'            -> 2022       char 1567 of 7575 (21% in)
+        ......................................................... 4 Last updated on 22nd December 2022 --- PDF PAGE BREAK --- [page 2] Via Inama 5 – 38122 T...
+    upload path /files/YYYY-MM/        -> 2025       in URL
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2025  academic_year=2022/2023  len=83475
+  https://corsi.unitn.it/sites/cds/files/2025-02/guida-facolta-giurisprudenza-2024-2025.pdf
+  title: guida-facolta-giurisprudenza-2024-2025.pdf
+  last_modified: 2025-02-06T10:51:45+00:00
+    'Anno Accademico 2007-2008'        -> 2011       char 6123 of 83475 (7% in)
+        ...ssa per un solido sapere professionale. A partire dall’anno accademico 2011 -2012, in conformità al sopravvenuto di vieto della diversificazione...
+    upload path /files/YYYY-MM/        -> 2025       in URL
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2025  academic_year=2025/2026  len=97907
+  https://corsi.unitn.it/sites/cds/files/2025-12/guida-facolta-giurisprudenza-25-26.pdf
+  title: guida-facolta-giurisprudenza-25-26.pdf
+  last_modified: 2025-12-19T15:35:36+00:00
+    'Anno Accademico 2007-2008'        -> 2011       char 6225 of 97907 (6% in)
+        ...ssa per un solido sapere professionale. A partire dall’anno accademico 2011 -2012, in conformità al sopravvenuto divieto della diversificazione...
+    upload path /files/YYYY-MM/        -> 2025       in URL
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2026  academic_year=None  len=554
+  https://r.unitn.it/it/lett/sir/2007-2008
+  title: 2007-2008 | Gruppi e progetti di ricerca
+  last_modified: None
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2011  academic_year=2011/2012  len=641840
+  /alfresco/download/workspace/SpacesStore/28695eb1-88fc-4984-aa48-c302d0f22e7a/08_Guida Facoltà 2011-2012.pdf
+  title: 08_Guida Facolt%C3%A0 2011-2012.pdf
+  last_modified: None
+    'Anno Accademico 2007-2008'        -> 2010       char 5544 of 641840 (1% in)
+        ...degli studi giuridici introdotto nell’anno 2005, fino all’anno accademico 2010-2011 ha offerto il Corso di Laurea Magistrale in Giurisprudenza, art...
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2017  academic_year=2017/2018  len=99992
+  /alfresco/download/workspace/SpacesStore/55cb761f-5b2e-4888-b83c-6a1e150da000/15_Guida Facoltà 2017-2018.pdf
+  title: 15_Guida Facolt%C3%A0 2017-2018.pdf
+  last_modified: None
+    'Anno Accademico 2007-2008'        -> 2010       char 5681 of 99992 (6% in)
+        ...gli studi giuridici introdotto nell’ an- no 2005, fino all’ anno accademico 2010-2011 ha offerto il Corso di Laurea Magistrale in Giurisprudenza, art...
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2012  academic_year=2012/2013  len=720559
+  /alfresco/download/workspace/SpacesStore/5b9f7473-09da-4169-b9a6-e6adb60afdd3/09_Guida Facoltà 2012-2013.pdf
+  title: 09_Guida Facolt%C3%A0 2012-2013.pdf
+  last_modified: None
+    'Anno Accademico 2007-2008'        -> 2010       char 5723 of 720559 (1% in)
+        ...degli studi giuridici introdotto nell’anno 2005, fino all’anno accademico 2010-2011 ha offerto il Corso di Laurea Magistrale in Giurisprudenza, art...
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2018  academic_year=2018/2019  len=97723
+  /alfresco/download/workspace/SpacesStore/7e1b0642-04e1-437f-80d8-43ca715103a3/16_Guida Facoltà 2018-2019.pdf
+  title: 16_Guida Facolt%C3%A0 2018-2019.pdf
+  last_modified: None
+    'Anno Accademico 2007-2008'        -> 2010       char 5672 of 97723 (6% in)
+        ...gli studi giuridici introdotto nell’ an- no 2005, fino all’ anno accademico 2010-2011 ha offerto il Corso di Laurea Magistrale in Giurisprudenza, art...
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2015  academic_year=2015/2016  len=608886
+  /alfresco/download/workspace/SpacesStore/9cc7e019-3e16-408a-b55c-bc065e75d505/12_Guida Facoltà 2015-2016.pdf
+  title: 12_Guida Facolt%C3%A0 2015-2016.pdf
+  last_modified: None
+    'Anno Accademico 2007-2008'        -> 2010       char 6040 of 608886 (1% in)
+        ...degli studi giuridici introdotto nell’anno 2005, fino all’anno accademico 2010-2011 ha offerto il Corso di Laurea Magistrale in Giurisprudenza, art...
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2016  academic_year=2016/2017  len=606276
+  /alfresco/download/workspace/SpacesStore/a7097220-c703-4b67-a80b-f9dd3db70f70/14_Guida Facoltà 2016-2017.pdf
+  title: 14_Guida Facolt%C3%A0 2016-2017.pdf
+  last_modified: None
+    'Anno Accademico 2007-2008'        -> 2010       char 6040 of 606276 (1% in)
+        ...degli studi giuridici introdotto nell’anno 2005, fino all’anno accademico 2010-2011 ha offerto il Corso di Laurea Magistrale in Giurisprudenza, art...
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2015  academic_year=2015/2016  len=90085
+  /workspace/SpacesStore/abe1df0e-02d1-4399-9822-be3de30c4932/13_Guida Facoltà 2015-2016 - English version.pdf
+  title: 13_Guida Facolt%C3%A0 2015-2016 - English version.pdf
+  last_modified: None
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2019  academic_year=2019/2020  len=97072
+  /alfresco/download/workspace/SpacesStore/d4b0c94a-93c1-4f02-9b10-7dfc5d2ea8c7/17_Guida Facoltà 2019-2020.pdf
+  title: 17_Guida Facolt%C3%A0 2019-2020.pdf
+  last_modified: None
+    'Anno Accademico 2007-2008'        -> 2011       char 5479 of 97072 (6% in)
+        ...emessa per un solido sapere professionale. A partire dall’ anno accademico 2011-2012, in conformità al sopravvenuto divieto della diversificazione d...
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2013  academic_year=2013/2014  len=621396
+  /alfresco/download/workspace/SpacesStore/ec4f0b82-5ce5-468c-a2f5-888c11b16be8/10_Guida Facoltà 2013-2014.pdf
+  title: 10_Guida Facolt%C3%A0 2013-2014.pdf
+  last_modified: None
+    'Anno Accademico 2007-2008'        -> 2010       char 6117 of 621396 (1% in)
+        ...degli studi giuridici introdotto nell’anno 2005, fino all’anno accademico 2010-2011 ha offerto il Corso di Laurea Magistrale in Giurisprudenza, art...
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2014  academic_year=2014/2015  len=622382
+  /alfresco/download/workspace/SpacesStore/f2745c7a-05c2-4495-bb9b-2c4391d987e1/11_Guida Facoltà 2014-2015.pdf
+  title: 11_Guida Facolt%C3%A0 2014-2015.pdf
+  last_modified: None
+    'Anno Accademico 2007-2008'        -> 2010       char 6187 of 622382 (1% in)
+        ...degli studi giuridici introdotto nell’anno 2005, fino all’anno accademico 2010-2011 ha offerto il Corso di Laurea Magistrale in Giurisprudenza, art...
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2026  academic_year=None  len=18399
+  load/workspace/SpacesStore/27052187-6bd1-4988-8a91-40bbc8fd654a/10 Guida fil specialistica def 2007-2008.pdf
+  title: 10 Guida fil specialistica def 2007-2008.pdf
+  last_modified: None
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2026  academic_year=None  len=11150
+  sco/download/workspace/SpacesStore/86bcd741-5348-4e85-925b-21f401875ed9/04 guida 2007-2008 LE definitivo.pdf
+  title: 04 guida 2007-2008 LE definitivo.pdf
+  last_modified: None
+    'Anno Accademico 2007-2008'        -> 2007       char 1051 of 11150 (9% in)
+        ...vigenti regola menti didattici, l’offerta formativa per l’anno accademico 2007-2008. Va ribadito che la ripartizione in anni costituisce solamente...
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2026  academic_year=None  len=62063
+  .it/alfresco/download/workspace/SpacesStore/792b96a5-2a2b-4fff-9cf4-f7e711e115e7/2007_2008_syllabus_moss.pdf
+  title: 2007_2008_syllabus_moss.pdf
+  last_modified: None
+    DR/decree date  'del 13/07/2026'   -> 2007       char 3431 of 62063 (6% in)
+        ...cietà, territorio, ambiente (2004) Standard 3 SPS/04 Stampa del 06/08/2007 Universita degli Studi di TRENTO - Via Belenzani, 12 - 38100 TRENTO - tel....
+    'Anno Accademico 2007-2008'        -> 2005       char 12156 of 62063 (20% in)
+        ...e scritto di micro e di macroeconomia.NB: le matricole ante-anno accademico 2005-06 possono sostenere due esami separati di micro e di macroeconomia....
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2026  academic_year=None  len=72442
+  n.it/alfresco/download/workspace/SpacesStore/95c4b7c0-f54c-482b-805f-8c298007f171/2007_2008_syllabus_sta.pdf
+  title: 2007_2008_syllabus_sta.pdf
+  last_modified: None
+    DR/decree date  'del 13/07/2026'   -> 2007       char 3431 of 72442 (5% in)
+        ...cietà, territorio, ambiente (2004) Standard 3 SPS/04 Stampa del 06/08/2007 Universita degli Studi di TRENTO - Via Belenzani, 12 - 38100 TRENTO - tel....
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2026  academic_year=None  len=72009
+  .it/alfresco/download/workspace/SpacesStore/b5879c05-58a1-4cee-b0dc-c0cdaec11306/2007_2008_syllabus_losi.pdf
+  title: 2007_2008_syllabus_losi.pdf
+  last_modified: None
+    DR/decree date  'del 13/07/2026'   -> 2007       char 3809 of 72009 (5% in)
+        ...età, territorio, ambiente (2004) Standard 30 NN/POST Stampa del 06/08/2007 Universita degli Studi di TRENTO - Via Belenzani, 12 - 38100 TRENTO - tel....
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2026  academic_year=None  len=239388
+  tn.it/alfresco/download/workspace/SpacesStore/cbeae232-90f1-4b99-a4b6-a33d044b2add/1-2007_2008_guida_soc.pdf
+  title: 1-2007_2008_guida_soc.pdf
+  last_modified: None
+    DR/decree date  'del 13/07/2026'   -> 2006       char 48870 of 239388 (20% in)
+        ...rendimento Permanente 2007 - 2013, istituito con D ecisione del 15.11.2006 (n. 1720/2006/CE) e, in linea con i suoi obiettivi generali, è rivolto a:...
+    'Anno Accademico 2007-2008'        -> 2007       char 132 of 239388 (0% in)
+        ...rganizzazione didattica della Facoltà di Sociologia anno accademico 2007 - 2008 --- PDF PAGE BREAK --- [page 2] 2...
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2026  academic_year=None  len=140597
+  n.it/alfresco/download/workspace/SpacesStore/dc3c36c4-1b7d-4d03-83f2-cb9d73615c78/2007_2008_syllabus_srs.pdf
+  title: 2007_2008_syllabus_srs.pdf
+  last_modified: None
+    DR/decree date  'del 13/07/2026'   -> 2007       char 3431 of 140597 (2% in)
+        ...cietà, territorio, ambiente (2004) Standard 3 SPS/04 Stampa del 22/08/2007 Universita degli Studi di TRENTO - Via Belenzani, 12 - 38100 TRENTO - tel....
+==============================================================================
+a.a. 2007-2008  |  crawl effective_year=2026  academic_year=None  len=114327
+  tn.it/alfresco/download/workspace/SpacesStore/f26b3a7f-bc3c-4f11-8041-df7b3df1f51e/2007_2008_syus_llabss.pdf
+  title: 2007_2008_syus_llabss.pdf
+  last_modified: None
+    DR/decree date  'del 13/07/2026'   -> 2007       char 2979 of 114327 (3% in)
+        ...studio in Servizio Sociale (2004) Standard 3 SPS/04 Stampa del 06/08/2007 Universita degli Studi di TRENTO - Via Belenzani, 12 - 38100 TRENTO - tel....
+==============================================================================
+energy regolamenti  |  crawl effective_year=2024  academic_year=2016/2017  len=81166
+  https://corsi.unitn.it/sites/cds/files/2024-12/regolamento-didattico-lm-ingegneria-energetica-2016.pdf
+  title: regolamento-didattico-lm-ingegneria-energetica-2016.pdf
+  last_modified: 2024-12-12T14:11:29+00:00
+    DR/decree date  'del 13/07/2026'   -> 2007       char 56315 of 81166 (69% in)
+        ...gneria energetica sono stati determinati ai sensi del D.M. del 16.03.2007, Art. 4, comma 2 in base al quale non possono essere previsti in totale p...
+    'Anno Accademico 2007-2008'        -> 2012       char 4070 of 81166 (5% in)
+        ...e in Ingegneria energetica viene attivato a decorrere dall’anno accademico 2012/13 mediante inserimento nella banca dati dell’Offerta Formativa. 6...
+    upload path /files/YYYY-MM/        -> 2024       in URL
+==============================================================================
+energy regolamenti  |  crawl effective_year=2024  academic_year=None  len=76691
+  https://corsi.unitn.it/sites/cds/files/2024-12/regolamento-didattico-lm-ingegneria-energetica-2023.pdf
+  title: regolamento-didattico-lm-ingegneria-energetica-2023.pdf
+  last_modified: 2024-12-12T14:10:11+00:00
+    DR/decree date  'del 13/07/2026'   -> 2007       char 47231 of 76691 (62% in)
+        ...gneria energetica sono stati determinati ai sensi del D.M. del 16.03.2007, Art. 4, comma 2 in base al quale non possono essere previsti in totale p...
+    'Anno Accademico 2007-2008'        -> 2012       char 2267 of 76691 (3% in)
+        ...e in Ingegneria energetica viene attivato a decorrere dall’anno accademico 2012/13 mediante inserimento nella banca dati dell’Offerta MASTERSTUDIEN...
+    upload path /files/YYYY-MM/        -> 2024       in URL
+==============================================================================
+energy regolamenti  |  crawl effective_year=2024  academic_year=None  len=77655
+  https://corsi.unitn.it/sites/cds/files/2024-12/regolamento-didattico-lm-ingegneria-energetica-2024.pdf
+  title: regolamento-didattico-lm-ingegneria-energetica-2024.pdf
+  last_modified: 2024-12-16T12:29:01+00:00
+    DR/decree date  'del 13/07/2026'   -> 2007       char 45897 of 77655 (59% in)
+        ...neria energetica sono stati determinati ai sensi del D.M. del 16.03.2007, Art. 4, comma 2 in base al quale non possono essere previsti in totale p...
+    'Anno Accademico 2007-2008'        -> 2012       char 2270 of 77655 (3% in)
+        ...e in Ingegneria energetica viene attivato a decorrere dall’anno accademico 2012/13 mediante inserimento nella banca dati dell’Offerta Formativa. M...
+    upload path /files/YYYY-MM/        -> 2024       in URL
+==============================================================================
+energy regolamenti  |  crawl effective_year=2025  academic_year=None  len=81430
+  https://corsi.unitn.it/sites/cds/files/2025-09/regolamento-didattico-lm-energy-engineering-2025.pdf
+  title: regolamento-didattico-lm-energy-engineering-2025.pdf
+  last_modified: 2025-09-16T13:38:13+00:00
+    DR/decree date  'del 13/07/2026'   -> 2025       char 148 of 81430 (0% in)
+        ...Università degli Studi di Trento Emanato con DR n. 788 del 28/07/2025 Pagina 1 di 21 REGOLAMENTO DIDATTICO STUDIENGANGSREGELUNG DEL CORSO D...
+    'Anno Accademico 2007-2008'        -> 2012       char 5289 of 81430 (6% in)
+        ...e in Ingegneria energetica viene attivato a decorrere dall’anno accademico 2012/13 mediante inserimen to nella banca dati dell’Offerta Formativa....

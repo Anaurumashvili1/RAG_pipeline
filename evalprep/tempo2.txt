@@ -1,0 +1,135 @@
+families where a dated/priced value changed between editions: 42
+
+==============================================================================
+www.sociologia.unitn.it | locandina l argomentazione scientifica | lang=it | 5 editions | 13 changed values
+   2026     3427c https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/6051c2b1-09f1-4b00-9f53-
+   2026     3439c https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/90cbfd8c-ccdb-4788-9efe-
+   2021     4010c https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/0e84ea1a-be52-4e35-8049-
+   2020     3541c https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/e82f434b-7b43-4efd-843d-
+   2018     3463c https://www.sociologia.unitn.it/alfresco/download/workspace/SpacesStore/8af8cf40-c615-43f2-84cb-
+
+   OLD (2026): 6 marzo 2017 09.00-11.00 Usi e funzioni del linguaggio.
+   NEW (2026): 6/11/2017 9.00 - 11.00 Usi e funzioni del linguaggio.
+
+   OLD (2026): 8 marzo 2017 14.30-16.30 Dispute e definizioni.
+   NEW (2026): 8/11/2017 14.00 - 16.00 Dispute e definizioni.
+
+   OLD (2026): 10 marzo 2017 9.00-11.00 Etica dell’argomentazione:
+   NEW (2026): 10/11/2017 9.00 – 11.00 Etica dell’argomentazione:
+
+==============================================================================
+www.unitn.it | determinazioni dpi | lang=it | 6 editions | 7 changed values
+   2026    54035c https://www.unitn.it/sites/default/files/2026-02/Determinazioni_DPI_2025_2.pdf
+   2025    43862c https://www.unitn.it/sites/default/files/2025-02/Determinazioni_DPI_2024.pdf
+   2024    52732c https://www.unitn.it/sites/default/files/2024-12/Determinazioni_DPI_2023.pdf
+   2024    65981c https://www.unitn.it/sites/default/files/2024-12/Determinazioni_DPI_2021.pdf
+   2024    45416c https://www.unitn.it/sites/default/files/2024-12/Determinazioni_DPI_2022.pdf
+
+   OLD (2025): Contratto attivo di locazione dell’immobile sito in Povo (TN), Piazza Manci 17.
+   NEW (2026): contratto attivo di locazione dell’immobile sito in Povo (TN), piazza Manci 17 con scadenza 31 luglio 2029.
+
+   OLD (2025): servizi assicurativi libro matricola parco auto di Ateneo, periodo 01 gennaio 2025 - 31 dicembre 2025.
+   NEW (2026): servizi assicurativi libro matricola parco auto di Ateneo, periodo 01 gennaio 2026 - 31dicembre 2026.
+
+   OLD (2025): Riconoscimento canoni di concessione per derivazioni idriche per usi vari - Provincia
+   NEW (2026): Riconoscimento canoni di concessione per derivazioni idriche per usi vari - Provincia Autonoma di Trento anno 2025 218|2025|DPI-25/09/2025 800,12
+
+==============================================================================
+www.unitn.it | determinazioni dcre | lang=it | 6 editions | 7 changed values
+   2026    37216c https://www.unitn.it/sites/default/files/2026-02/Determinazioni_DCRE_2025.pdf
+   2025    35127c https://www.unitn.it/sites/default/files/2025-02/Determinazioni_DCRE_2024_0.pdf
+   2024    12153c https://www.unitn.it/sites/default/files/2024-12/Determinazioni_DCRE_2023.pdf
+   2024    17473c https://www.unitn.it/sites/default/files/2024-12/Determinazioni_DCRE_2022.pdf
+   2024     6215c https://www.unitn.it/sites/default/files/2024-12/Determinazioni_DCRE_2020.pdf
+
+   OLD (2025): Prima mensilità borsa di studio studenti incoming - arrivi settembre 2024 (CUP_E66E22000570006)
+   NEW (2026): Prima mensilità borsa di studio studenti incoming arrivi maggio 2025 (CUP E66E22000570006) 116|2025|DCRE-12/05/2025 850,00
+
+   OLD (2025): Prima mensilità borsa di studio studenti incoming - arrivi settembre 2024 (CUP_E66E22000570006)
+   NEW (2026): Prima mensilità borsa di studio studenti incoming arrivi marzo 2025 (CUP E63C24001050006) 78|2025|DCRE-21/03/2025 3600,00
+
+   OLD (2025): Borse di studio e contributo viaggio staff in - settebre 2024 (CUP E63C23000910006)
+   NEW (2026): Borse di studio e contributo viaggio staff in - febbraio 2025 (CUP E63C23000910006) 47|2025|DCRE-10/02/2025 3299,00
+
+==============================================================================
+www.unitn.it | decreti cibio | lang=it | 5 editions | 5 changed values
+   2026   306058c https://www.unitn.it/sites/default/files/2026-02/Decreti_CIBIO_2025.pdf
+   2024    29507c https://www.unitn.it/sites/default/files/2024-12/Decreti_Cibio_2023.pdf
+   2024    26172c https://www.unitn.it/sites/default/files/2024-12/Decreti_Cibio_2022.pdf
+   2024    17841c https://www.unitn.it/sites/default/files/2024-12/Decreti_Cibio_2021.pdf
+   2024    32809c https://www.unitn.it/sites/default/files/2024-12/Decreti_Cibio_2020.pdf
+
+   OLD (2024): Affidamento della fornitura di uno spettrofotometro UV-Vis alla ditta Shimadzu Italia srl con sede a Milano, P.IVA 10191010155.
+   NEW (2026): affidamento della fornitura di uno spettrofotometro UV-Vis alla ditta Shimadzu Italia srl con sede a Milano C.F./ P.IVA 0191010155 842|2025|DCIBIO-01/08/2025 8.700,00
+
+   OLD (2024): Affidamento della fornitura di pezzi di ricambio per l’Ultracentrifuga Bechman Coulter Optima XE-100 SN alla ditta Beckman Coulter srl con sede a Cassina de Pecchi (MI) P.IVA 04185110154.
+   NEW (2026): affidamento della fornitura di materiale di consumo (Ultracentrifuge tubes) alla ditta Beckman Coulter srl con sede a Cassina de Pecchi (MI) C.F./P.IVA 04185110154 740|2025|DCIBIO-04/07/2025 1.425,00
+
+   OLD (2024): Affidamento della fornitura di pezzi di ricambio per termociclatori alla ditta Bio-rad Laboratories srl con sede a Segrate (MI) P.IVA 00801720152.
+   NEW (2026): affidamento della fornitura di materiali di consumo per laboratori alla ditta Bio-rad Laboratories srl con sede a Segrate (MI) C.F./P.IVA 00801720152 700|2025|DCIBIO-24/06/2025 3.963,71
+
+==============================================================================
+www.unitn.it | delibere cda | lang=it | 6 editions | 4 changed values
+   2026     6852c https://www.unitn.it/sites/default/files/2026-01/Delibere_Cda_2025.pdf
+   2025     7978c https://www.unitn.it/sites/default/files/2025-02/Delibere_Cda_2024.pdf
+   2024     7006c https://www.unitn.it/sites/default/files/2024-12/Delibere_Cda_2023.pdf
+   2024     8039c https://www.unitn.it/sites/default/files/2024-12/Delibere_Cda_2022.pdf
+   2024     9096c https://www.unitn.it/sites/default/files/2024-12/Delibere_Cda_2020.pdf
+
+   OLD (2025): Assegnazione obiettivi del Direttore Generale 30/01/ 2024 5
+   NEW (2026): Assegnazione obiettivi al Direttore generale – anno 2025 30/01/2025 9
+
+   OLD (2025): I Assestamento al Bilancio Unico di Ateneo di previsione annuale autorizzatorio – esercizio 2024 e al Bilancio Unico di Ateneo di Ateneo di previsione triennale - esercizi 2024-
+   NEW (2026): I Assestamento al Bilancio Unico di Ateneo di previsione annuale autorizzatorio – esercizio 2025 e al Bilancio Unico di Ateneo di previsione triennale - esercizi 2025-2027 27/03/2025 3
+
+   OLD (2025): I Assestamento al Bilancio Unico di Ateneo di previsione annuale autorizzatorio – esercizio 2024 e al Bilancio Unico di Ateneo di Ateneo di previsione triennale - esercizi 2024-
+   NEW (2026): Secondo Assestamento al Bilancio Unico di Ateneo di previsione annuale autorizzatorio 2025 e al Bilancio Unico di Ateneo di previsione triennale 2025-2027 30/06/2025 3
+
+==============================================================================
+www.unitn.it | determinazioni dsdb | lang=it | 5 editions | 4 changed values
+   2026    47247c https://www.unitn.it/sites/default/files/2026-02/Determinazioni_DSDB_2025.pdf
+   2025    31426c https://www.unitn.it/sites/default/files/2025-02/Determinazioni_DSDB_2024.pdf
+   2024    24639c https://www.unitn.it/sites/default/files/2024-12/Determinazioni_DSDB_2023.pdf
+   2024    20861c https://www.unitn.it/sites/default/files/2024-12/Determinazioni_DSDB_2022.pdf
+   2024    26941c https://www.unitn.it/sites/default/files/2024-12/Determinazioni_DSDB_2021.pdf
+
+   OLD (2025): Decisione a contrarre - acquisto vario materiale per le Biblioteche UniTrento - MOAR S.R.L.
+   NEW (2026): Decisione a contrarre - acquisto vario materiale per le Biblioteche UniTrento - Moar srl - CIG B7400BC6E2 102|2025|DSDB-16/06/2025 E.
+
+   OLD (2025): Decisione a contrarre - acquisto di Connettività per Festival Meteoreologia - TRENTINO
+   NEW (2026): Decisione a contrarre - Servizio di Connettività per Festival Meteoreologia 2025 203|2025|DSDB-26/11/2025 € 778,90
+
+   OLD (2025): Determinazione di rendicontazione spese prestito interbibliotecario effettuate con carta di credito ricaricabile aziendale dal 5 aprile al 10 luglio 2024.
+   NEW (2026): Determinazione di Rendicontazione spese prestito interbibliotecario effettuate con carta di credito ricaricabile aziendale dal 1° agosto al 7 ottobre 2025.
+
+==============================================================================
+www.unitn.it | relazione sulla performance | lang=it | 7 editions | 3 changed values
+   2025   503021c https://www.unitn.it/sites/default/files/2025-06/Relazione_sulla_Performance_2024.pdf
+   2024   440011c https://www.unitn.it/sites/default/files/2024-12/Relazione_sulla_Performance_2022.pdf
+   2024   544270c https://www.unitn.it/sites/default/files/2024-12/Relazione_sulla_Performance_2023.pdf
+   2024   706006c https://www.unitn.it/sites/default/files/2024-12/Relazione_sulla_Performance_2021.pdf
+   2024   871303c https://www.unitn.it/sites/default/files/2024-12/Relazione_sulla_Performance_2020.pdf
+
+   OLD (2024): Il personale dirigente e tecnico-amministrativo in servizio presso l’Ateneo al 31.12.2022 è costituito
+   NEW (2025): Il personale dirigente e tecnico -amministrativo in servizio presso l’Ateneo al 31 dicembre 2024 è
+
+   OLD (2024): Scuola di Studi Internazionali 365 - 365 0,7%
+   NEW (2025): Scuola di Studi Internazionali (SSI) 1 25% 3 75% 4 0,5%
+
+   OLD (2024): Il personale docente e ricercatore (PDR) in servizio presso l’Ateneo al 31.12.2022 è costituito
+   NEW (2025): Il personale docente e ricercatore (PDR) in servizio presso l’Ateneo al 31 dicembre 2024 è costituito
+
+==============================================================================
+lavoraconnoi.unitn.it | segnato dr app atti po phys01a | lang=it | 2 editions | 3 changed values
+   2026     3203c https://lavoraconnoi.unitn.it/system/files/allegati/3710/SEGNATO_DR%20app%20atti%20PO%20PHYS01A.
+   2025     3558c https://lavoraconnoi.unitn.it/system/files/allegati/3188/SEGNATO_DR%20app%20atti%20PO%20PHYS01A.
+
+   OLD (2025): 298 del 1° aprile 2025, con il quale è stata indetta una procedura selettiva per la copertura di n.
+   NEW (2026): 52390 dell’11 dicembre 2025, con il quale è stata indetta una procedura selettiva per la copertura
+
+   OLD (2025): 625 del 19 giugno 2025, con il quale è stata nominata la Commissione giudicatrice della procedura
+   NEW (2026): 63 del 30 gennaio 2026, con il quale è stata nominata la Commissione giudicatrice della procedura
+
+   OLD (2025): Preso atto che la Commissione giudicatrice ha consegnato i verbali in data 14 settembre 2025;
+   NEW (2026): Preso atto che la Commissione giudicatrice ha consegnato i verbali in data 23 aprile 2026;
+

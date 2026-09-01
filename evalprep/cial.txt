@@ -1,0 +1,33 @@
+2025-26 (current)        effective_year=2025 academic_year=2025/2026 chars=96708
+2007-08 (stamped 2026)   effective_year=2026 academic_year=None chars=604964
+2009-10 (stamped 2026)   effective_year=2026 academic_year=None chars=643377
+
+--- CIAL language credits ---
+
+2007-08 (stamped 2026):
+   a prima. --- PDF PAGE BREAK --- [page 18] 18 CIAL Presso il CIAL sono attivati corsi di lingua stranier a secondo diversi livelli di conoscenza ai quali sono assegnati i crediti come di seguito indicato: Livello Base A1 (1 credito) Comprende e usa espressioni di uso quotidiano e frasi semplici per soddisfare bisogni di tipo concreto. Sa presentare se stesso/a e gli altri. Interagisce in modo semplice. A2 (3 crediti) (assorbe A1) Comprende frasi ed espressioni usate frequentem
+
+2009-10 (stamped 2026):
+   a prima. --- PDF PAGE BREAK --- [page 17] 17 CIAL Presso il CIAL sono attivati corsi di lingua straniera secondo diversi livelli di conoscenza ai quali sono assegnati i crediti come di seguito indicato: Livello Base A1 (1 credito) Comprende e usa espressioni di uso quotidiano e frasi semplici per soddisfare bisogni di tipo concreto. Sa presentare se stesso/a e gli altri. Interagisce in modo semplice. A2 (3 crediti) (assorbe A1) Comprende frasi ed espressioni usate frequenteme
+
+2025-26 (current):
+   not found
+
+--- 'appelli' in the exam session ---
+
+2007-08 (stamped 2026): [' dal 22 dicembre 2007 (compreso) al 06 gennaio 2008 (compreso) Sessione esami 1° semestre (2 appelli) dal 17 dicembre 2007 al 16 febbraio 2008 2° SEMESTRE Lezion', ' attività: dal 20 marzo (compreso) al 26 marzo 2008 (compreso) Sessione esami 2° semestre (2 appelli) dal 26 maggio al 26 luglio 2008 Sessione d’esami autunnale ']
+
+2009-10 (stamped 2026): ['l 14 settembre al 4 dicembre 2009 Sessione straordinaria d’esame per studenti fuori corso (1 appello) dal 2 al 27 novembre 2009 Sessione d’esame per corsi con di', ': dal 23 dicembre 2009 (compreso) al 6 gennaio 2010 (compreso) Sessione esami 1° semestre (2 appelli) dal 7 gennaio 2010 al 19 febbraio 2010 2° Semestre Lezioni:']
+
+2025-26 (current): not found
+
+--- how many guides are stamped effective_year 2026 ---
+   8
+    643377c 05_Guida%20Magistrale%202009-10.pdf
+    640601c 04_Guida%20Magistrale%202008-09.pdf
+    604964c 02_Guida%20Magistrale%202007-08.pdf
+    555398c 01_Guida%20Triennale%20e%20Specialistica%20di%20Facolt%C3%A0%202007-08
+    468937c 03_Guida%20Specialistica%202008-09.pdf
+    434540c 06_Guida%20Specialistica%202009-10.pdf
+     20759c Linee%20Guida%20mobilit_Giurisprudenza_no%20tab.pdf
+      2346c linee-guida-per-le-studentesse-e-gli-studenti-impossibilitati-a-freque

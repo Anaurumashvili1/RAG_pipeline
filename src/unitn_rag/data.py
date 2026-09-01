@@ -14,6 +14,7 @@ from .text import (
     doc_id_from_url,
     is_junk_url,
     is_latin_script,
+    repair_letter_spacing,
     resolve_effective_year,
 )
 
@@ -67,6 +68,8 @@ def load_documents(
     seen_ids: set[str] = set()
     skipped_lang: dict[str, int] = {}
     skipped_junk = 0
+    repaired_spacing = 0
+    canonical_of: dict[str, str] = {}      # doc_id -> declared canonical URL
 
     # Normalise once: YAML may give ["IT", "en-GB"], and a raw list membership
     # test against that silently drops the entire corpus.
@@ -79,8 +82,13 @@ def load_documents(
     for raw in iter_jsonl(path):
         url = (raw.get("url") or "").strip()
         title = clean_text(raw.get("title"))
+        # Repair before cleaning: letter-spaced PDFs encode word boundaries as
+        # double spaces, and clean_text collapses runs of spaces.
+        body = repair_letter_spacing(raw.get("text"))
+        if body is not raw.get("text"):
+            repaired_spacing += 1
         # keep_breaks: paragraph structure is what SentenceSplitter splits on.
-        text = clean_text(raw.get("text"), keep_breaks=True)
+        text = clean_text(body, keep_breaks=True)
 
         if not url:
             continue
@@ -97,8 +105,18 @@ def load_documents(
 
         # Quality flags decided during crawling. Cheaper and more accurate than
         # re-deciding here, since the crawler saw the raw HTML and we do not.
-        if drop_duplicates and raw.get("duplicate_of"):
-            continue
+        #
+        # duplicate_of is the exception, and it is a trap. It records a
+        # *canonical URL declaration* - from <link rel="canonical"> or a
+        # normalisation rule - not an observed content duplicate. Measured on
+        # this corpus: 2,426 records carry it, NONE shares content_sha256 with
+        # any other document, and 2,102 (87%) name a canonical that was never
+        # fetched. Treating it as "a copy exists elsewhere" silently deleted
+        # 2,102 documents whose text is in the corpus exactly once.
+        #
+        # So it is deferred: the decision needs the full URL set, and is made
+        # after the loop.
+        canonical = raw.get("duplicate_of") if drop_duplicates else None
         if drop_low_content and raw.get("low_content"):
             continue
         if drop_boilerplate and raw.get("boilerplate"):
@@ -127,6 +145,9 @@ def load_documents(
             continue
         seen_ids.add(did)
 
+        if canonical:
+            canonical_of[did] = canonical
+
         docs.append(
             Doc(
                 doc_id=did,
@@ -144,6 +165,23 @@ def load_documents(
         if max_docs and len(docs) >= max_docs:
             break
 
+    # Now that every surviving URL is known, resolve the canonical claims. Drop
+    # a document only when the page it points at is actually in the corpus -
+    # otherwise the flag would delete content that exists exactly once.
+    if canonical_of:
+        def _norm(u: str) -> str:
+            return (u or "").strip().rstrip("/").replace("https://", "").replace("http://", "")
+
+        present = {_norm(d.url) for d in docs}
+        redundant = {did for did, can in canonical_of.items() if _norm(can) in present}
+        rescued = len(canonical_of) - len(redundant)
+        if redundant:
+            docs = [d for d in docs if d.doc_id not in redundant]
+        print(f"[data] duplicate_of: dropped {len(redundant)} whose canonical is "
+              f"present, kept {rescued} whose canonical was never fetched")
+
+    if repaired_spacing:
+        print(f"[data] repaired letter-spacing in {repaired_spacing} PDFs")
     if skipped_junk:
         print(f"[data] skipped {skipped_junk} AppleDouble '._' stubs")
     if skipped_lang:

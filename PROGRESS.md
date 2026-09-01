@@ -272,6 +272,142 @@ config change, not a code change, since the dimension is probed from the model.
 
 ---
 
+### 3.8 Evaluation metric — `hit@k` could not see a bilingual hit
+
+`select_pages()` collapses an IT/EN pair to one slot by `doc_group_id` and
+reports whichever sibling ranked higher. `hit_at_k()` exact-matched a single
+`target_url`. So whenever retrieval surfaced the *other* sibling — which it does
+by design, not by accident — a correct retrieval was recorded as a miss. This is
+the same failure shape as the `duplicate_of` bug: a field meaning one thing
+(this document, in one language) used as if it meant another (this fact).
+
+`evaluation.py` now takes a set:
+
+- `targets_of(item)` returns every acceptable URL — `acceptable_urls` as a list
+  or as the pipe-joined string the candidate worksheet emits, with `target_url`
+  leading it so citation display is unchanged.
+- `hit_at_k(sources, targets, k)` accepts one URL, a list, or a pipe-joined
+  string. Old call sites keep working.
+- Items `hit@k` cannot judge now score `None` rather than `False`, and
+  `retrieval_metrics` reports `n` (scored) beside `n_excluded`. A guaranteed
+  zero sitting in the denominator is not a measurement.
+- The review CSV carries `objective`, so a red cell can be read.
+
+**Which siblings were accepted.** `evalprep/sibling.py` rebuilds the pairing
+from `out_links` — A and B are siblings if A links to B, B links back, same
+host, different language — and finds a sibling for 11 of the 41 targets, zero
+ambiguous, no re-crawl. But a reciprocal link proves two pages are the same page
+in two languages, **not** that they carry the same content, so
+`evalprep/sibcheck.py` tests each candidate against the gold answer first
+(numbers, months and email addresses survive translation; the rest was read).
+
+Nine were accepted. **Two were rejected**, and they matter more than the nine:
+
+- **id 3** — the Italian sibling defers to an annex and never states the 66–110
+  scale. The item exists *because* only the English page states it.
+- **id 9** — the Italian sibling states the opposite of the gold answer
+  (everyone writes a *Relazione finale*) and never carries the exemption.
+
+Accepting those two would have traded a false negative for a false positive,
+which is the worse error: a false negative understates a working system, a false
+positive hides a real retrieval failure. Both rejections are recorded in the set
+as `sibling_rejected` + `sibling_note` so the pairing is not re-applied blind.
+
+**id 12** is marked `answer_only`: the fact is a contact block repeated across
+53 documents and the question names no course, so no retriever can pick the
+target. It leaves the retrieval denominator and stays in the generation grade.
+
+Output: `data/evaluation_set.v3.json`, 41 items, 40 retrieval-scored, 9 with a
+second acceptable URL. `config.yaml` still points `eval_set` at
+`data/evaluation_set.json` — one line to switch when the set is final.
+
+Tests: `tests/test_eval_metrics.py`, 14 cases. Also `tests/test_text.py` held a
+stale assertion (`declared` beating the URL marker) that commit 07901fd
+deliberately reversed and `test_text_v2.py` already covers; rewritten to the
+current precedence with the reason attached. 62 tests pass.
+
+### 3.9 Effective year — ranked by how the year was obtained
+
+Two changes, one principle: **a year is only as good as where it came from.**
+
+**An academic year resolves to its end.** `a.a. 2025/2026` is now 2026, not
+2025. A guide for a.a. 2025/26 is the current guide through the whole of 2026;
+dating it 2025 made `1/(1+age)` score it 0.5 the day it was published, while a
+page dated 2026 from its upload path scored 1.0. The correctly tagged document
+ranked *below* the carelessly dated one. Applied consistently — the
+`academic_year` field, spans in text, spans in filenames — 5,953 documents
+move forward one year.
+
+**An upload-path year is the weakest evidence there is.** Drupal serves uploads
+from a month-stamped directory, `/sites/cds/files/2025-02/`. That records when
+someone put the file on the server. Measured: **5,380 documents carry such a
+path and the crawl's `effective_year` equals the path year in every single one**
+— so the path is not merely a possible source, it is *the* source for those
+documents. Four confirmed wrong: the CEILS transfer guidelines (a 2022 document
+uploaded in 2025), the travel regulation (2015 → 2024, and its Alfresco copy
+2015 → 2026), the energy regolamenti (2016, 2023 and 2024 editions sharing one
+December-2024 upload directory and all dated 2024), and the a.a. 2007-08 guides.
+
+New order in `resolve_effective_year`:
+
+1. `academic_year` from the crawl → end year
+2. **what the document states about itself**, when the crawler had only the
+   upload path or fell back to the current year
+3. the filename's edition label, same condition
+4. the crawl's `effective_year`
+5. the regex fallback
+
+**What counts as the document stating its own year.** Only two forms, and the
+anchoring is the entire difficulty:
+
+- *Emanation decree.* `Emanato con DR n. 480 del 29 luglio 2015` — accepted only
+  when the same decree, number and date, appears **at least twice** and its
+  first appearance is not introduced by `Visto` / `di cui` / `ai sensi` /
+  `modificato`. Every UniTn decreto opens by citing three or four other decrees
+  in identical language: a commissioni decree issued in July 2026 cites the
+  Statute of 2024 and the Regolamento didattico of 2012. A running page header
+  repeats verbatim; a preamble names each decree once. That difference is the
+  test. Restricted to PDFs — an HTML page has no running header, and exactly one
+  page in the corpus (`disi/node/1603`) would otherwise be backdated to 2015 for
+  quoting the Conto Terzi regolamento twice.
+- *Explicit revision date.* `Last updated on 22nd December 2022` /
+  `Ultimo aggiornamento`. Latest wins, since a page listing several revisions is
+  current as of the most recent.
+
+Anything looser reads the wrong year off almost every one of these files. The
+current Giurisprudenza guide says *"a partire dall'anno accademico 2011-2012"*
+six thousand characters in; the energy regolamenti cite *"ai sensi del D.M. del
+16.03.2007"*. Those are history and legal reference, not publication dates — the
+first draft of this rule dated the 2026 regolamento to 2007.
+
+**Filename edition labels.** `year_from_title` now also reads a bare year in the
+last position of a filename stem — `regolamento-...-2023.pdf`. Position is what
+makes it safe: at the end of the stem it names the file, loose in the middle
+(`Premio 2019 assegnato`) it is part of a sentence. Returned as-is rather than as
+a span, deliberately: the filename claims 2023 and reading it as a.a. 2023/24
+would invent a claim it does not make — and would land the file back on the same
+year as the upload path already known to be wrong.
+
+**Effect.** 7,642 of 63,470 documents change (12.0%): 5,953 by the end-year
+convention, 1,138 re-dated by their own text, 549 by a filename edition. Of the
+5,380 upload-path documents, **1,937 (36%) now carry an evidence-backed year**
+and 3,443 keep the path year because nothing better exists. The five energy
+regolamenti resolve to five distinct years instead of collapsing three into
+2024. Tests: `tests/test_year_evidence.py`, 13 cases built from corpus strings;
+suite 76 passing.
+
+**Found on the way, not fixed.** The crawl's own `academic_year` is sometimes
+wrong, and it sits at priority 1. `economia.unitn.it/node/3390` is titled
+*"Academic calendar 2026/27"* and carries `academic_year: 2025/2026`; the same
+one-year lag repeats across the 2023/24, 2024/25 and 2025/26 editions, and
+`guida-facolta-giurisprudenza-2024-2025.pdf` carries `2022/2023`. Of 967
+documents where both a crawl `academic_year` and a filename span exist, **151
+(16%) disagree**, and in every sample inspected the filename is right. Preferring
+a title-stated span over a body-scraped one is the same principle as everything
+above — a document naming its own year beats a year found somewhere inside it —
+but it demotes `academic_year` from priority 1, so it is left as a decision
+rather than taken.
+
 ## 4. Open items
 
 **Before the first full index build**

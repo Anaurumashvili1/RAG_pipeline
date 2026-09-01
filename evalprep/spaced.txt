@@ -1,0 +1,60 @@
+index-eligible documents scanned: 58754
+
+long_token_ratio distribution:
+  0.0     420  #
+  0.1      39  
+  0.2      30  
+  0.3     140  
+  0.4     297  
+  0.5    1504  #####
+  0.6   25233  ############################################################
+  0.7   27280  ############################################################
+  0.8    3504  ###########
+  0.9     307  #
+
+documents below 0.20 (letter-spaced / shredded text): 472
+by extractor: {'pypdf': 332, 'trafilatura_markdown': 140}
+
+by host:
+  eventi.unitn.it                  200
+  webmagazine.unitn.it             141
+  www.unitn.it                     38
+  cjm.unitn.it                     32
+  corsi.unitn.it                   17
+  formazioneinsegnanti.unitn.it    7
+  disi.unitn.it                    4
+  www.jobguidance.unitn.it         4
+  event.unitn.it                   3
+  swsp.soc.unitn.it                3
+
+worst 15:
+  0.000 trafilatura_markdown    4135c Calendario ateneo | UniTrento | UniTrentoMag        
+        https://webmagazine.unitn.it/calendario/ateneo/year/2024
+  0.000 trafilatura_markdown    4390c Calendario ateneo | UniTrento | UniTrento           
+        https://webmagazine.unitn.it/en/calendario/ateneo/year/2024
+  0.000 trafilatura_markdown    4550c Calendario Lettere | UniTrento | UniTrentoMag       
+        https://webmagazine.unitn.it/calendario/lettere/year/2024
+  0.000 trafilatura_markdown    4607c Calendario ateneo | UniTrento | UniTrentoMag        
+        https://webmagazine.unitn.it/calendario/ateneo/year/2023
+  0.000 trafilatura_markdown    4638c Calendario Lettere | UniTrento | UniTrentoMag       
+        https://webmagazine.unitn.it/calendario/lettere/year/2023
+  0.000 trafilatura_markdown    4695c Calendario Sociologia | UniTrento | UniTrentoMag    
+        https://webmagazine.unitn.it/calendario/sociologia/year/2023
+  0.000 trafilatura_markdown    4711c Calendario Dmath | UniTrento | UniTrentoMag         
+        https://webmagazine.unitn.it/calendario/dmath/year/2023
+  0.000 trafilatura_markdown    4736c Calendario Dmath | UniTrento | UniTrentoMag         
+        https://webmagazine.unitn.it/calendario/dmath/year/2024
+  0.000 trafilatura_markdown    4748c Calendario Giurisprudenza | UniTrento | UniTrentoMag
+        https://webmagazine.unitn.it/calendario/giurisprudenza/year/2024
+  0.000 trafilatura_markdown    4761c Calendario Giurisprudenza | UniTrento | UniTrentoMag
+        https://webmagazine.unitn.it/calendario/giurisprudenza/year/2023
+  0.000 trafilatura_markdown    4766c Calendario Sociologia | UniTrento | UniTrentoMag    
+        https://webmagazine.unitn.it/calendario/sociologia/year/2024
+  0.000 trafilatura_markdown    4781c Calendario Disi | UniTrento | UniTrentoMag          
+        https://webmagazine.unitn.it/calendario/disi/year/2024
+  0.000 trafilatura_markdown    4805c Calendario Cibio | UniTrento | UniTrento            
+        https://webmagazine.unitn.it/en/calendario/cibio/year/2024
+  0.000 trafilatura_markdown    4811c Calendario Cibio | UniTrento | UniTrentoMag         
+        https://webmagazine.unitn.it/calendario/cibio/year/2024
+  0.000 trafilatura_markdown    4826c Calendario Dphys | UniTrento | UniTrentoMag         
+        https://webmagazine.unitn.it/calendario/dphys/year/2024

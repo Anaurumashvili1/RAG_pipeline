@@ -72,7 +72,18 @@ class RetrievalCfg:
     max_pages: int = 5
     dedup_by: str = "doc_group"
     prefer_query_language: bool = True
-    chunk_char_limit: int = 1200
+    # Chunks are 512 *tokens* - roughly 1500-2500 characters of Italian, plus the
+    # injected TITLE/SOURCE/LANGUAGE/YEAR header. At 1200 the tail of every
+    # retrieved chunk was discarded after retrieval had already succeeded, which
+    # is why facts kept going missing from pages that ranked first.
+    chunk_char_limit: int = 2500
+    # Recompute a document's year from its filename at query time. The crawl's
+    # effective_year falls back to the upload/crawl year for Alfresco PDFs, so
+    # undated 2002 handbooks scored age 0 while the current guide scored age 1.
+    resolve_year_from_title: bool = True
+    # Mild boost when the question's words appear in the document's URL host or
+    # course slug, to separate near-identical sibling pages. 0.0 disables.
+    url_affinity_weight: float = 0.25
 
 
 @dataclass

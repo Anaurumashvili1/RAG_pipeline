@@ -5,6 +5,14 @@ metrics were computed, so hit@1/@3/@5 were all measured over the same 5-item
 list. hit@5 was really "hit@min(5, len(sources))" and could never exceed it.
 Here retrieval runs with a wider ``eval_max_pages`` and k is applied afterwards.
 
+Second correction: a target is a *set* of URLs, not one URL. ``select_pages``
+collapses an IT/EN pair to a single slot, so whichever sibling ranks higher is
+the one reported - and a set holding only the other sibling scored a correct
+retrieval as a miss. ``acceptable_urls`` names every address that counts, and
+items no retriever can fairly be asked to hit (a fact repeated verbatim across
+dozens of boilerplate blocks, or an out-of-scope question) are excluded from
+the retrieval denominator instead of silently depressing it.
+
 Correctness of the generated answer is still judged manually - keep doing that,
 it is the honest approach for this dataset. ``export_for_review`` writes a file
 you can grade, and ``score_manual_grades`` turns the grades into the paper's
@@ -23,15 +31,78 @@ if TYPE_CHECKING:
     from .pipeline import RagAnswer, RagPipeline
 
 
+def _norm_url(u: str) -> str:
+    """Canonical form for comparison: no scheme, no trailing slash."""
+    u = (u or "").strip()
+    for prefix in ("https://", "http://"):
+        if u.startswith(prefix):
+            u = u[len(prefix):]
+            break
+    return u.rstrip("/")
+
+
 def _url_match(a: str, b: str) -> bool:
     """Compare URLs ignoring trailing slash and scheme differences."""
-    def norm(u: str) -> str:
-        return (u or "").strip().rstrip("/").replace("https://", "").replace("http://", "")
-    return norm(a) == norm(b)
+    return _norm_url(a) == _norm_url(b)
 
 
-def hit_at_k(sources: list[str], target_url: str, k: int) -> bool:
-    return any(_url_match(s, target_url) for s in sources[:k])
+def _as_url_list(raw) -> list[str]:
+    """Accept a list, a pipe-separated string (the worksheet format), or None."""
+    if raw is None:
+        return []
+    if isinstance(raw, str):
+        raw = raw.split("|")
+    return [u.strip() for u in raw if u and str(u).strip()]
+
+
+def targets_of(item: dict) -> list[str]:
+    """Every URL that counts as a correct retrieval for this item.
+
+    A fact usually lives at more than one address. An IT/EN translation pair is
+    one document to a reader and two URLs to the index; ``select_pages``
+    collapses the pair to one slot and reports whichever sibling ranked higher.
+    Comparing against a single ``target_url`` therefore records a correct
+    retrieval as a miss whenever the other sibling surfaces. The same holds for
+    a fact stated on two genuinely different pages.
+
+    ``target_url`` stays authoritative for citation display; it is simply the
+    first member of the acceptable set.
+    """
+    urls = _as_url_list(item.get("acceptable_urls"))
+    single = (item.get("target_url") or "").strip()
+    if single and not any(_url_match(single, u) for u in urls):
+        urls.insert(0, single)
+    return urls
+
+
+def is_retrieval_scored(item: dict) -> bool:
+    """False for items ``hit@k`` cannot judge fairly.
+
+    Two kinds, and both must leave the retrieval denominator rather than sit in
+    it as guaranteed zeros:
+
+    *answer-only* - the fact appears verbatim in many documents (a boilerplate
+    contact block) and the question names nothing that singles out the target,
+    so no retriever can be expected to pick it. The generated answer is still
+    worth grading.
+
+    *out-of-scope* - there is no acceptable URL at all; the item is scored on
+    whether the system refuses.
+    """
+    if item.get("answer_only") or item.get("out_of_scope"):
+        return False
+    return bool(targets_of(item))
+
+
+def hit_at_k(sources: list[str], targets, k: int) -> bool:
+    """True if any acceptable target appears in the first ``k`` sources.
+
+    ``targets`` may be one URL, a list of URLs, or a pipe-separated string.
+    """
+    targets = _as_url_list(targets)
+    if not targets:
+        return False
+    return any(_url_match(s, t) for s in sources[:k] for t in targets)
 
 
 def run_evaluation(
@@ -47,6 +118,8 @@ def run_evaluation(
     for i, item in enumerate(eval_set, 1):
         question = item["question"]
         target_url = item.get("target_url", "")
+        targets = targets_of(item)
+        scored = is_retrieval_scored(item)
 
         if verbose:
             print(f"[eval] {i}/{len(eval_set)}  {question[:70]}")
@@ -56,16 +129,21 @@ def run_evaluation(
         row = {
             "question": question,
             "target_url": target_url,
+            "acceptable_urls": targets,
+            "retrieval_scored": scored,
+            "objective": item.get("objective", ""),
             "gold_answer": item.get("answer") or item.get("gold_answer", ""),
             "rag_answer": rag.answer,
             "rag_sources": rag.sources,
             "rag_language": rag.language,
             "rag_refused": rag.refused,
             "rag_cited": rag.cited,
-            "hit@1": hit_at_k(rag.sources, target_url, 1),
-            "hit@3": hit_at_k(rag.sources, target_url, 3),
-            "hit@5": hit_at_k(rag.sources, target_url, 5),
-            "hit@10": hit_at_k(rag.sources, target_url, 10),
+            # None, not False, when the item is not a retrieval test - a zero
+            # here would be indistinguishable from a genuine miss.
+            "hit@1": hit_at_k(rag.sources, targets, 1) if scored else None,
+            "hit@3": hit_at_k(rag.sources, targets, 3) if scored else None,
+            "hit@5": hit_at_k(rag.sources, targets, 5) if scored else None,
+            "hit@10": hit_at_k(rag.sources, targets, 10) if scored else None,
             # filled in during manual review:
             "rag_correct": None,
             "baseline_correct": None,
@@ -82,14 +160,21 @@ def run_evaluation(
 
 
 def retrieval_metrics(results: list[dict]) -> dict:
-    n = len(results) or 1
-    return {
-        "n": len(results),
-        "hit@1": round(sum(r["hit@1"] for r in results) / n, 4),
-        "hit@3": round(sum(r["hit@3"] for r in results) / n, 4),
-        "hit@5": round(sum(r["hit@5"] for r in results) / n, 4),
-        "hit@10": round(sum(r["hit@10"] for r in results) / n, 4),
-    }
+    """hit@k over the items that are retrieval tests.
+
+    ``n`` is the scored count, not the size of the set: answer-only and
+    out-of-scope items are excluded, and ``n_excluded`` records how many, so the
+    denominator is always visible next to the number it produced.
+    """
+    scored = [r for r in results if r.get("hit@1") is not None]
+    n = len(scored)
+    out: dict = {"n": n, "n_excluded": len(results) - n}
+    if not n:
+        out["note"] = "no items were scored for retrieval"
+        return out
+    for k in (1, 3, 5, 10):
+        out[f"hit@{k}"] = round(sum(1 for r in scored if r.get(f"hit@{k}")) / n, 4)
+    return out
 
 
 def generation_metrics(results: list[dict], prefix: str = "rag") -> dict:
@@ -120,7 +205,7 @@ def retrieved_but_not_answered(results: list[dict]) -> list[dict]:
 
     Track this number - it is the metric the whole v2 redesign is meant to move.
     """
-    return [r for r in results if r["hit@5"] and r.get("rag_refused")]
+    return [r for r in results if r.get("hit@5") and r.get("rag_refused")]
 
 
 def summarise(results: list[dict]) -> dict:
@@ -198,9 +283,13 @@ def export_for_review(results: list[dict], path: str | Path) -> None:
 
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
+    # ``objective`` rides along because a red cell on its own does not say
+    # whether retrieval missed, generation flattened a conditional, or the
+    # metric was unfair to the item - the objective is what makes that call.
     cols = [
-        "question", "gold_answer", "rag_answer", "rag_refused",
-        "hit@5", "baseline_answer", "rag_correct", "baseline_correct",
+        "question", "objective", "gold_answer", "rag_answer", "rag_refused",
+        "hit@5", "retrieval_scored", "baseline_answer",
+        "rag_correct", "baseline_correct",
     ]
     with open(path, "w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=cols, extrasaction="ignore")

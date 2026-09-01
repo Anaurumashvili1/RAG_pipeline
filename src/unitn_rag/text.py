@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import hashlib
 import re
-from urllib.parse import urlsplit, urlunsplit, parse_qsl
+from urllib.parse import urlsplit, urlunsplit, parse_qsl, unquote
 
 # --------------------------------------------------------------------------
 # Basic normalisation
@@ -21,6 +21,57 @@ _WS_RE = re.compile(r"\s+")
 # Whitespace that is *not* a newline. Used when paragraph structure must survive.
 _INLINE_WS_RE = re.compile(r"[^\S\n]+")
 _BLANK_LINES_RE = re.compile(r"\n{3,}")
+
+
+def _letter_spaced_ratio(text: str, sample_chars: int = 3000,
+                         min_tokens: int = 40) -> float:
+    """Share of tokens that are a single *alphabetic* character.
+
+    Alphabetic specifically: markdown tables produce runs of one-character
+    tokens too, but they are '|' and '-', and repairing those would destroy
+    real content.
+
+    ``min_tokens`` guards against deciding from too little evidence. It must be
+    high for a whole document and low for a single line - a spaced heading like
+    'I N D U S T R I A L' is only ten tokens, and a document-level floor of 40
+    silently skipped every line worth repairing.
+    """
+    toks = (text or "")[:sample_chars].split()
+    if len(toks) < min_tokens:
+        return 0.0
+    return sum(1 for x in toks if len(x) == 1 and x.isalpha()) / len(toks)
+
+
+def looks_letter_spaced(text: str, threshold: float = 0.4) -> bool:
+    return _letter_spaced_ratio(text) > threshold
+
+
+def repair_letter_spacing(text: str | None) -> str | None:
+    """Undo per-glyph spacing in PDFs that position each character separately.
+
+    Design tools (posters, brochures, the jobguidance FAQ PDFs) apply letter
+    tracking, and pypdf then emits a space between every character:
+
+        'W e l c o m e  t o  t h e  I n t e r n s h i p'
+
+    Single space = inter-letter padding, double space = a real word boundary,
+    so it is deterministically reversible. Measured on one FAQ PDF, this takes
+    long_token_ratio from 0.000 to 0.584 - the difference between an
+    unembeddable document and a usable one.
+
+    250 documents in the corpus are affected, all pypdf-extracted.
+    """
+    if not text or not looks_letter_spaced(text):
+        return text
+
+    out = []
+    for line in text.split("\n"):
+        # Per line, because a document is often only partly affected - a poster
+        # may have a spaced title over an ordinary paragraph.
+        if _letter_spaced_ratio(line, sample_chars=10 ** 9, min_tokens=4) > 0.4:
+            line = line.replace("  ", "\x00").replace(" ", "").replace("\x00", " ")
+        out.append(line)
+    return "\n".join(out)
 
 
 def clean_text(t: str | None, keep_breaks: bool = False) -> str:
@@ -272,10 +323,46 @@ def doc_group_id(url: str, hreflang_group: str | None = None) -> str:
 
 _YEAR_URL_RE = re.compile(r"/((?:19|20)\d{2})(?:[-/_]|$)")
 _ACADEMIC_YEAR_RE = re.compile(
-    r"(?:a\.?\s*a\.?|anno accademico|academic year)\s*[:\-]?\s*((?:19|20)\d{2})",
+    r"(?:a\.?\s*a\.?|anno accademico|academic year)\s*[:\-]?\s*"
+    r"((?:19|20)\d{2})(?:\s*[/\-]\s*((?:19|20)?\d{2}))?",
     re.IGNORECASE,
 )
-_YEAR_RANGE_RE = re.compile(r"\b((?:19|20)\d{2})\s*[/\-]\s*(?:(?:19|20)?\d{2})\b")
+_YEAR_RANGE_RE = re.compile(r"\b((?:19|20)\d{2})\s*[/\-]\s*((?:19|20)?\d{2})\b")
+
+# Drupal serves uploads from a path stamped with the month the file was put
+# there: /sites/cds/files/2025-02/guidelines.pdf. That is when someone uploaded
+# it, not what it is about, and the crawler used it as effective_year for all
+# 5,179 documents that have such a path - every one of them, without exception.
+_UPLOAD_PATH_RE = re.compile(r"/((?:19|20)\d{2})[-/](?:0[1-9]|1[0-2])/")
+
+# A regolamento states its own emanation in a running page header: "Emanato con
+# DR n. 788 del 28/07/2025". Every UniTn decree ALSO opens with a preamble that
+# cites other decrees in the same words - "Visto lo Statuto ... emanato con D.R.
+# n. 5 di data 8 gennaio 2024; Visto il Regolamento Generale di Ateneo, emanato
+# con D.R. n. 421 del 1 ottobre 2012" - so the phrase alone identifies the wrong
+# document. Two things separate them, and both are checked below: a running
+# header repeats the *same* decree verbatim on every page, while a preamble
+# cites a different one each time; and a citation is introduced by Visto /
+# di cui / ai sensi.
+_MONTHS_IT = ("gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|"
+              "settembre|ottobre|novembre|dicembre")
+_DECREE_RE = re.compile(
+    r"emanat[oa]\s+con\s+(?:D\.?\s*R\.?|decreto\s+rettorale)\s*n\.?\s*\d+\s*"
+    r"(?:del|di\s+data)\s+"
+    r"(?:\d{1,2}[/.\-]\d{1,2}[/.\-]((?:19|20)\d{2})"
+    r"|\d{1,2}\s*°?\s+(?:" + _MONTHS_IT + r")\s+((?:19|20)\d{2}))",
+    re.IGNORECASE,
+)
+_CITATION_FRAME_RE = re.compile(
+    r"\b(?:vist[oa]|viste|di\s+cui|ai\s+sensi|modificat[oa])\b", re.IGNORECASE
+)
+_DECREE_HEAD_CHARS = 2500      # the page-1/2 header zone
+_CITATION_LOOKBACK = 250
+_LAST_UPDATED_RE = re.compile(
+    r"(?:last\s+updated?|ultimo\s+aggiornamento|aggiornat[oa]\s+al)"
+    r"[^\n]{0,40}?((?:19|20)\d{2})",
+    re.IGNORECASE,
+)
 
 # A year beyond next academic year is a parse error, not a fresh document, and
 # under the 1/(1+age) decay it scores maximum freshness. The old ceiling of 2100
@@ -298,25 +385,35 @@ def _valid(year: int | None, current_year: int | None = None) -> int | None:
     return year if _MIN_YEAR <= year <= max_plausible_year(current_year) else None
 
 
-def parse_academic_year(value: str | None, current_year: int | None = None) -> int | None:
-    """Start year of an 'A.A. 2025/2026' string, if the range is sane.
+def academic_year_end(start: int, end: int | str | None) -> int | None:
+    """End year of a one-year span, or None if it is not one.
 
-    The crawl emits some malformed ranges - '2016/2067', '2018/2022' - where the
-    second half is a typo or an unrelated number. A real academic year spans
-    exactly one calendar year, so anything else is rejected rather than trusted.
+    **The end year, not the start.** A guide for a.a. 2025/26 is the current
+    guide for the whole of 2026; calling it 2025 makes ``1/(1+age)`` treat it as
+    a year old on the day it is published, and - because a year taken from an
+    upload path is already a calendar year - systematically ages every correctly
+    tagged document by one against every path-dated one.
+
+    A real academic year spans exactly one calendar year. The crawl emits some
+    malformed ranges - '2016/2067', '2018/2022' - where the second half is a
+    typo or an unrelated number; those are rejected rather than trusted.
     """
+    if end is None:
+        return None
+    end = int(end)
+    if end < 100:                       # '2025/26' shorthand
+        end += (start // 100) * 100
+    return end if end - start == 1 else None
+
+
+def parse_academic_year(value: str | None, current_year: int | None = None) -> int | None:
+    """End year of an 'A.A. 2025/2026' string, if the range is sane. See above."""
     if not value:
         return None
     m = re.match(r"\s*((?:19|20)\d{2})\s*/\s*((?:19|20)?\d{2})\s*$", str(value))
     if not m:
         return None
-    start = int(m.group(1))
-    end = int(m.group(2))
-    if end < 100:                       # '2025/26' shorthand
-        end += (start // 100) * 100
-    if end - start != 1:
-        return None
-    return _valid(start, current_year)
+    return _valid(academic_year_end(int(m.group(1)), m.group(2)), current_year)
 
 
 def extract_effective_year(
@@ -334,12 +431,16 @@ def extract_effective_year(
     head = text[:sample_chars] if text else ""
 
     m = _ACADEMIC_YEAR_RE.search(head)
-    if m and _valid(int(m.group(1)), current_year):
-        return int(m.group(1))
+    if m:
+        year = academic_year_end(int(m.group(1)), m.group(2)) or int(m.group(1))
+        if _valid(year, current_year):
+            return year
 
     m = _YEAR_RANGE_RE.search(head)
-    if m and _valid(int(m.group(1)), current_year):
-        return int(m.group(1))
+    if m:
+        year = academic_year_end(int(m.group(1)), m.group(2))
+        if _valid(year, current_year):
+            return year
 
     m = _YEAR_URL_RE.search(urlsplit(url).path if url else "")
     if m and _valid(int(m.group(1)), current_year):
@@ -356,40 +457,236 @@ def extract_effective_year(
 _TITLE_AY_RE = re.compile(
     r"\b((?:19|20)\d{2})\s*[/\-_]\s*((?:19|20)?\d{2})\b"
 )
+# A year in the last position of a filename stem, before the extension:
+# 'regolamento-didattico-lm-ingegneria-energetica-2023.pdf'. Position is what
+# makes it safe - it is the edition label, where a year loose in the middle
+# ('Premio 2019 assegnato') is part of a sentence.
+_TITLE_TAIL_YEAR_RE = re.compile(
+    r"[-_ ]((?:19|20)\d{2})\s*(?:\.[a-z0-9]{2,4})?\s*$", re.IGNORECASE
+)
 
 
 def year_from_title(title: str | None, current_year: int | None = None) -> int | None:
-    """Academic year stated in a filename, e.g. '09_Guida Facolta 2012-2013.pdf'.
+    """Year stated in a filename, e.g. '09_Guida Facolta 2012-2013.pdf'.
 
     Alfresco-hosted PDFs have UUID URLs and often do not repeat the year inside
     the first 500 characters of text, so the filename is the only place it
     appears. Six Faculty of Law handbooks from 2007-2010 were dated to the
     current year for exactly this reason - and under a 1/(1+age) decay that
     made obsolete handbooks rank as freshly published.
+
+    A span resolves to its end year, as everywhere else. A bare terminal year
+    does not: 'regolamento-...-2023.pdf' is an edition label, and reading it as
+    a.a. 2023/24 would be inventing a span the filename does not claim. The
+    asymmetry is deliberate - guessing here would put the file in the same year
+    as the upload path that is already known to be wrong.
     """
     if not title:
         return None
     m = _TITLE_AY_RE.search(title)
-    if not m:
+    if m:
+        return _valid(academic_year_end(int(m.group(1)), m.group(2)), current_year)
+    m = _TITLE_TAIL_YEAR_RE.search(title.strip())
+    if m:
+        return _valid(int(m.group(1)), current_year)
+    return None
+
+
+def upload_path_year(url: str | None) -> int | None:
+    """Year in a Drupal upload path - '/sites/cds/files/2025-02/guide.pdf'.
+
+    When the file was put on the server, not what it is about. Measured on this
+    corpus: 5,179 documents carry such a path and the crawl's ``effective_year``
+    equals the path year in **every one of them**, so this is also the test for
+    "the crawler had nothing better than the upload date".
+    """
+    if not url:
         return None
-    start, end = int(m.group(1)), int(m.group(2))
-    if end < 100:                        # '2012-13' shorthand
-        end += (start // 100) * 100
-    if end - start != 1:                 # not an academic year span
+    m = _UPLOAD_PATH_RE.search(urlsplit(url).path)
+    return int(m.group(1)) if m else None
+
+
+# Structural path components - they say where a document is served from, not
+# what it is about, so they must never contribute to URL/question affinity.
+_URL_STOPWORDS = frozenset("""
+www unitn it en node sites default files cds download workspace spacesstore
+alfresco system allegati pdf html htm php aspx index home page view print
+tiki uploads media documents doc docs public web
+""".split())
+
+_URL_SPLIT_RE = re.compile(r"[^a-z0-9]+")
+
+
+def _dashed(name: str | None) -> str | None:
+    """Underscores to hyphens before year parsing.
+
+    ``_TITLE_AY_RE`` ends on ``\b``, and ``_`` is a word character, so
+    '2008_2009_syllabus.pdf' never matched while '2008-2009-syllabus.pdf' does.
+    Underscore is the dominant separator in this corpus's Alfresco filenames.
+    """
+    return name.replace("_", "-") if name else name
+
+
+
+def resolved_year(
+    effective_year: int | None,
+    title: str | None = None,
+    url: str | None = None,
+    current_year: int | None = None,
+) -> int | None:
+    """The year a document is *about*, correcting the crawl's fallback.
+
+    ``effective_year`` as stored is unreliable in one specific, measurable way:
+    when nothing better was available the crawl used the upload or fetch date,
+    so a 2002 student guide and a 2008 syllabus both carry the current year.
+    Under ``recency_penalty`` that is an inversion, not just noise - an obsolete
+    handbook scores age 0 (multiplier 1.0) while ``GUIDA GIURISPRUDENZA
+    2025-26`` scores age 1 (multiplier 0.5) and loses to it.
+
+    Order: the filename's edition year wins, because for Alfresco PDFs it is the
+    only honest statement of the year. Failing that, a stored year that merely
+    echoes the upload path is treated as unknown rather than as fresh.
+    """
+    from_title = year_from_title(_dashed(title), current_year)
+    if from_title is None and url:
+        # Alfresco serves PDFs from a UUID path; the filename is the last segment.
+        stem = unquote(urlsplit(url).path.rsplit("/", 1)[-1])
+        from_title = year_from_title(_dashed(stem), current_year)
+    if from_title is not None:
+        return from_title
+
+    up = upload_path_year(url)
+    if up is not None and effective_year == up:
+        return None  # the crawl had nothing better than the upload date
+    return effective_year
+
+
+def url_terms(url: str | None) -> frozenset[str]:
+    """Content-bearing words in a URL: host labels and path/filename segments.
+
+    ``corsi.unitn.it/en/human-computer-interaction/graduation/graduation-calendar``
+    yields {corsi, human, computer, interaction, graduation, calendar}. Overlap
+    with the question's words is what separates six near-identical graduation
+    calendars, or a Law question from the DII calendar that states a different
+    second-semester start date for the same academic year.
+    """
+    if not url:
+        return frozenset()
+    parts = urlsplit(url)
+    raw = f"{parts.netloc}/{unquote(parts.path)}".lower()
+    return _clean_terms(raw)
+
+
+def url_host_terms(url: str | None) -> frozenset[str]:
+    """Just the host labels: 'www.physics.unitn.it' -> {physics}.
+
+    A host match is far stronger evidence than a path match. physics.unitn.it
+    answers a physics question by virtue of *being* the physics site, while
+    'external-research-period' in a path is a topic word that any department's
+    equivalent page also carries - and pages served under /node/<id> have no
+    descriptive slug at all, so path matching alone systematically loses them
+    to slug-rich siblings from the wrong department.
+    """
+    if not url:
+        return frozenset()
+    return _clean_terms(urlsplit(url).netloc.lower())
+
+
+def _clean_terms(raw: str) -> frozenset[str]:
+    return frozenset(
+        w for w in _URL_SPLIT_RE.split(raw)
+        if len(w) > 2 and not w.isdigit() and w not in _URL_STOPWORDS
+    )
+
+
+def year_from_document(
+    text: str | None,
+    current_year: int | None = None,
+    is_pdf: bool = True,
+) -> int | None:
+    """A year the document states about itself, not one that merely appears in it.
+
+    Only two forms qualify, both anchored to the phrase that makes them a claim
+    about this document:
+
+      "Emanato con DR n. 788 del 28/07/2025"   - a regolamento's own emanation
+      "Last updated on 22nd December 2022"     - an explicit revision date
+
+    The anchoring is the whole point. Loose date matching reads the wrong year
+    off almost every one of these files: the current Giurisprudenza guide says
+    "a partire dall'anno accademico 2011-2012" six thousand characters in, and
+    the energy regolamenti cite "ai sensi del D.M. del 16.03.2007". Those are
+    history and legal reference, not publication dates.
+
+    A decree year is accepted only when the *same* decree - same number, same
+    date - appears at least twice, and its first appearance is not introduced by
+    a citation frame. That is what distinguishes a running header from the
+    preamble of a decreto, which cites three or four other decrees in identical
+    language. Measured on the four regolamenti in hand the header repeats 3+
+    times; in the commissioni decrees every cited decree appears once.
+
+    The decree rule is for PDFs only. An HTML page has no running header, so a
+    twice-repeated decree there is prose citing a regulation - measured, exactly
+    one page in the corpus, disi/node/1603, which cites the Conto Terzi
+    regolamento of 2015 and would otherwise be dated eleven years stale.
+    """
+    if not text:
         return None
-    return _valid(start, current_year)
+    if not is_pdf:
+        return _year_from_last_updated(text, current_year)
+
+    counts: dict[str, int] = {}
+    first: dict[str, re.Match] = {}
+    for m in _DECREE_RE.finditer(text):
+        token = "".join(m.group(0).split()).lower()   # 'n. 480' == 'n.480'
+        counts[token] = counts.get(token, 0) + 1
+        first.setdefault(token, m)
+    for token, m in first.items():                    # earliest first
+        if counts[token] < 2 or m.start() > _DECREE_HEAD_CHARS:
+            continue
+        before = text[max(0, m.start() - _CITATION_LOOKBACK):m.start()]
+        if _CITATION_FRAME_RE.search(before):
+            continue
+        year = _valid(int(m.group(1) or m.group(2)), current_year)
+        if year:
+            return year
+
+    return _year_from_last_updated(text, current_year)
+
+
+def _year_from_last_updated(text: str, current_year: int | None = None) -> int | None:
+    """Latest 'last updated on ...' the document states. Latest, because a page
+    that lists several revisions is current as of the most recent one."""
+    years = [int(m.group(1)) for m in _LAST_UPDATED_RE.finditer(text)]
+    years = [y for y in years if _valid(y, current_year)]
+    return max(years) if years else None
 
 
 def resolve_effective_year(raw: dict, current_year: int | None = None) -> int | None:
-    """Effective year for one crawl record, trusting the crawler first.
+    """Effective year for one crawl record, ranked by how the year was obtained.
 
-    The v2 crawl computes ``effective_year`` for every document. Re-deriving it
-    from scratch throws that away and leaves ~50% of the corpus with no freshness
-    signal at all. Priority:
+    The v2 crawl computes ``effective_year`` for every document and re-deriving
+    it from scratch would leave ~50% of the corpus with no freshness signal at
+    all, so the crawler is still trusted by default. What changed is that
+    "trusted by default" is not the same as "trusted unconditionally": for 5,179
+    documents the crawl's year is simply the month-stamped Drupal upload path,
+    which records when a file was put on the server. Four confirmed cases where
+    that is the wrong year - the CEILS transfer guidelines (a 2022 document
+    uploaded in 2025), the travel regulation (2015 -> 2026), the energy
+    regolamenti (2016, 2023 and 2024 editions all -> 2024) and the a.a. 2007-08
+    guides - all share the shape: an old document re-uploaded, dated by the
+    re-upload.
 
-      1. ``academic_year`` ('2025/2026') - the most specific claim available
-      2. ``effective_year`` from the crawl, clamped to a plausible range
-      3. the regex fallback, for records the crawl left empty
+    So an upload-path year is the weakest evidence there is, below anything the
+    document says about itself. Order:
+
+      1. ``academic_year`` ('2025/2026' -> 2026) - the crawler's own extraction
+         from the document, and the most specific claim available
+      2. what the document states about itself - its emanation decree or an
+         explicit revision date - when the crawl had only the upload path
+      3. the filename's edition label, same condition
+      4. ``effective_year`` from the crawl, clamped to a plausible range
+      5. the regex fallback, for records the crawl left empty
     """
     year = parse_academic_year(raw.get("academic_year"), current_year)
     if year:
@@ -398,18 +695,30 @@ def resolve_effective_year(raw: dict, current_year: int | None = None) -> int | 
     crawled = raw.get("effective_year")
     if isinstance(crawled, str) and crawled.isdigit():
         crawled = int(crawled)
+    if not isinstance(crawled, int):
+        crawled = None
 
-    # The crawler returns the *current* year when it finds no signal at all, so
-    # effective_year == current_year is ambiguous: either genuinely current, or
-    # simply unknown. Only in that ambiguous case do we consult the filename -
-    # elsewhere a stray year in a title ("Premio 2019 assegnato") would override
-    # a correctly derived one.
-    if isinstance(crawled, int) and crawled == max_plausible_year(current_year) - 1:
+    # Two ways the crawler can be holding a year it did not really find:
+    # it read the upload path, or it fell back to the current year outright.
+    from_path = crawled is not None and crawled == upload_path_year(raw.get("url"))
+    from_default = crawled is not None and crawled == max_plausible_year(current_year) - 1
+    weak = from_path or from_default or crawled is None
+
+    if weak:
+        stated = year_from_document(
+            raw.get("text"), current_year, is_pdf=raw.get("doc_type") == "pdf"
+        )
+        if stated:
+            return stated
+
+        # Elsewhere a stray year in a title ("Premio 2019 assegnato") must not
+        # override a year the crawler genuinely derived, which is why this is
+        # reached only when the crawler's value is known to be weak.
         from_title = year_from_title(raw.get("title"), current_year)
         if from_title and from_title != crawled:
             return from_title
 
-    if isinstance(crawled, int):
+    if crawled is not None:
         year = _valid(crawled, current_year)
         if year:
             return year

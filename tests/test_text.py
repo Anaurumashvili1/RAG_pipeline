@@ -36,8 +36,17 @@ def test_language_from_query_param_and_subdomain():
     assert detect_language(url="https://international.unitn.it/apply") == "en"
 
 
-def test_language_declared_wins():
-    assert detect_language(url="https://www.unitn.it/it/x", declared="en-GB") == "en"
+def test_url_marker_wins_over_declared():
+    """Superseded assertion, kept as the record of a deliberate reversal.
+
+    This test used to assert that ``declared`` beat the URL marker. Commit
+    07901fd reversed the precedence: Drupal serves unaliased ``/node/N`` under
+    the site default, so an English body arrives carrying ``<html lang="it">``
+    and the declaration is the least trustworthy signal of the three. The
+    aliased ``/it/`` and ``/en/`` prefixes are assigned per translation and are
+    reliable, so they now win. See test_text_v2.py for the full precedence.
+    """
+    assert detect_language(url="https://www.unitn.it/it/x", declared="en-GB") == "it"
 
 
 def test_language_from_text_fallback():
@@ -77,11 +86,13 @@ def test_effective_year_prefers_text_over_url():
         url="https://www.unitn.it/en/2019/page",
         text="Academic Year 2026/2027 - enrolment information for new students",
     )
-    assert year == 2026
+    assert year == 2027                 # end of the span, and the URL's 2019 loses
 
 
 def test_effective_year_from_italian_abbreviation():
-    assert extract_effective_year(text="A.A. 2025/2026 - iscrizioni aperte") == 2025
+    """The END of the span: a.a. 2025/26 is the current year through 2026."""
+    assert extract_effective_year(text="A.A. 2025/2026 - iscrizioni aperte") == 2026
+    assert extract_effective_year(text="A.A. 2025/26 - iscrizioni aperte") == 2026
 
 
 def test_effective_year_from_url_when_text_silent():

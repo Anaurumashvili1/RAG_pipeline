@@ -1,0 +1,56 @@
+records with duplicate_of set : 2426
+of which the canonical URL is ABSENT from the corpus: 2416 (99.6%)
+  ...and the dropped record has >=800 chars of text: 1973
+  total characters deleted this way: 24603210
+
+by host (dangling, >=800 chars):
+  disi.unitn.it                    346
+  lavoraconnoi.unitn.it            293
+  borse.unitn.it                   233
+  webmagazine.unitn.it             130
+  www.disi.unitn.it                98
+  corsi.unitn.it                   81
+  www.unitn.it                     67
+  www.economia.unitn.it            67
+  www.cimec.unitn.it               66
+  www.cogsci.unitn.it              66
+  event.unitn.it                   65
+  www.centro3a.unitn.it            62
+
+largest 12 losses:
+  602326c Book of Abstract_SIPaV2024.pdf                    
+        dropped : https://event.unitn.it/sipav2024trento/Book%20of%20Abstract_SIPaV2024.pdf
+        points to: https://event.unitn.it/sipav2024trento/Book%20of%20Abstract_SIPaV2024.pdf.1
+  577664c Greening-curriculum-guidance-Teaching-and-learning
+        dropped : https://grace.unitn.it/wp-content/uploads/2026/06/Greening-curriculum-guidance-Teaching-and-learning
+        points to: https://grace.unitn.it/wp-content/uploads/2026/06/Greening-curriculum-guidance-Teaching-and-learning
+  551681c ICCS_2009_European_Report.pdf                     
+        dropped : https://event.unitn.it/ecein/ICCS_2009_European_Report.pdf
+        points to: https://event.unitn.it/space/ICCS_2009_European_Report%20(1).pdf
+  421934c PHD-Thesis2003.pdf                                
+        dropped : http://disi.unitn.it/moschitti/books/PHD-Thesis2003.pdf
+        points to: https://disi.unitn.it/moschitti/books/PHD-Thesis2003.pdf
+  381330c WS10-eacl2006-proceedings.pdf                     
+        dropped : http://disi.unitn.it/moschitti/books/WS10-eacl2006-proceedings.pdf
+        points to: https://disi.unitn.it/moschitti/books/WS10-eacl2006-proceedings.pdf
+  251401c Laboratorio di Informatica — Laboratorio di Inform
+        dropped : http://disi.unitn.it/~teso/courses/informatica/
+        points to: http://disi.unitn.it/~teso/courses/informatica/index.html
+  224032c Pubblicazioni | CISMED - Centre for Medical Scienc
+        dropped : https://www.cismed.unitn.it/en/node/115
+        points to: https://www.cismed.unitn.it/115/pubblicazioni
+  181894c SVMs-Kernel-Methods.pdf                           
+        dropped : http://disi.unitn.it/moschitti/Teaching-slides/slides-AINLP-2016/SVMs-Kernel-Methods.pdf
+        points to: https://disi.unitn.it/moschitti/Teaching-slides/slides-AINLP-2016/SVMs-Kernel-Methods.pdf
+  179868c SIGIR2013-Moschitti-Tutorial.pdf                  
+        dropped : http://disi.unitn.it/moschitti/material/SIGIR2013-Moschitti-Tutorial.pdf
+        points to: https://disi.unitn.it/moschitti/material/SIGIR2013-Moschitti-Tutorial.pdf
+  177439c ACL2012-Tutorial.Moschitti.pdf                    
+        dropped : http://disi.unitn.it/moschitti/material/ACL2012-Tutorial.Moschitti.pdf
+        points to: https://disi.unitn.it/moschitti/material/ACL2012-Tutorial.Moschitti.pdf
+  169563c IPSP-2016_proceedings_ebook.pdf                   
+        dropped : https://event.unitn.it/ipsp/IPSP-2016_proceedings_ebook.pdf
+        points to: https://event.unitn.it/ipsp2018/IPSP-2016_proceedings_ebook_1.pdf
+  162690c CONLL2012.pdf                                     
+        dropped : http://disi.unitn.it/moschitti/articles/2012/CONLL2012.pdf
+        points to: https://disi.unitn.it/moschitti/articles/2012/CONLL2012.pdf

@@ -1,0 +1,49 @@
+==============================================================================
+energy engineering regolamento - 5 editions
+  2026    78253c  regolamento-didattico-lm-energy-engineering-2026.pdf
+  2025    81430c  regolamento-didattico-lm-energy-engineering-2025.pdf
+  2024    77655c  regolamento-didattico-lm-ingegneria-energetica-2024.pdf
+  2024    76691c  regolamento-didattico-lm-ingegneria-energetica-2023.pdf
+  2024    81166c  regolamento-didattico-lm-ingegneria-energetica-2016.pdf
+
+newest = regolamento-didattico-lm-energy-engineering-2026.pdf   previous = regolamento-didattico-lm-energy-engineering-2025.pdf
+
+--- numeric statements that CHANGED between the two editions ---
+
+  OLD (2025): 788 del 28/07/2025 Pagina 1 di 21 REGOLAMENTO DIDATTICO STUDIENGANGSREGELUNG DEL CORSO DI LAUREA DES MASTERSTUDIENGANGES MAGISTRALE IN INGEGNERIA IN ENERGIE-, ENERGETICA INGENIEURWISSENSCHAFTEN REGOLAMENTO DIDATTICO DEL CORSO DI LAUREA MAGISTRALE IN INGEGNERIA
+  NEW (2026): 637 del 13/07/2026 REGOLAMENTO DIDATTICO STUDIENGANGSREGELUNG DEL CORSO DI LAUREA DES MASTERSTUDIENGANGES MAGISTRALE IN INGEGNERIA IN ENERGIE-, ENERGETICA INGENIEURWISSENSCHAFTEN REGOLAMENTO DIDATTICO DEL CORSO DI LAUREA MAGISTRALE IN INGEGNERIA ENERGETICA Uni
+
+  OLD (2025): 788 del 28/07/2025 Pagina 3 di 21 professionali, definiti nell’Ordinamento didattico del CdS e riportato nei suoi punti essenziali nella sezione dedicata del sito del CdS all’interno di Course Catalogue all’indirizzo https://unitn.coursecatalogue.cineca.it/.
+  NEW (2026): 5.Gli obiettivi formativi specifici del CdS, i risultati di apprendimento attesi e gli sbocchi occupazionali e professionali, definiti nell’Ordinamento didattico del CdS e riportati nei suoi punti essenziali nella sezione dedicata del sito del CdS all’interno 
+
+  OLD (2025): Le lezioni verranno impartite sia presso la sede dell’Università di Bolzano sia presso quella dell’Università degli Studi di Trento.
+  NEW (2026): 637 del 13/07/2026 Pagina 2 di 18 Le lezioni verranno impartite sia presso la sede dell’Università di Bolzano sia presso quella dell’Università degli Studi di Trento.
+
+  OLD (2025): 788 del 28/07/2025 Pagina 13 di 21 elencate nelle Tabelle 1 e 2 saranno pubblicati sul sito WEB delle due università, prima dell’inizio delle attività didattiche.
+  NEW (2026): Gli obiettivi formativi specifici delle attività didattiche elencate nelle Tabelle 1 e 2 saranno pubblicati sul sito WEB delle due università, prima dell’inizio delle attività didattiche.
+
+  OLD (2025): All’atto di iscrizione al 2° anno di corso lo studente è tenuto a presentare il piano degli studi per precisare le attività formative che intende frequentare.
+  NEW (2026): 7 - Piani di studio e regole di carriera 1.All’atto di iscrizione al 2° anno di corso lo studente è tenuto a presentare il piano degli studi per precisare le attività formative che intende frequentare.
+
+  OLD (2025): Lo studente può presentare un piano di studio individuale, adeguatamente motivato, che deve comunque soddisfare i requisiti previsti dalla Classe LM- 30 e quelli specifici previsti dall’Ordinamento Didattico del Corso di Laurea Magistrale in Ingegneria Energet
+  NEW (2026): 2.Lo studente può presentare un piano di studio individuale, adeguatamente motivato, che deve comunque soddisfare i requisiti previsti dalla Classe LM- 30 e quelli specifici previsti dall’Ordinamento Didattico del Corso di Laurea Magistrale in Ingegneria Energ
+
+  OLD (2025): Il piano di studio presentato è comunque soggetto ad approvazione da parte del Consiglio di Corso di Studi Interateneo o da una commissione didattica nominata dal Consiglio di Corso di Studi Interateneo.
+  NEW (2026): 3.Il piano di studio presentato è comunque soggetto ad approvazione da parte del Consiglio di Corso di Studi Interateneo o da una commissione didattica nominata dal Consiglio di Corso di Studi Interateneo.
+
+  OLD (2025): 788 del 28/07/2025 Pagina 14 di 21 di attività didattica frontale, comprensive di lezioni ed esercitazioni, salvo quanto diversamente specificato nel Manifesto degli Studi nel caso in cui siano previste attività formative a elevato contenuto sperimentale e pra
+  NEW (2026): Per gli insegnamenti elencati nelle Tabelle 1, 2, 3 e 4 ogni credito formativo corrisponde mediamente a 10 ore di attività didattica frontale, comprensive di lezioni ed esercitazioni, salvo quanto diversamente specificato nel Manifesto degli Studi nel caso in 
+
+  OLD (2025): Modalità di valutazione delle attività formative a) Gli esami o valutazioni finali di profitto relative agli insegnamenti elencati nelle Tabelle 1, 2, 3 e 4 negli esami a scelta e alla prova finale possono consistere in prove scritte, orali o elaborati progett
+  NEW (2026): 2.Modalità di valutazione delle attività formative a) Gli esami o valutazioni finali di profitto relative agli insegnamenti elencati nelle Tabelle 1, 2, 3 e 4 negli esami a scelta e alla prova finale possono consistere in prove scritte, orali o elaborati proge
+
+  OLD (2025): La Commissione di laurea è nominata dal responsabile della struttura didattica della sede amministrativa:
+  NEW (2026): 2.La Commissione di laurea è nominata dal responsabile della struttura didattica della sede amministrativa:
+
+  OLD (2025): Il Consiglio di Corso di Studi Interateneo raccoglie in un apposito documento le offerte di argomenti per gli elaborati finali e ne organizza la diffusione tra gli studenti con mezzi e modi adeguati.
+  NEW (2026): 3.Il Consiglio di Corso di Studi Interateneo raccoglie in un apposito documento le offerte di argomenti per gli elaborati finali e ne organizza la diffusione tra gli studenti con mezzi e modi adeguati.
+
+  OLD (2025): - Thermal Engines - Thermal power production and distribution 12 6 6 2/6 ING-IND/32 IIND-08/A Electric Power Conversion Equipment 6 0/7 Affini o integrative/Verwandte oder zusätzliche Fächer ICAR/01 ICAR/02 CEAR-01/A CEAR-01/B Environmental Fluid Mechanics/Hyd
+  NEW (2026): - Thermal Engines - Thermal power production and distribution 12 6 6 2/6 IIND-08/A Electric Power Conversion Equipment 6 0/7 Affini o integrative/Verwandte oder zusätzliche Fächer CEAR-01/A CEAR-01/B Environmental Fluid Mechanics/Hydropower Plants:
+
+--- identical in ALL 5 editions (Type A candidates) ---

@@ -1,0 +1,5 @@
+wrote data/evaluation_set.v3.json - 41 items
+  9 carry a second acceptable URL: [8, 12, 18, 19, 21, 28, 29, 31, 40]
+  2 sibling(s) found but rejected: [3, 9]
+  1 answer-only (out of the hit@k denominator): [12]
+  retrieval-scored items: 40 of 41

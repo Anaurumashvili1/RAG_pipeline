@@ -1,0 +1,348 @@
+[
+  {
+    "id":0,
+    "question": "I'm an Italian citizen applying to the master's in Environmental Engineering at Trento. What's the application deadline?",
+    "gold_answer": "27 November 2026.",
+    "target_url": "https://corsi.unitn.it/it/ingegneria-lambiente-e-il-territorio-magistrale/iscriversi/ammissione-europei-e-equivalenti",
+    "title": "Ammissione e immatricolazione per europei e equivalenti"
+  },
+  {
+    "id":1,
+    "question": "My weighted average is 23/30. Can I be admitted to the master's in Environmental Engineering?",
+    "gold_answer": "Not automatically. The minimum is 22/30, but for averages between 22/30 and 24/30 the Collegio di Area Didattica reviews the application and may admit it conditional on passing an interview assessing personal preparation (colloquio di verifica della preparazione personale)",
+    "target_url": "https://corsi.unitn.it/it/ingegneria-lambiente-e-il-territorio-magistrale/iscriversi/ammissione-europei-e-equivalenti",
+    "title": "Admission and enrollment for Europeans and equivalents | Sito Corsi | UniTrento"
+  },
+  {
+    "id":2,
+    "question": "I did my bachelor's at Uni Trento and I already meet the entry requirements. Do I still have to submit an admission application for masters in Environmental Engineering?",
+    "gold_answer": "Yes. The application must be submitted even by UniTrento students and graduates who already meet the admission requirements.",
+    "target_url": "https://corsi.unitn.it/it/ingegneria-lambiente-e-il-territorio-magistrale/iscriversi/ammissione-europei-e-equivalenti",
+    "title": "Admission and enrollment for Europeans and equivalents | Sito Corsi | UniTrento"
+  },
+  {
+    "id":3,
+    "question": "Come vengono valutate la tesi e la discussione nella magistrale in Human-Computer Interaction?",
+    "gold_answer": "La Commissione dell'esame finale valuta la tesi e la discussione in una scala da 66 (sufficiente) a 110 (eccellente), con possibilità di attribuire la lode.",
+    "target_url": "https://corsi.unitn.it/en/human-computer-interaction/graduation/final-exam",
+    "title": "Final Exam | Sito Corsi | UniTrento"
+  },
+  {
+    "id":4,
+    "question": "I'm transferring into the CEILS bachelor at Trento. What's the maximum number of ECTS credits they can recognise from my previous university?",
+    "gold_answer": "Up to 30 ECTS for exams or courses taken in a language other than English, and up to 60 ECTS for exams or courses taken in English.",
+    "target_url": "https://corsi.unitn.it/sites/cds/files/2025-02/guidelines_trasfer_b-comparative-european_internation_legal_studies.pdf",
+    "title": "Transfer and admission to subsequent years | Sito Corsi | UniTrento"
+  },
+  {
+    "id":5,
+    "question": "Can I transfer into the third year of the CEILS bachelor at Trento?",
+    "gold_answer": "No. Transfer to the third year of the CEILS course is not possible. Transfers are only possible into the first year, or into the second year with at least 30 recognised ECTS credits.",
+    "target_url": "https://corsi.unitn.it/sites/cds/files/2025-02/guidelines_trasfer_b-comparative-european_internation_legal_studies.pdf",
+    "title": "Admission and enrollment | Sito Corsi | UniTrento"
+  },
+  {
+    "id":6,
+    "question": "What was the total project cost for 2022 for HelpFood4.0?",
+    "gold_answer": "398.225,00 €",
+    "target_url": "https://www.dicam.unitn.it/en/1829/grant-information-and-contacts",
+    "title": "Grant information and contacts | Department di Ingegneria Civile Ambientale e Meccanica"
+  },
+  { "id":7,
+    "question": "Who is the programme coordinator for the master's in Civil Engineering at Trento?",
+    "gold_answer": "Nicola Tondini.",
+    "target_url": "https://corsi.unitn.it/en/civil-engineering-master/program/contacts",
+    "title": "Contatti e referenti"
+  },
+  {
+    "id":8,
+    "question": "I had an accident during my internship. Who do I have to send the report email to?",
+    "gold_answer": "Send it to jobguidance@unitn.it, with presenze@unitn.it and gestione.assicurazioni@unitn.it in cc, from your institutional address (@studenti.unitn.it or @unitn.it).",
+    "target_url": "https://www.jobguidance.unitn.it/en/studenti-e-neolaureati/injury",
+    "title": "Injury | JobGuidance"
+  },
+  {
+    "id":9,
+    "question": "My internship wasn't part of my study plan and I don't need the credits. Do I still have to write the final report?",
+    "gold_answer": "No. If the internship is not part of the curriculum, or you are not asking for it to be recognised, you only need to send the evaluation documents and the Certificate Part 1.",
+    "target_url": "https://www.jobguidance.unitn.it/en/studenti-e-neolaureati/changes-to-the-internship-and-its-closure",
+    "title": "Changes to the internship and its closure"
+  },
+  {
+    "id":10,
+    "question": "The company and my university supervisor have both signed my training project. Is there a deadline for sending it back to the Job Guidance Office?",
+    "gold_answer": "Yes. You must return the signed final Training Project to jobguidance@unitn.it as soon as possible, and no later than the fifth day of the internship as scheduled in the Training Project.",
+    "target_url": "https://www.jobguidance.unitn.it/alfresco/download/workspace/SpacesStore/3baf6ad6-f5f3-495a-af6a-d6f5f3695a60/FAQ%20tirocini%20inglese.pdf",
+    "title": "Internship FAQ"
+  },
+  {
+    "id":11,
+    "question": "I graduated from my master's a couple of weeks ago and I'd like to do an internship. Can I start the process right away?",
+    "gold_answer": "No. After a master's degree you must wait 15 days from the date you obtained the qualification (30 days after a bachelor's degree), and a post-graduate internship must be activated within 12 months of graduation.",
+    "target_url": "https://www.jobguidance.unitn.it/alfresco/download/workspace/SpacesStore/3baf6ad6-f5f3-495a-af6a-d6f5f3695a60/FAQ%20tirocini%20inglese.pdf",
+    "title": "Internship FAQ"
+  },
+  {
+    "id":12,
+    "question": "What is the email address of the Admission office for science and technology?",
+    "gold_answer": "stem.admissions.int@unitn.it",
+    "target_url": "https://corsi.unitn.it/en/environmental-engineering-master/program/contacts",
+    "title": "Contacts | Sito Corsi | UniTrento"
+  },
+  {
+    "id":13,
+    "question": "I'm flying to a conference on university business. Am I allowed to book anything above economy class?",
+    "gold_answer": "Only for intercontinental flights lasting longer than 5 hours. Otherwise you must travel by ordinary means in economy class.",
+    "target_url": "https://www.centro3a.unitn.it/alfresco/download/workspace/SpacesStore/9c17f239-218a-44d9-9d49-6f9309669185/regolamento%20missioni_Engl.pdf",
+    "title":"TRAVEL REGULATIONS"
+  },
+
+  {
+    "id":14,
+    "question": "What are the opening hours of the BUD helpdesk for questions about electronic resources?",
+    "gold_answer": "Monday to Thursday 9:00-16:00 and Friday 9:00-14:00, at bibliotecadigitale@unitn.it.",
+    "target_url": "https://www.biblioteca.unitn.it/127/bud-biblioteca-universitaria-digitale",
+    "title":"BUD - Biblioteca Universitaria Digitale"
+  },
+  {
+    "id":15,
+    "question": "What are main areas of research of The Nanoscience Laboratory?",
+    "gold_answer": "neuromorphic photonics, integrated quantum photonics, linear and nonlinear silicon photonics, non-Hermitian photonics and nanobiotechnologies.",
+    "target_url": "https://www.physics.unitn.it/node/867",
+    "title": "Nanoscience | Department of Physics"
+  },
+  {
+    "id":16,
+    "question": "When are the final assessment and thesis defense sessions for the Five-year Degree in Law for academic year 2023/2024?",
+    "gold_answer": "5 June 2024, 17 July 2024, 25 September 2024, 4 December 2024, 12 March 2025",
+    "target_url": "https://www.giurisprudenza.unitn.it/en/1025/graduation-sessions",
+    "title": "Graduation sessions | Department Faculty of Law"
+  },
+  {
+    "id":17,
+    "question": "When is the deadline for uploading the final paper in PDF format for Comparative, European and International Legal Studies?",
+    "gold_answer": "by the deadline indicated for your Final exam",
+    "target_url": "https://corsi.unitn.it/en/comparative-european-and-international-legal-studies/graduation/graduation-calendar-and-deadlines",
+    "title": "Graduation calendar and deadlines | Sito Corsi | UniTrento"
+  },
+  {
+    "id":18,
+    "question": "When is the deadline to upload a final thesis to your graduation application in Esse3 for Human Computer Interaction?",
+    "gold_answer": "No later than seven days before the date of graduation",
+    "target_url": "https://corsi.unitn.it/en/human-computer-interaction/graduation/graduation-calendar",
+    "title": "Graduation calendar and deadlines | Sito Corsi | UniTrento"
+  },
+
+  {
+    "id":19,
+    "question": "What is the deadline for submitting the graduation application in Esse3 for computer science?",
+    "gold_answer": "by the deadline in Esse3",
+    "target_url": "https://corsi.unitn.it/en/computer-science-master/graduation/graduation-calendar",
+    "title": "Graduation calendar and deadlines | Sito Corsi | UniTrento"
+  },
+  {
+    "id":20,
+    "question": "What is the minimum score required to be eligible for the Erasmus+ study program?",
+    "gold_answer": "65/100",
+    "target_url": "https://www.dicam.unitn.it/en/1721/erasmus-study",
+    "title": "Erasmus+ study | Department di Ingegneria Civile Ambientale e Meccanica"
+  },
+  {
+    "id":21,
+    "question": "What is the deadline for thesis topic assignment for energy engineering?",
+    "gold_answer": "At least 4 months before the graduation session",
+    "target_url": "https://corsi.unitn.it/en/energy-engineering/graduation/graduation-calendar",
+    "title": "Graduation calendar and deadlines | Sito Corsi | UniTrento"
+  },
+
+  {
+    "id":22,
+    "question": "How long after the start of classes can you modify the Learning Agreement?",
+    "gold_answer": "one month",
+    "target_url": "https://www.giurisprudenza.unitn.it/en/3453/before-during-and-after-the-mobility",
+    "title": "Before, During and After the mobility | Department Faculty of Law"
+  },
+  {
+    "id":23,
+    "question": "When do lessons in Bolzano for a.y. 2025/2026 start?",
+    "gold_answer": "29 September 2025",
+    "target_url": "https://corsi.unitn.it/en/energy-engineering/study/lessons-syllabus-exams",
+    "title": "Lessons, syllabus, exams | Sito Corsi | UniTrento"
+  },
+  {
+    "id":24,
+    "question": "When does the classes of second semester start for the faculity of law?",
+    "gold_answer": "8 February 2027",
+    "target_url": "https://www.giurisprudenza.unitn.it/en/997/academic-calendar-five-year-degree-in-law",
+    "title": "Academic Calendar five-year Degree in Law | Department Faculty of Law"
+  },
+  {
+    "id":25,
+     "question": "I'm taking a law course that's taught entirely in English. Do I get any extra credits for it?",
+    "gold_answer": "Yes, 3 extra CFU, recorded under \"Ulteriori competenze linguistiche\". Courses only partly in a foreign language (at least 12 hours, marked with an asterisk) give 2 CFU, and corsi liberi or laboratori applicativi in a foreign language give 1 CFU.",
+    "target_url": "https://www.giurisprudenza.unitn.it/alfresco/download/workspace/SpacesStore/39e382d7-76a2-42fc-a382-d776a2e2fcfd/GUIDA%20GIURISPRUDENZA%202025-26_PORTALE.pdf",
+    "title": "GUIDA DELLA FACOLTÀ DI GIURISPRUDENZA"
+  },
+  {
+    "id":26,
+    "question": "What is the phone number of Loredana Giacomelli?",
+    "gold_answer": "0461 283818",
+    "target_url": "https://www.giurisprudenza.unitn.it/en/683/administrative-staff",
+    "title": "Administrative Staff | Department Faculty of Law"
+  },
+  {
+    "id":27,
+    "question": "What is the phone number of Head of the office of faculity of law?",
+    "gold_answer": "0461 283818",
+    "target_url": "https://www.giurisprudenza.unitn.it/en/683/administrative-staff",
+    "title": "Administrative Staff | Department Faculty of Law"
+  },
+  {
+    "id":28,
+    "question": "I enrolled in Law at Trento in 2019. How many complementary exams do I have to take from the third year onwards?",
+    "gold_answer": "7 complementary exams, under Ordinamento 2011, which applies to students enrolled up to a.a. 2020/2021. Students enrolled from a.a. 2021/2022 take 6.",
+    "target_url": "https://www.giurisprudenza.unitn.it/alfresco/download/workspace/SpacesStore/39e382d7-76a2-42fc-a382-d776a2e2fcfd/GUIDA%20GIURISPRUDENZA%202025-26_PORTALE.pdf",
+    "title": "GUIDA DELLA FACOLTÀ DI GIURISPRUDENZA"
+  },
+  {
+    "id":29,
+    "question": "What volume of the Neuromethods book series does the chapter 'Imaging Techniques in Insects' occupy?",
+    "gold_answer": "122",
+    "target_url": "https://r.unitn.it/en/cimec/nphys/new-edition-our-neuromethods-chapter-imaging-techniques-insects",
+    "title": "New edition of our Neuromethods chapter: Imaging Techniques in Insects | Gruppi e progetti di ricerca"
+  },
+  {
+    "id":30,
+    "question": "What is the duration of the Master Human Computer Interaction program?",
+    "gold_answer": "2 years",
+    "target_url": "https://corsi.unitn.it/en/human-computer-interaction",
+    "title": "Human-Computer Interaction | UniTrento"
+  },
+  {
+    "id":31,
+    "question": "What is the name of the research fellowship offered by Agriculture Food Environment Center?",
+    "gold_answer": "Sensory quality evaluation of rainbow trout fillets fed with different inclusion levels of camelina oil in the diet",
+    "target_url": "https://lavoraconnoi.unitn.it/en/research-contracts/c3a-centre-agricolture-food-and-environment-call-selections-awarding-no-1-research-contract-decree",
+    "title": "Centre for Agricolture, Food and Environment – Call for the selections for the awarding of no. 1 research contract "
+  },
+  {
+    "id":32,
+    "question": "What is the main objective of the TRuStEE project?",
+    "gold_answer": "Training a new generation of scientists with complementary and interdisciplinary skills",
+    "target_url": "https://www.centro3a.unitn.it/en/340/trustee",
+    "title": "Trustee | C3A - Agriculture, Food and Environment"
+  },
+  {
+    "id":33,
+    "question": "How many employees does University of Trento have?",
+    "gold_answer": "over 800",
+    "target_url": "https://lavoraconnoi.unitn.it/en/pta-cel",
+    "title": "Administrative and technical staff and language experts | Lavora con noi"
+  },
+  {
+    "id":34,
+    "question": "What does The Cognitive and Social Sciences Common Labs do?",
+    "gold_answer": "behavioural and physiological data",
+    "target_url": "https://www.cogsci.unitn.it/en/339/the-cognitive-and-social-sciences-common-labs",
+    "title": "The Cognitive and Social Sciences Common Labs | Dipartimento di Psicologia e Scienze Congnitive"
+  },
+  {
+    "id":35,
+    "question": "Can credits be transferred after an internship abroad?",
+    "gold_answer": "Yes, if the internship is a compuslory requirement of your Study Plan",
+    "target_url": "https://www.economia.unitn.it/en/2457/traineeships-abroad",
+    "title": "Traineeships abroad | Department of Economics and Management"
+  },
+  {
+    "id":36,
+    "question": "How many semesters can a cognitive science student spend at the partner University for a double degree?",
+    "gold_answer": "one or two",
+    "target_url": "https://www.cogsci.unitn.it/en/1402/double-degree",
+    "title": "Double Degree | Dipartimento di Psicologia e Scienze Congnitive"
+  },
+  {
+    "id":37,
+    "question": "What is the duration of the VitiSmart project?",
+    "gold_answer": "3 years, 2016 - 2019",
+    "target_url": "https://www.centro3a.unitn.it/en/406/vitismart",
+    "title": "VitiSmart | C3A - Agriculture, Food and Environment"
+  },
+
+  {
+    "id":38,
+    "question": "What is the most cost-effective technology for producing sustainable electricity using renewable solar energy?",
+    "gold_answer": "silicon solar cells",
+    "target_url": "https://webmagazine.unitn.it/en/evento/dphys/119485/photovoltaics-current-landscape-and-future-directions-in-solar-energy",
+    "title": "Photovoltaics: Current Landscape and Future Directions in Solar Energy | UniTrento"
+  },
+  {
+    "id":39,
+    "question": "How many hectares of coppice forests are there in the Mediterranean area?",
+    "gold_answer": "23 million",
+    "target_url": "https://www.centro3a.unitn.it/en/520/life-future-for-coppices",
+    "title": "Life Future for Coppices | C3A - Agriculture, Food and Environment"
+  },
+  {
+    "id":40,
+    "question": "What are some of the MRI vendors that the CIMEC MRI Methods Group has experience with?",
+    "gold_answer": "Siemens, Bruker, Philips and GE",
+    "target_url": "https://r.unitn.it/en/cimec/mri",
+    "title": "Brain MRI - Magnetic Resonance Imaging Methods Group | Gruppi e progetti di ricerca"
+  },
+  {
+    "id":41,
+    "question": "What does sociology's M2Lab do?",
+    "gold_answer": " M2Lab creates the conditions to examine the forms and implications of media discourse in different spheres, from politics to organizational and cultural processes",
+    "target_url": "https://www.sociologia.unitn.it/en/2302/laboratory-excellence-multimedia-lab-m2labs",
+    "title": "Laboratory of Excellence MultiMedia Lab (M2Lab)"
+  },
+  {
+    "id":42,
+    "question": "What is one of the most distinctive manifestations of the superfluid nature of dipolar quantum gases?",
+    "gold_answer": "quantized vortices",
+    "target_url": "https://webmagazine.unitn.it/en/evento/dphys/122883/rotating-dipolar-quantum-gases-supersolids-vortices-and-glitches",
+    "title": "Rotating dipolar quantum gases: supersolids, vortices and glitches | UniTrento"
+  },
+  {
+    "id":43,
+    "question": "where can I find syllabuses for sociology and social research courses?",
+    "gold_answer": "using the Esse3 platform, selecting the menu item DIDATTICA (TEACHING ACTIVITIES) and researching the various teaching activities or courses",
+    "target_url": "https://www.sociologia.unitn.it/en/264/handbook-students",
+    "title": "Handbook for the students | Dipartimento di Sociologia e Ricerca Sociale"
+  },
+  {
+    "id":44,
+    "question": "How does bilateral agreement work?",
+    "gold_answer": "Every year the University of Trento allocates funds for scholarships, which are awarded through a specific call for applications and following a selection procedure. For each destination, the academic and linguistic requirements for admission are indicated in the call for applications.",
+    "target_url": "https://www.cogsci.unitn.it/en/1401/bilateral-agreements",
+    "title": "Bilateral Agreements | Dipartimento di Psicologia e Scienze Congnitive"
+  },
+  {
+    "id":45,
+    "question": "How long does The Harvard Summer Program in Mind/Brain Sciences last?",
+    "gold_answer": "eight weeks",
+    "target_url": "https://www.cimec.unitn.it/en/407/harvard-summer-program-in-mindbrain-sciences",
+    "title": "Harvard Summer Program in Mind/Brain Sciences | CIMEC - Centre for Mind/Brain sciences"
+  },
+  {
+    "id":46,
+    "question": "What documents are required for a research period in an external institution for masters students in physics?",
+    "gold_answer": "support letter of the supervisor (fac-simile), acceptance letter of the hosting institution (fac-simile), brief description of the research project (one page, free format)",
+    "target_url": "https://www.physics.unitn.it/en/433/internship",
+    "title": "Internship | Department of Physics"
+  },
+  {
+    "id":47,
+    "question": "What documents are required to apply online for the internship at CIMeC?",
+    "gold_answer": "Curriculum vitae (in English), Statement of purpose (in English), Course on workplace health and safety (if earned at UniTrento)",
+    "target_url": "https://www.cimec.unitn.it/en/202/internship-at-the-cimec",
+    "title": "Internship at the CIMeC | CIMEC - Centre for Mind/Brain sciences"
+  },
+  {
+    "id":48,
+    "question": "What are the requirements for final thesis file on Esse3 for hci masters?",
+    "gold_answer": "you must upload your final thesis to your graduation application in Esse3. The thesis must have the first page as in the attached Cover thesis template and be saved in a single, unprotected file in PDF format.",
+    "target_url": "https://corsi.unitn.it/en/human-computer-interaction/graduation/graduation-calendar",
+    "title": "Graduation calendar and deadlines | Sito Corsi | UniTrento"
+  }
+]

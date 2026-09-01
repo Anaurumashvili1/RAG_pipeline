@@ -1,0 +1,113 @@
+==============================================================================
+id 3    Come vengono valutate la tesi e la discussione nella magistrale in Human-Computer Intera
+  gold: La Commissione dell'esame finale valuta la tesi e la discussione in una scala da 66 (sufficiente) a 110 (eccellente), con possibilità di attribuire la lode.
+  -> CONTRADICTS-or-SILENT  https://corsi.unitn.it/it/human-computer-interaction/laurearsi/esame-di-laurea  (1528 chars)
+     checked ['66', '110'][]   missing ['66', '110'][]
+==============================================================================
+id 8    I had an accident during my internship. Who do I have to send the report email to?
+  gold: Send it to jobguidance@unitn.it, with presenze@unitn.it and gestione.assicurazioni@unitn.it in cc, from your institutional address (@studenti.unitn.it or @unitn.it).
+  -> SUPPORTS               https://www.jobguidance.unitn.it/studenti-e-neolaureati/infortunio  (954 chars)
+     checked ['jobguidance@unitn.it', 'presenze@unitn.it', 'gestione.assicurazioni@unitn.it'][]   missing [][]
+     ...it) e deve essere indirizzata a: jobguidance@unitn.it con in cc presenze@unitn...
+==============================================================================
+id 9    My internship wasn't part of my study plan and I don't need the credits. Do I still have
+  gold: No. If the internship is not part of the curriculum, or you are not asking for it to be recognised, you only need to send the evaluation documents and the Certificate Part 1.
+  -> REVIEW                 https://www.jobguidance.unitn.it/studenti-e-neolaureati/modifiche-e-chiusura-tir  (3277 chars)
+     --- sibling text, for the human call ---
+       ### Modifiche al progetto di tirocinio Una volta avviato, il progetto di tirocinio non è più modificabile direttamente dal soggetto ospitante.
+       Per modifiche su contenuti, tutor aziendale ecc.
+       è necessario inviare comunicazione via mail a Job Guidance.
+       **Attenzione: in caso di modifiche di tirocinio con studenti/studentesse è sempre necessario darne comunicazione anche al/alla Tutor Universitario e attendere la sua appr.
+       ** ### Sospensioni - Trasferte - Proroghe - Interruzioni In caso di proroghe, interruzioni, trasferte o modifiche al progetto ne deve essere data comunicazione anticipata.
+       ### Chiudere il tirocinio - studenti/studentesse Per la chiusura del tirocinio lo studente/la studentessa deve: - Accertarsi che il/la tutor aziendale abbia completato e .
+       Si ricorda che tale Scheda viene inviata via mail al/alla tutor aziendale dall'Ufficio qualche giorno prima del termine del tirocinio.
+       - Compilare e **salvare**prima dell'invio la Scheda di autovalutazione del tirocinante.
+       - Completare e firmare il Certificato parte- Chiedere al/alla tutor aziendale di firmare il medesimo Certificato parte- Redigere una Relazione finale (esempio di traccia,.
+       - Inviare **esclusivamente**tramite - il Certificato parte prima - la Relazione di fine tirocinio (firmata anche dal/dalla docente tutor, se richiesto dalla propria strut.
+       e 2.) vanno inseriti in apply denominandoli con il proprio "Nome_Cognome".
+       In seguito all’invio della documentazione, l'Ufficio Job Guidance predispone il Certificato - parte seconda, che invia via e-mail al/alla tirocinante, insieme alle istruz.
+       **La predisposizione del Certificato – parte seconda, qualora la documentazione sia completa, può richiedere 15 giorni.** **ATTENZIONE: **si invitano gli studenti e le st.
+       ### Chiudere il tirocinio - laureati/laureate Per la chiusura del tirocinio il laureato/la laureata deve recapitare all'Ufficio Job Guidance via e-mail la seguente docume.
+==============================================================================
+id 12   What is the email address of the Admission office for science and technology?
+  gold: stem.admissions.int@unitn.it
+  -> SUPPORTS               https://corsi.unitn.it/it/ingegneria-lambiente-e-il-territorio-magistrale/il-cor  (1134 chars)
+     checked ['stem.admissions.int@unitn.it'][]   missing [][]
+     ...email: stem.admissions.int@unitn.it...
+==============================================================================
+id 18   When is the deadline to upload a final thesis to your graduation application in Esse3 fo
+  gold: No later than seven days before the date of graduation
+  -> REVIEW                 https://corsi.unitn.it/it/human-computer-interaction/laurearsi/sessioni-di-laure  (3088 chars)
+     --- sibling text, for the human call ---
+       ## Date appelli prova finale e scadenze | Sessione | Domanda conseguimento titolo | Scadenza upload tesi in Esse3 | Data appello di laurea | |---|---|---|---| | Marzo 202.
+       Compilando la domanda ti iscrivi automaticamente all’appello di laurea scelto.
+       ## Upload tesi, abstract e chiusura tirocinio **Entro sette giorni prima** della data di laurea: - devi allegare la tesi definitiva alla domanda conseguimento titolo in E.
+       La tesi deve avere il frontespizio come nel modello allegato ed essere salvata in un file unico, non protetto in formato PDF.
+       - Se la tua tesi è di tipo sperimentale, devi inviare via mail un riassunto significativo del lavoro svolto al Supporto alla Didattica.
+       - Devi consegnare l’eventuale documentazione conclusiva delle attività di tirocinio.
+       Prima della discussione devi **consegnare una copia della tesi al relatore o alla relatrice, **con le modalità e il formato concordati personalmente.
+       ## Commissioni e orario seduta di laurea Il decreto di nomina della commissione e l'orario di convocazione alla seduta di laurea sono pubblicati su questa pagina non appe.
+       ## Certificati, pergamena e Diploma Supplement Dopo la laurea è possibile ottenere: - l’autocertificazione di laurea o diversi tipi di certificato di laurea, disponibili .
+       ## Rinuncia all'appello di laurea Se per qualsiasi motivo decidi di non laurearti nell'appello al quale sei iscritto o iscritta, devi inviare un’email dal tuo indirizzo i.
+       **Supporto alla didattica Psicologia e Scienze Cognitive** Telefono: +39 0464 808418 **Supporto studenti Psicologia e Scienze Cognitive e Centro Mente e Cervello** Sporte.
+       Telefono: +39 0464 808406.
+==============================================================================
+id 19   What is the deadline for submitting the graduation application in Esse3 for computer sci
+  gold: by the deadline in Esse3
+  -> REVIEW                 https://corsi.unitn.it/it/informatica-magistrale/laurearsi/sessioni-di-laurea-e-  (3378 chars)
+     --- sibling text, for the human call ---
+       ## Date appelli prova finale e scadenze | Sessioni | Domanda di conseguimento titolo | Verbalizzazione esami | Upload tesi | Appello di laurea | |---|---|---|---|---| | L.
+       La doppia laurea sarà conferita tramite email: non si svolgerà alcuna cerimonia di laurea.
+       ## Domanda conseguimento titolo Presenta la domanda di conseguimento titolo entro la scadenza in Esse3: - compila il questionario di Almalaurea - inserisci il titolo defi.
+       ## Conoscenza lingua italiana per studenti non madrelingua Se sei uno studente o una studentessa non madrelingua italiana, per laurearti devi aver superato l’esame di lin.
+       ## Upload tesi Entro la scadenza prevista per la tua sessione di laurea, devi caricare in Esse 3 il file della tesi di laurea in formato standard PDF.
+       ## Commissioni e discussione di laurea **La data, l’orario e l'aula della discussione **dell'appello di laurea di ciascun candidato e candidata e la composizione delle co.
+       ## Rinuncia all'appello di laurea Se per qualsiasi motivo decidi di non laurearti nell'appello al quale sei iscritto o iscritta, devi inviare un’email dal tuo indirizzo i.
+       **Supporto studenti Matematica, Fisica, Biologia, Ingegneria dell'Informazione e Ingegneria Industriale** Sportello con prenotazione appuntamento: - sportello in presenza.
+==============================================================================
+id 21   What is the deadline for thesis topic assignment for energy engineering?
+  gold: At least 4 months before the graduation session
+  -> SUPPORTS               https://corsi.unitn.it/it/energy-engineering/laurearsi/sessioni-di-laurea-e-scad  (3316 chars)
+     checked ['4'][]   missing [][]
+     ...| luglio 2026 | 4 mesi prima dell'appello di laurea | entro il 3 luglio 2026 ore 12:00 | entro il 10 luglio 2026 | entro il 10...
+==============================================================================
+id 28   What is the duration of the Master Human Computer Interaction program?
+  gold: 2 years
+  -> SUPPORTS               https://corsi.unitn.it/it/human-computer-interaction  (1310 chars)
+     checked ['2'][]   missing [][]
+     ...**DURATA:**2 anni...
+==============================================================================
+id 29   What is the name of the research fellowship offered by Agriculture Food Environment Cent
+  gold: Sensory quality evaluation of rainbow trout fillets fed with different inclusion levels of camelina oil in the diet
+  -> REVIEW                 https://lavoraconnoi.unitn.it/contratti-di-ricerca/c3a-centro-agricoltura-alimen  (1371 chars)
+     --- sibling text, for the human call ---
+       # C3A - Centro Agricoltura, Alimenti, Ambiente – Avviso di selezione per il conferimento di n.
+       1 contratto di ricerca (Decreto n.
+       141/2026) - Prof.ssa Gasperi Pubblicato il Scadenza Tipo bando Contratti di ricerca Struttura Centro Agricoltura Alimenti Ambiente - C3A Gruppo Scientifico-Disciplinare (.
+       1 contratto di ricerca** dal titolo “Valutazione della qualità sensoriale dei filetti di trota iridea alimentata con diversi livelli di inclusione di olio di camelina nel.
+       Bando Bando (PDF | 224.93 KB).
+==============================================================================
+id 31   How many employees does University of Trento have?
+  gold: over 800
+  -> SUPPORTS               https://lavoraconnoi.unitn.it/pta-cel  (1153 chars)
+     checked ['800'][]   missing [][]
+     ...Presso l’Università di Trento operano oltre 800 professioniste e professionisti, con competenze articolate e diversificate in ambito tecnico, amministrativo,...
+==============================================================================
+id 40   What are the requirements for final thesis file on Esse3 for hci masters?
+  gold: you must upload your final thesis to your graduation application in Esse3. The thesis must have the first page as in the attached Cover thesis template and be saved in a single, unprotected file in PDF format.
+  -> REVIEW                 https://corsi.unitn.it/it/human-computer-interaction/laurearsi/sessioni-di-laure  (3088 chars)
+     --- sibling text, for the human call ---
+       ## Date appelli prova finale e scadenze | Sessione | Domanda conseguimento titolo | Scadenza upload tesi in Esse3 | Data appello di laurea | |---|---|---|---| | Marzo 202.
+       Compilando la domanda ti iscrivi automaticamente all’appello di laurea scelto.
+       ## Upload tesi, abstract e chiusura tirocinio **Entro sette giorni prima** della data di laurea: - devi allegare la tesi definitiva alla domanda conseguimento titolo in E.
+       La tesi deve avere il frontespizio come nel modello allegato ed essere salvata in un file unico, non protetto in formato PDF.
+       - Se la tua tesi è di tipo sperimentale, devi inviare via mail un riassunto significativo del lavoro svolto al Supporto alla Didattica.
+       - Devi consegnare l’eventuale documentazione conclusiva delle attività di tirocinio.
+       Prima della discussione devi **consegnare una copia della tesi al relatore o alla relatrice, **con le modalità e il formato concordati personalmente.
+       ## Commissioni e orario seduta di laurea Il decreto di nomina della commissione e l'orario di convocazione alla seduta di laurea sono pubblicati su questa pagina non appe.
+       ## Certificati, pergamena e Diploma Supplement Dopo la laurea è possibile ottenere: - l’autocertificazione di laurea o diversi tipi di certificato di laurea, disponibili .
+       ## Rinuncia all'appello di laurea Se per qualsiasi motivo decidi di non laurearti nell'appello al quale sei iscritto o iscritta, devi inviare un’email dal tuo indirizzo i.
+       **Supporto alla didattica Psicologia e Scienze Cognitive** Telefono: +39 0464 808418 **Supporto studenti Psicologia e Scienze Cognitive e Centro Mente e Cervello** Sporte.
+       Telefono: +39 0464 808406.
+
+wrote evalprep/sibcheck.json

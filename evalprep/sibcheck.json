@@ -1,0 +1,68 @@
+{
+  "3": [
+    {
+      "url": "https://corsi.unitn.it/it/human-computer-interaction/laurearsi/esame-di-laurea",
+      "verdict": "CONTRADICTS-or-SILENT"
+    }
+  ],
+  "8": [
+    {
+      "url": "https://www.jobguidance.unitn.it/studenti-e-neolaureati/infortunio",
+      "verdict": "SUPPORTS"
+    }
+  ],
+  "9": [
+    {
+      "url": "https://www.jobguidance.unitn.it/studenti-e-neolaureati/modifiche-e-chiusura-tirocinio",
+      "verdict": "REVIEW"
+    }
+  ],
+  "12": [
+    {
+      "url": "https://corsi.unitn.it/it/ingegneria-lambiente-e-il-territorio-magistrale/il-corso/contatti-e-referenti",
+      "verdict": "SUPPORTS"
+    }
+  ],
+  "18": [
+    {
+      "url": "https://corsi.unitn.it/it/human-computer-interaction/laurearsi/sessioni-di-laurea-e-scadenze",
+      "verdict": "REVIEW"
+    }
+  ],
+  "19": [
+    {
+      "url": "https://corsi.unitn.it/it/informatica-magistrale/laurearsi/sessioni-di-laurea-e-scadenze",
+      "verdict": "REVIEW"
+    }
+  ],
+  "21": [
+    {
+      "url": "https://corsi.unitn.it/it/energy-engineering/laurearsi/sessioni-di-laurea-e-scadenze",
+      "verdict": "SUPPORTS"
+    }
+  ],
+  "28": [
+    {
+      "url": "https://corsi.unitn.it/it/human-computer-interaction",
+      "verdict": "SUPPORTS"
+    }
+  ],
+  "29": [
+    {
+      "url": "https://lavoraconnoi.unitn.it/contratti-di-ricerca/c3a-centro-agricoltura-alimenti-ambiente-avviso-di-selezione-il-conferimento-di-n-1-contratto-di-0",
+      "verdict": "REVIEW"
+    }
+  ],
+  "31": [
+    {
+      "url": "https://lavoraconnoi.unitn.it/pta-cel",
+      "verdict": "SUPPORTS"
+    }
+  ],
+  "40": [
+    {
+      "url": "https://corsi.unitn.it/it/human-computer-interaction/laurearsi/sessioni-di-laurea-e-scadenze",
+      "verdict": "REVIEW"
+    }
+  ]
+}

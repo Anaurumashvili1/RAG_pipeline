@@ -1,0 +1,40 @@
+rows on eval hosts: 12541   (12 hosts)
+
+11 of 41 targets have a reciprocal sibling; 0 ambiguous (>1 candidate)
+
+--- per item ---
+  id 3   target lang=en
+      it  eligible=True  https://corsi.unitn.it/it/human-computer-interaction/laurearsi/esame-di-laurea
+          Esame di laurea | Human-Computer Interaction | UniTrento
+  id 8   target lang=en
+      it  eligible=True  https://www.jobguidance.unitn.it/studenti-e-neolaureati/infortunio
+          Infortunio | Jobguidance
+  id 9   target lang=en
+      it  eligible=True  https://www.jobguidance.unitn.it/studenti-e-neolaureati/modifiche-e-chiusura-tirocinio
+          Modifiche e chiusura tirocinio | Jobguidance
+  id 12  target lang=en
+      it  eligible=True  https://corsi.unitn.it/it/ingegneria-lambiente-e-il-territorio-magistrale/il-corso/contatti-e-re
+          Contatti e referenti | Ingegneria per l'ambiente e il territorio - laurea magistrale | Uni
+  id 18  target lang=en
+      it  eligible=True  https://corsi.unitn.it/it/human-computer-interaction/laurearsi/sessioni-di-laurea-e-scadenze
+          Sessioni di laurea e scadenze conseguimento titolo | Human-Computer Interaction | UniTrent
+  id 19  target lang=en
+      it  eligible=True  https://corsi.unitn.it/it/informatica-magistrale/laurearsi/sessioni-di-laurea-e-scadenze
+          Sessioni di laurea e scadenze conseguimento titolo | Informatica - magistrale | UniTrento
+  id 21  target lang=en
+      it  eligible=True  https://corsi.unitn.it/it/energy-engineering/laurearsi/sessioni-di-laurea-e-scadenze
+          Sessioni di laurea e scadenze conseguimento titolo | Energy Engineering | UniTrento
+  id 28  target lang=en
+      it  eligible=True  https://corsi.unitn.it/it/human-computer-interaction
+          Human-Computer Interaction | UniTrento
+  id 29  target lang=en
+      it  eligible=True  https://lavoraconnoi.unitn.it/contratti-di-ricerca/c3a-centro-agricoltura-alimenti-ambiente-avvi
+          C3A - Centro Agricoltura, Alimenti, Ambiente – Avviso di selezione per il conferimento di 
+  id 31  target lang=en
+      it  eligible=True  https://lavoraconnoi.unitn.it/pta-cel
+          Bandi personale tecnico amministrativo e collaboratore esperto | Lavora con noi
+  id 40  target lang=en
+      it  eligible=True  https://corsi.unitn.it/it/human-computer-interaction/laurearsi/sessioni-di-laurea-e-scadenze
+          Sessioni di laurea e scadenze conseguimento titolo | Human-Computer Interaction | UniTrent
+
+wrote evalprep/siblings.json

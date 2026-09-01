@@ -10,8 +10,8 @@ from llama_index.core import StorageContext, VectorStoreIndex, load_index_from_s
 from llama_index.core.schema import TextNode
 from llama_index.vector_stores.faiss import FaissVectorStore
 
-from .config import Config
-from .embeddings import configure_settings, embedding_dim
+from .config import Config, resolve_device
+from .embeddings import _actual_dtype, configure_settings, embedding_dim
 
 MANIFEST = "index_manifest.json"
 
@@ -46,11 +46,12 @@ def build_index(nodes: list[TextNode], cfg: Config, embed_model=None) -> VectorS
             {
                 "embedding_model": cfg.embedding.model_name,
                 "dimension": dim,
-                # fp16 and fp32 vectors differ slightly. Recorded so a query
-                # run can be checked against the precision the index was
-                # built with.
-                "dtype": cfg.embedding.dtype,
-                "device": cfg.embedding.device,
+                # Resolved values, not the config strings: "auto" identifies
+                # nothing when comparing ablation arms months later, and fp16
+                # and fp32 vectors differ slightly.
+                "dtype": _actual_dtype(embed_model),
+                "device": resolve_device(cfg.embedding.device),
+                "dtype_requested": cfg.embedding.dtype,
                 "num_nodes": len(nodes),
                 "chunk_size": cfg.chunking.chunk_size,
                 "chunk_overlap": cfg.chunking.chunk_overlap,

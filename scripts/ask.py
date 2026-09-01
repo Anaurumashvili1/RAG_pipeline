@@ -34,10 +34,19 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("question", nargs="*", help="Question (omit for interactive mode)")
     ap.add_argument("--config", default="config.yaml")
+    ap.add_argument("--index-dir", default=None,
+                    help="Override paths.index_dir, e.g. storage/idx_sem8k. "
+                         "Lets you query one ablation arm without editing config.")
+    ap.add_argument("--model", default=None, help="Override llm.model for this run")
     ap.add_argument("--no-guardrail", action="store_true")
     args = ap.parse_args()
 
     cfg = load_config(args.config)
+    if args.index_dir:
+        cfg.paths.index_dir = Path(args.index_dir)
+    if args.model:
+        cfg.llm.model = args.model
+    print(f"[ask] index: {cfg.paths.index_dir}  model: {cfg.llm.model}")
     pipeline = RagPipeline(cfg, guardrail=not args.no_guardrail)
 
     if args.question:

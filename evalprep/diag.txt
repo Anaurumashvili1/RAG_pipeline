@@ -1,0 +1,83 @@
+id   verdict                                detail
+0    ALIAS present                          5681c eligible=True -> https://corsi.unitn.it/it/ingegneria-lambiente-e-il-territorio-magistrale/iscr
+      https://corsi.unitn.it/it/ingegneria-lambiente-e-il-territorio-magistrale/iscriversi/ammissione-europei-e-equivalenti
+1    ALIAS present                          5681c eligible=True -> https://corsi.unitn.it/it/ingegneria-lambiente-e-il-territorio-magistrale/iscr
+      https://corsi.unitn.it/it/ingegneria-lambiente-e-il-territorio-magistrale/iscriversi/ammissione-europei-e-equivalenti
+2    PRESENT + eligible                     
+3    PRESENT + eligible                     
+4    ALIAS present                          7575c eligible=True -> https://corsi.unitn.it/sites/cds/files/2025-02/guidelines_trasfer_b-comparativ
+      https://corsi.unitn.it/sites/cds/files/2025-02/guidelines_trasfer_b-comparative-european_internation_legal_studies.pdf
+5    PRESENT + eligible                     
+6    ALIAS present                          763c eligible=True -> https://www.dicam.unitn.it/node/1829
+      https://www.dicam.unitn.it/en/1829/grant-information-and-contacts
+7    PRESENT + eligible                     
+8    PRESENT + eligible                     
+9    PRESENT + eligible                     
+10   ALIAS present                          17489c eligible=True -> https://www.jobguidance.unitn.it/alfresco/download/workspace/SpacesStore/3baf6
+      https://www.jobguidance.unitn.it/alfresco/download/workspace/SpacesStore/3baf6ad6-f5f3-495a-af6a-d6f5f3695a60/FAQ%20ti
+11   PRESENT + eligible                     
+12   PRESENT + eligible                     
+13   PRESENT + eligible                     
+14   PRESENT + eligible                     
+15   PRESENT + eligible                     
+16   ALIAS present                          1843c eligible=True -> https://www.giurisprudenza.unitn.it/node/1025
+      https://www.giurisprudenza.unitn.it/en/1025/graduation-sessions
+17   PRESENT + eligible                     
+18   ALIAS present                          2793c eligible=True -> https://corsi.unitn.it/en/human-computer-interaction/graduation/graduation-cal
+      https://corsi.unitn.it/en/human-computer-interaction/graduation/graduation-calendar
+19   PRESENT + eligible                     
+20   ALIAS present                          2609c eligible=True -> https://www.dicam.unitn.it/node/1721
+      https://www.dicam.unitn.it/en/1721/erasmus-study
+21   PRESENT + eligible                     
+22   ALIAS present                          2802c eligible=True -> https://www.giurisprudenza.unitn.it/node/3453
+      https://www.giurisprudenza.unitn.it/en/3453/before-during-and-after-the-mobility
+23   PRESENT + eligible                      (user: delete)
+24   ALIAS present                          2620c eligible=True -> https://www.giurisprudenza.unitn.it/node/997
+      https://www.giurisprudenza.unitn.it/en/997/academic-calendar-five-year-degree-in-law
+25   ALIAS present                          96708c eligible=True -> https://www.giurisprudenza.unitn.it/alfresco/download/workspace/SpacesStore/39
+      https://www.giurisprudenza.unitn.it/alfresco/download/workspace/SpacesStore/39e382d7-76a2-42fc-a382-d776a2e2fcfd/GUIDA
+26   ALIAS present                          818c eligible=True -> https://www.giurisprudenza.unitn.it/node/683
+      https://www.giurisprudenza.unitn.it/en/683/administrative-staff
+27   ALIAS present                          818c eligible=True -> https://www.giurisprudenza.unitn.it/node/683
+      https://www.giurisprudenza.unitn.it/en/683/administrative-staff
+28   PRESENT + eligible                     
+29   NEVER FETCHED, never linked             (user: delete)
+      https://r.unitn.it/en/cimec/nphys/new-edition-our-neuromethods-chapter-imaging-techniques-insects
+30   PRESENT + eligible                     
+31   PRESENT + eligible                     
+32   ALIAS present                          1031c eligible=True -> https://www.centro3a.unitn.it/node/340
+      https://www.centro3a.unitn.it/en/340/trustee
+33   PRESENT + eligible                     
+34   ALIAS present                          1960c eligible=True -> https://www.cogsci.unitn.it/node/339
+      https://www.cogsci.unitn.it/en/339/the-cognitive-and-social-sciences-common-labs
+35   ALIAS present                          1122c eligible=True -> https://www.economia.unitn.it/node/2457
+      https://www.economia.unitn.it/en/2457/traineeships-abroad
+36   ALIAS present                          1188c eligible=True -> https://www.cogsci.unitn.it/node/1402
+      https://www.cogsci.unitn.it/en/1402/double-degree
+37   ALIAS present                          1216c eligible=True -> https://www.centro3a.unitn.it/node/406 (user: delete)
+      https://www.centro3a.unitn.it/en/406/vitismart
+38   named as canonical of a dropped record https://webmagazine.unitn.it/evento/dphys/119484/photovoltaics-current-landsca (user: delete)
+      https://webmagazine.unitn.it/en/evento/dphys/119485/photovoltaics-current-landscape-and-future-directions-in-solar-ene
+39   ALIAS present                          1323c eligible=True -> https://www.centro3a.unitn.it/node/520 (user: delete)
+      https://www.centro3a.unitn.it/en/520/life-future-for-coppices
+40   NEVER FETCHED (but linked)             17 inbound links (user: delete)
+      https://r.unitn.it/en/cimec/mri
+41   ALIAS present                          2937c eligible=True -> https://www.sociologia.unitn.it/node/2302
+      https://www.sociologia.unitn.it/en/2302/laboratory-excellence-multimedia-lab-m2labs
+42   NEVER FETCHED, never linked             (user: delete)
+      https://webmagazine.unitn.it/en/evento/dphys/122883/rotating-dipolar-quantum-gases-supersolids-vortices-and-glitches
+43   ALIAS present                          6216c eligible=True -> https://www.sociologia.unitn.it/node/264
+      https://www.sociologia.unitn.it/en/264/handbook-students
+44   ALIAS present                          563c eligible=True -> https://www.cogsci.unitn.it/node/1401
+      https://www.cogsci.unitn.it/en/1401/bilateral-agreements
+45   ALIAS present                          1245c eligible=True -> https://www.cimec.unitn.it/node/407 (user: delete)
+      https://www.cimec.unitn.it/en/407/harvard-summer-program-in-mindbrain-sciences
+46   ALIAS present                          2436c eligible=True -> https://www.physics.unitn.it/node/433
+      https://www.physics.unitn.it/en/433/internship
+47   ALIAS present                          7769c eligible=True -> https://www.cimec.unitn.it/node/202
+      https://www.cimec.unitn.it/en/202/internship-at-the-cimec
+48   PRESENT + eligible                     
+
+=== summary (excluding the ones you marked delete) ===
+  ALIAS present                            22
+  PRESENT + eligible                       19

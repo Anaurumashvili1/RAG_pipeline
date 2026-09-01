@@ -16,6 +16,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from unitn_rag.text import (                       # noqa: E402
     clean_text,
+    looks_letter_spaced,
+    repair_letter_spacing,
     detect_language,
     is_junk_url,
     is_latin_script,
@@ -58,9 +60,16 @@ def test_clean_text_keep_breaks_still_collapses_spaces_and_runs():
 # Academic years
 # ---------------------------------------------------------------------------
 
-def test_parse_academic_year_accepts_real_spans():
-    assert parse_academic_year("2025/2026", CY) == 2025
-    assert parse_academic_year("2025/26", CY) == 2025
+def test_parse_academic_year_returns_the_end_of_the_span():
+    """2025/2026 -> 2026, not 2025.
+
+    A guide for a.a. 2025/26 is the current guide through the whole of 2026.
+    Dating it 2025 makes 1/(1+age) treat it as a year old on publication, and
+    ages every correctly tagged document by one against every document dated
+    from a calendar-year upload path.
+    """
+    assert parse_academic_year("2025/2026", CY) == 2026
+    assert parse_academic_year("2025/26", CY) == 2026
 
 
 def test_parse_academic_year_rejects_malformed_spans():
@@ -84,7 +93,7 @@ def test_year_ceiling_is_next_academic_year_not_2100():
 
 def test_effective_year_prefers_academic_year():
     raw = {"effective_year": 2026, "academic_year": "2022/2023"}
-    assert resolve_effective_year(raw, CY) == 2022
+    assert resolve_effective_year(raw, CY) == 2023
 
 
 def test_effective_year_uses_crawler_value():
@@ -105,7 +114,7 @@ def test_effective_year_uses_filename_when_crawler_defaulted_to_now():
     so the crawler returned current_year. Six Faculty of Law handbooks from
     2007-2010 were therefore dated 2026 and ranked as freshly published."""
     raw = {"effective_year": CY, "title": "02_Guida Magistrale 2007-08.pdf"}
-    assert resolve_effective_year(raw, CY) == 2007
+    assert resolve_effective_year(raw, CY) == 2008
 
 
 def test_effective_year_leaves_genuinely_current_pages_alone():
@@ -119,9 +128,22 @@ def test_effective_year_ignores_title_when_crawler_had_a_real_signal():
 
 
 def test_year_from_title_ignores_stray_years():
+    """A year loose in the middle of a title is part of a sentence."""
     assert year_from_title("Premio 2019 assegnato", CY) is None
     assert year_from_title("News | JobGuidance", CY) is None
-    assert year_from_title("09_Guida Facolta 2012-2013.pdf", CY) == 2012
+    assert year_from_title("09_Guida Facolta 2012-2013.pdf", CY) == 2013
+
+
+def test_year_from_title_reads_a_terminal_edition_year():
+    """'regolamento-...-2023.pdf' is an edition label. Position is what makes it
+    safe: at the end of the stem it names the file, anywhere else it is prose.
+
+    Returned as-is, not as a span: the filename claims 2023, and reading it as
+    a.a. 2023/24 would invent a claim it does not make - which would land the
+    file back on the same year as the upload path already known to be wrong."""
+    assert year_from_title("regolamento-didattico-lm-ingegneria-energetica-2023.pdf", CY) == 2023
+    assert year_from_title("Consorzi_2020.pdf", CY) == 2020
+    assert year_from_title("Premio 2019 assegnato ai vincitori", CY) is None
 
 
 def test_unknown_year_is_penalised_not_rewarded():
@@ -174,6 +196,83 @@ def test_latin_script_guard():
 # ---------------------------------------------------------------------------
 # AppleDouble stubs
 # ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Letter-spaced PDFs
+# ---------------------------------------------------------------------------
+
+SPACED = ("W e l c o m e  t o  t h e  I n t e r n s h i p\n"
+          "H e r e  y o u  w i l l  f i n d  t h e  a n s w e r s  t o  t h e  "
+          "m o s t  f r e q u e n t l y  a s k e d  q u e s t i o n s\n")
+
+
+def test_letter_spacing_is_detected_and_repaired():
+    """Design-tool PDFs position each glyph, so pypdf emits a space between
+    every character. Single space = padding, double space = word boundary."""
+    assert looks_letter_spaced(SPACED)
+    fixed = repair_letter_spacing(SPACED)
+    assert "Welcome to the Internship" in fixed
+    assert "frequently asked questions" in fixed
+
+
+def test_markdown_tables_are_not_mistaken_for_letter_spacing():
+    """Tables are full of one-character tokens too - but '|' and '-', not
+    letters. Repairing them would destroy real content."""
+    table = "| Language | Coordinator |\n|---|---|\n| English | Roger Smith |\n" * 20
+    assert not looks_letter_spaced(table)
+    assert repair_letter_spacing(table) == table
+
+
+def test_ordinary_prose_is_untouched():
+    prose = ("Il corso di laurea in ingegneria ambientale prevede un test di "
+             "ammissione obbligatorio per tutti gli studenti che intendono "
+             "iscriversi al primo anno accademico presso il dipartimento.")
+    assert repair_letter_spacing(prose) == prose
+    assert repair_letter_spacing(None) is None
+
+
+def test_partly_spaced_document_repairs_only_the_spaced_lines():
+    mixed = SPACED + "This paragraph is perfectly normal and must survive intact.\n"
+    fixed = repair_letter_spacing(mixed)
+    assert "This paragraph is perfectly normal and must survive intact." in fixed
+
+
+# ---------------------------------------------------------------------------
+# duplicate_of is a canonical-URL claim, not an observed duplicate
+# ---------------------------------------------------------------------------
+
+def _write(tmp, rows):
+    import json as _json
+    p = tmp / "corpus.jsonl"
+    p.write_text("\n".join(_json.dumps(r) for r in rows), encoding="utf-8")
+    return p
+
+
+def test_duplicate_of_is_kept_when_its_canonical_was_never_fetched(tmp_path=None):
+    """The corpus has 2,426 records carrying duplicate_of. None shares
+    content_sha256 with another document, and 87% name a canonical that was
+    never crawled - so dropping on the flag deleted 2,102 documents whose text
+    exists exactly once."""
+    import tempfile
+    from pathlib import Path as _P
+    from unitn_rag.data import load_documents
+
+    tmp = _P(tempfile.mkdtemp())
+    body = "Il bando di selezione prevede requisiti specifici per i candidati. " * 8
+    rows = [
+        {"url": "https://x.unitn.it/node/1", "text": body, "title": "A",
+         "duplicate_of": "https://x.unitn.it/en/1/pretty-alias"},   # never fetched
+        {"url": "https://x.unitn.it/node/2", "text": body + " due", "title": "B",
+         "duplicate_of": "https://x.unitn.it/node/3"},              # present below
+        {"url": "https://x.unitn.it/node/3", "text": body + " tre", "title": "C"},
+    ]
+    docs = load_documents(_write(tmp, rows), min_chars=150, current_year=2026)
+    urls = {d.url for d in docs}
+
+    assert "https://x.unitn.it/node/1" in urls, "canonical absent - must be kept"
+    assert "https://x.unitn.it/node/2" not in urls, "canonical present - safe to drop"
+    assert "https://x.unitn.it/node/3" in urls
+
 
 def test_appledouble_stubs_are_junk():
     assert is_junk_url("https://disi.unitn.it/x/._assignment.pdf")
