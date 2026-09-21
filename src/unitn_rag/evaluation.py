@@ -124,35 +124,56 @@ def run_evaluation(
         if verbose:
             print(f"[eval] {i}/{len(eval_set)}  {question[:70]}")
 
-        rag: "RagAnswer" = pipeline.answer(question, max_pages=eval_max_pages)
+        # One flaky call must not destroy a 25-minute run. Two runs were lost
+        # this way - a read timeout and an upstream 500 - each after most of
+        # the set had already been generated.
+        rag = None
+        error = None
+        try:
+            rag = pipeline.answer(question, max_pages=eval_max_pages)
+        except Exception as exc:                      # noqa: BLE001 - see above
+            error = f"{type(exc).__name__}: {exc}"
+            if verbose:
+                print(f"[eval] !! item {i} failed, continuing: {error[:150]}")
+
+        # hit@k stays None on failure, so a call that never happened is excluded
+        # from the denominator rather than counted as a retrieval miss.
+        measurable = scored and rag is not None
 
         row = {
+            "id": item.get("id", i - 1),
             "question": question,
             "target_url": target_url,
             "acceptable_urls": targets,
             "retrieval_scored": scored,
             "objective": item.get("objective", ""),
             "gold_answer": item.get("answer") or item.get("gold_answer", ""),
-            "rag_answer": rag.answer,
-            "rag_sources": rag.sources,
-            "rag_language": rag.language,
-            "rag_refused": rag.refused,
-            "rag_cited": rag.cited,
+            "error": error,
+            "rag_answer": rag.answer if rag else "",
+            "rag_sources": rag.sources if rag else [],
+            "rag_language": rag.language if rag else None,
+            "rag_refused": rag.refused if rag else None,
+            "rag_cited": rag.cited if rag else [],
             # None, not False, when the item is not a retrieval test - a zero
             # here would be indistinguishable from a genuine miss.
-            "hit@1": hit_at_k(rag.sources, targets, 1) if scored else None,
-            "hit@3": hit_at_k(rag.sources, targets, 3) if scored else None,
-            "hit@5": hit_at_k(rag.sources, targets, 5) if scored else None,
-            "hit@10": hit_at_k(rag.sources, targets, 10) if scored else None,
+            "hit@1": hit_at_k(rag.sources, targets, 1) if measurable else None,
+            "hit@3": hit_at_k(rag.sources, targets, 3) if measurable else None,
+            "hit@5": hit_at_k(rag.sources, targets, 5) if measurable else None,
+            "hit@10": hit_at_k(rag.sources, targets, 10) if measurable else None,
             # filled in during manual review:
             "rag_correct": None,
             "baseline_correct": None,
         }
 
         if include_baseline:
-            base = pipeline.answer_baseline(question)
-            row["baseline_answer"] = base.answer
-            row["baseline_refused"] = base.refused
+            try:
+                base = pipeline.answer_baseline(question)
+                row["baseline_answer"] = base.answer
+                row["baseline_refused"] = base.refused
+            except Exception as exc:                  # noqa: BLE001
+                row["baseline_answer"] = ""
+                row["baseline_refused"] = None
+                row["baseline_error"] = f"{type(exc).__name__}: {exc}"
 
         results.append(row)
 
@@ -168,7 +189,11 @@ def retrieval_metrics(results: list[dict]) -> dict:
     """
     scored = [r for r in results if r.get("hit@1") is not None]
     n = len(scored)
-    out: dict = {"n": n, "n_excluded": len(results) - n}
+    # Errors are counted separately: they shrink the denominator, so without
+    # this a run where half the calls failed would report a healthy-looking
+    # rate over the half that survived.
+    n_errors = sum(1 for r in results if r.get("error"))
+    out: dict = {"n": n, "n_excluded": len(results) - n, "n_errors": n_errors}
     if not n:
         out["note"] = "no items were scored for retrieval"
         return out

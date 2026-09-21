@@ -22,7 +22,7 @@ from .prompts import (
 )
 from .retrieval import RetrievedPage, Retriever, detect_query_language, format_context
 
-_CITATION_RE = re.compile(r"\[(\d+)\]")
+_CITATION_RE = re.compile(r"\[\s*(\d+(?:\s*,\s*\d+)*)\s*\]")
 
 
 @dataclass
@@ -60,7 +60,10 @@ class RagAnswer:
 
 
 def extract_citations(answer: str) -> list[int]:
-    return sorted({int(x) for x in _CITATION_RE.findall(answer or "")})
+    ids: set[int] = set()
+    for group in _CITATION_RE.findall(answer or ""):
+        ids.update(int(x) for x in group.split(","))
+    return sorted(ids)
 
 
 class RagPipeline:
@@ -70,8 +73,17 @@ class RagPipeline:
         self.cfg = cfg
         self.guardrail = guardrail
         self._index = index if index is not None else load_index(cfg)
-        self.retriever = Retriever(self._index, cfg.retrieval)
         self.client = ChatClient(cfg.llm)
+        # Translation reuses the pipeline's own LLM. Built before the
+        # Retriever so it can be injected; None when disabled, in which case
+        # retrieval behaves exactly as it did before.
+        translator = None
+        if getattr(cfg.retrieval, "translate_query", False):
+            from .translate import QueryTranslator
+            translator = QueryTranslator(
+                self.client, cache_path=cfg.retrieval.translation_cache
+            )
+        self.retriever = Retriever(self._index, cfg.retrieval, translator=translator)
 
     # -- guardrail -----------------------------------------------------------
 

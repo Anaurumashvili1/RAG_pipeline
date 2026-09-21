@@ -50,6 +50,22 @@ def main() -> None:
                      help="Distinct documents kept after dedup, per question")
     ap.add_argument("--show-misses", action="store_true",
                      help="Print each item that misses at max k, with its objective")
+    ap.add_argument("--no-translate", action="store_true",
+                     help="Skip query translation for this run, whatever config says")
+    ap.add_argument("--rerank", dest="rerank", action="store_true", default=None,
+                     help="Force reranking on for this run, whatever config.yaml says")
+    ap.add_argument("--no-rerank", dest="rerank", action="store_false",
+                     help="Force reranking off for this run")
+    ap.add_argument("--recency-weight", type=float, default=None,
+                     help="Override retrieval.recency_weight (1.0 original, 0.0 off)")
+    ap.add_argument("--recency-unknown", type=float, default=None,
+                     help="Override retrieval.recency_unknown - what an undated doc scores")
+    ap.add_argument("--no-recency", action="store_true",
+                     help="Disable the 1/(1+age) freshness multiplier. A sole-authority "
+                          "document that is merely old takes a x0.5 or worse handicap, "
+                          "which can outweigh a genuine relevance difference - especially "
+                          "once reranker scores are squashed into (0,1] and the spread "
+                          "between a great match and a mediocre one is narrow.")
     args = ap.parse_args()
 
     cfg = load_config(args.config)
@@ -58,14 +74,35 @@ def main() -> None:
     if args.eval_set:
         cfg.paths.eval_set = Path(args.eval_set)
     cfg.retrieval.similarity_top_k = args.top_k
+    if args.rerank is not None:
+        cfg.retrieval.rerank = args.rerank
+    if args.recency_weight is not None:
+        cfg.retrieval.recency_weight = args.recency_weight
+    if args.recency_unknown is not None:
+        cfg.retrieval.recency_unknown = args.recency_unknown
 
     print(f"[diag] index          : {cfg.paths.index_dir}")
     print(f"[diag] eval set       : {cfg.paths.eval_set}")
     print(f"[diag] similarity_top_k (raw chunks before dedup): {args.top_k}")
+    print(f"[diag] translate: {cfg.retrieval.translate_query and not args.no_translate}")
+    print(f"[diag] rerank: {cfg.retrieval.rerank}"
+          f"  (backend={cfg.retrieval.rerank_backend}, pool={cfg.retrieval.rerank_top_k})")
+    print(f"[diag] recency: {'OFF' if args.no_recency else 'on'}"
+          f"  weight={cfg.retrieval.recency_weight}"
+          f"  unknown={cfg.retrieval.recency_unknown}")
 
     eval_set = json.loads(Path(cfg.paths.eval_set).read_text(encoding="utf-8"))
     index = load_index(cfg)
-    retriever = Retriever(index, cfg.retrieval)
+    # Translation needs the LLM, which this diagnostic otherwise avoids. The
+    # cache makes it a one-off cost: 40 questions translated once, then free
+    # and deterministic across every subsequent run.
+    translator = None
+    if getattr(cfg.retrieval, "translate_query", False) and not args.no_translate:
+        from unitn_rag.llm import ChatClient
+        from unitn_rag.translate import QueryTranslator
+        translator = QueryTranslator(ChatClient(cfg.llm),
+                                     cache_path=cfg.retrieval.translation_cache)
+    retriever = Retriever(index, cfg.retrieval, translator=translator)
 
     hits = {k: 0 for k in K_VALUES}
     n_scored = 0
@@ -81,7 +118,10 @@ def main() -> None:
 
         question = item["question"]
         lang = detect_query_language(question)
-        pages = retriever.retrieve(question, query_lang=lang, max_pages=args.max_pages)
+        pages = retriever.retrieve(
+            question, query_lang=lang, max_pages=args.max_pages,
+            apply_recency=not args.no_recency,
+        )
         sources = [p.url for p in pages]
         pool_sizes.append(len(sources))
 

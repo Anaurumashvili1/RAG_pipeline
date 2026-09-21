@@ -4,10 +4,10 @@
 
 paths:
   # JSONL, one document per line, keys: url, title, text (plus optional lang, hreflang, last_modified)
-  corpus: dataset.v2.jsonl
-  index_dir: storage/index
-  eval_set: data/evaluation_set.json
-  eval_results: results/eval_results.json
+  corpus: dataset.v3.jsonl
+  index_dir: storage/idx_v3
+  eval_set: data/evaluation_set.v4.json
+  eval_results: results/eval_v3.json
 
 data:
   min_chars: 150          # drop near-empty / boilerplate pages
@@ -48,15 +48,63 @@ retrieval:
   similarity_top_k: 20    # chunks pulled from FAISS before dedup
   max_pages: 5            # distinct documents passed to the LLM
   dedup_by: doc_group     # doc_group | url  (doc_group collapses IT/EN translations)
-  prefer_query_language: true
+  # Off: this boosted documents matching the QUESTION's language by x1.10,
+  # which penalises the correct page in precisely the cross-language cases
+  # translation exists to fix. It is also the third post-retrieval multiplier,
+  # and the other two both measured net-negative once reranking was added.
+  prefer_query_language: false
   chunk_char_limit: 2500  # was 1200. Chunks are 512 *tokens* (~1500-2500 chars
                           # of Italian) plus the injected header, so 1200 cut the
                           # tail off every chunk the LLM was shown.
   resolve_year_from_title: true  # trust the filename's edition year over the
                                  # crawl's effective_year, which falls back to
                                  # the upload date for Alfresco PDFs
-  url_affinity_weight: 0.25      # boost documents whose URL host/slug matches
+  url_affinity_weight: 0.0      # boost documents whose URL host/slug matches
                                  # words in the question (0.0 disables)
+  # Cap how many final pages may share a "document family" (same filename,
+  # only the edition year differs - e.g. 3 years of one teaching regulation).
+  # Added 2026-09-10: with reranking on and recency_weight at 0, near-duplicate
+  # stale editions of the HCI teaching regulation filled 3 of the reranker's
+  # top slots, pushing the current, correct (but undated) page to rank 24 -
+  # outside max_pages. 0 disables.
+  family_cap: 2
+
+  # Reranking. Off by default - flip to true and re-run diag_retrieval first.
+  rerank: true
+  rerank_backend: auto           # auto | cross_encoder | colbert
+  rerank_model: BAAI/bge-reranker-v2-m3
+  rerank_top_k: 200              # chunks pulled from FAISS when reranking
+  rerank_batch_size: 32
+  rerank_strip_header: false     # drop the injected TITLE/SOURCE lines before scoring
+
+  # Freshness multiplier. 1.0 is the original 1/(1+age): 3 years old = x0.25,
+  # which no relevance signal survives. Measured with reranking on, turning it
+  # off entirely gave hit@10 0.800 (from 0.750) but hit@1 0.375 (from 0.525) -
+  # so it helps and hurts simultaneously. Sweep before settling.
+  # 2026-09-10: was 0.0 (measured net-negative for hit@1 when reranking first
+  # went on - see recency_penalty()'s docstring). Set to a mild 0.3 as a
+  # starting point now that family_cap also exists to handle the crowding
+  # case recency alone was fighting - re-sweep with scripts/sweep_recency.py
+  # before treating this value as settled, ideally with family_cap on so the
+  # two are measured together rather than recency alone re-fighting crowding.
+  recency_weight: 0.3
+  # What an undated document scores. 0.5 treats "no parseable year" as "old",
+  # which penalises the crawler rather than the document - and at weight=0.3
+  # it meant a genuinely-relevant undated page (0.85 effective) systematically
+  # lost to any irrelevant page that merely states the current academic year
+  # in its filename (1.0 effective, zero penalty). Measured on 6 regressions
+  # in the 2026-09-10 eval (#10, #13, #19, #23, #31, #39) - all six were an
+  # undated correct document losing to a freshly-dated but off-topic one.
+  # 1.0 removes the automatic penalty for having no year at all, so "unknown"
+  # ties with "confidently current" instead of losing to it.
+  recency_unknown: 1.0
+
+  # Retrieve in both languages, then union the candidates before reranking.
+  # Measured target ranks, original query -> model's own translation:
+  #   #27 >1000 -> 34   |   #0 317 -> 50   |   #3 311 -> 152
+  # Costs one extra LLM call per question; cached by question hash.
+  translate_query: true
+  translation_cache: data/translation_cache.json
 
 llm:
   # Base URL and API key come from .env - never commit them

@@ -15,8 +15,10 @@ from unitn_rag.text import (  # noqa: E402
     clean_text,
     detect_language,
     doc_group_id,
+    document_family_key,
     extract_effective_year,
     recency_penalty,
+    title_edition_year,
 )
 
 
@@ -108,3 +110,62 @@ def test_recency_penalty_curve():
     assert round(recency_penalty(2024, 2026), 2) == 0.33
     assert recency_penalty(None, 2026) == 0.5
     assert recency_penalty(2030, 2026) == 1.0  # future-dated docs are not penalised
+
+
+def test_document_family_key_collapses_same_regulation_across_years():
+    a = "https://corsi.unitn.it/sites/cds/files/2024-12/regolamento-didattico-lm-human-computer-interaction-2015.pdf"
+    b = "https://corsi.unitn.it/sites/cds/files/2024-12/regolamento-didattico-lm-human-computer-interaction-2017.pdf"
+    c = "https://corsi.unitn.it/sites/cds/files/2024-12/regolamento-didattico-lm-human-computer-interaction-2018.pdf"
+    assert document_family_key(a) == document_family_key(b) == document_family_key(c)
+
+
+def test_document_family_key_keeps_different_regulations_apart():
+    """Same course, different regulation - must not collapse together."""
+    teaching = "https://corsi.unitn.it/sites/cds/files/x/regolamento-didattico-lm-human-computer-interaction-2018.pdf"
+    completion = "https://corsi.unitn.it/sites/cds/files/x/regolamento-conseguimento-titolo-lm-hci-2017.pdf"
+    assert document_family_key(teaching) != document_family_key(completion)
+
+
+def test_document_family_key_none_without_edition_year():
+    assert document_family_key("https://corsi.unitn.it/en/human-computer-interaction/graduation/final-exam") is None
+    assert document_family_key(None) is None
+    assert document_family_key("") is None
+
+
+def test_document_family_key_collapses_cineca_course_and_its_modules():
+    course = "https://unitn.coursecatalogue.cineca.it/corsi/2026/10859?lang=it"
+    module_a = "https://unitn.coursecatalogue.cineca.it/corsi/2026/10859/insegnamenti/2026/51297_658844_93999/2026/51297?coorte=2026&schemaid=9588&lang=it"
+    module_b = "https://unitn.coursecatalogue.cineca.it/corsi/2026/10859/insegnamenti/2026/51297_658852_95450/2026/51297?coorte=2026&schemaid=9588&lang=en"
+    assert document_family_key(course) == document_family_key(module_a) == document_family_key(module_b)
+
+
+def test_document_family_key_keeps_different_cineca_courses_apart():
+    course_a = "https://unitn.coursecatalogue.cineca.it/corsi/2026/10859?lang=it"
+    course_b = "https://unitn.coursecatalogue.cineca.it/corsi/2026/99999?lang=it"
+    assert document_family_key(course_a) != document_family_key(course_b)
+
+
+def test_title_edition_year_reads_filename_marker():
+    assert title_edition_year(
+        None,
+        "https://corsi.unitn.it/sites/cds/files/2024-12/regolamento-didattico-lm-human-computer-interaction-2017.pdf",
+        current_year=2026,
+    ) == 2017
+
+
+def test_title_edition_year_ignores_metadata_only_years():
+    # None of these carry a filename/title edition marker - a body-text
+    # mention or URL date segment must not leak through as a penalty signal,
+    # even though resolved_year() may legitimately report a year for display.
+    assert title_edition_year(None, "https://www.giurisprudenza.unitn.it/node/1025", current_year=2026) is None
+    assert title_edition_year(
+        None,
+        "https://corsi.unitn.it/sites/cds/files/2025-02/guidelines_trasfer_b-comparative-european_internation_legal_studies.pdf",
+        current_year=2026,
+    ) is None
+    assert title_edition_year(None, "https://www.soi.unitn.it/guidelines", current_year=2026) is None
+
+
+def test_title_edition_year_none_without_url_or_title():
+    assert title_edition_year(None, None) is None
+    assert title_edition_year("", "") is None

@@ -84,6 +84,44 @@ class RetrievalCfg:
     # Mild boost when the question's words appear in the document's URL host or
     # course slug, to separate near-identical sibling pages. 0.0 disables.
     url_affinity_weight: float = 0.25
+    # Cap how many of the final selected pages may share a "document family"
+    # (same filename with only the edition year differing, e.g. three years of
+    # 'regolamento-didattico-lm-hci-20XX.pdf'). 0 disables. Added 2026-09-10:
+    # with reranking on, near-duplicate stale editions of one regulation were
+    # filling several of max_pages' slots and crowding out the current page.
+    # Distinct from dedup_by=doc_group, which only collapses IT/EN translations.
+    family_cap: int = 0
+    # Rerank retrieved chunks by scoring them jointly with the question.
+    # Off by default: turning it on changes what reaches the LLM.
+    rerank: bool = False
+    rerank_backend: str = "auto"          # auto | cross_encoder | colbert
+    rerank_model: str = "BAAI/bge-reranker-v2-m3"
+    # Pool pulled from FAISS when reranking. 200, not 20: measured target
+    # depths are #38 at 146, #3 at 132 after translation, #27 at 34. A pool
+    # of 100 would miss the first two.
+    rerank_top_k: int = 200
+    rerank_batch_size: int = 32
+    rerank_strip_header: bool = False
+    # Freshness. weight 1.0 = the original 1/(1+age); 0.0 disables it.
+    # unknown = what an undated document scores; 0.5 punishes missing metadata
+    # as if it were staleness.
+    recency_weight: float = 1.0
+    # "No resolvable edition year" must mean "no evidence of staleness", not
+    # "presumed slightly stale". At 0.5 (the old default), any document that
+    # merely states the current/next academic year somewhere in its filename -
+    # an admission ranking list, an unrelated department's calendar, a call
+    # for applications - scores a full, unpenalised 1.0 and beats a correct,
+    # relevant, genuinely undated document stuck at 0.85. Six questions in the
+    # 2026-09-10 eval regressed on exactly this: #10, #13, #19, #23, #31, #39
+    # all lost to a freshly-dated but irrelevant document once recency_weight
+    # went from 0 to 0.3. 1.0 makes "unknown" tie with "confidently current"
+    # instead of losing to it, so freshness can no longer manufacture an
+    # advantage a document's actual relevance didn't earn.
+    recency_unknown: float = 1.0
+    # Retrieve in both languages. Off by default; needs an LLM client, so the
+    # pipeline wires it in and the bare Retriever works without one.
+    translate_query: bool = False
+    translation_cache: str = "data/translation_cache.json"
 
 
 @dataclass

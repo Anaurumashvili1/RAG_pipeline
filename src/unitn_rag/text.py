@@ -318,6 +318,70 @@ def doc_group_id(url: str, hreflang_group: str | None = None) -> str:
 
 
 # --------------------------------------------------------------------------
+# Document families (same document, different edition year)
+# --------------------------------------------------------------------------
+
+
+# unitn.coursecatalogue.cineca.it serves one page per course
+# ('/corsi/<year>/<course_id>') and one page per exam/module within that
+# course ('/corsi/<year>/<course_id>/insegnamenti/...'). All of them repeat
+# most of the same course-level boilerplate, so for a broad question they
+# score near-identically to a reranker - confirmed 2026-09-10: after the
+# edition-year cap below stopped the HCI regulation editions from crowding
+# the top 5, five of these cineca pages (one course page, four insegnamenti)
+# immediately filled the freed slots instead, still keeping the correct
+# target page out.
+_CINECA_COURSE_RE = re.compile(r"^/corsi/(\d{4})/(\d+)")
+
+
+def document_family_key(url: str | None) -> str | None:
+    """Group pages that are near-duplicates of each other under one key.
+
+    Distinct from ``doc_group_id``: that collapses language translations of
+    one page. This collapses same-language pages that are structural
+    siblings of one another - either yearly re-editions of the same document,
+    or different exam-module pages under the same course catalogue entry -
+    which doc_group_id treats as unrelated because their URLs differ.
+
+    Found via the eval_v3 run of 2026-09-10: with reranking on and
+    recency_weight at 0, three old editions of the HCI teaching regulation
+    filled 3 of the reranker's top 10 slots, pushing the correct (undated,
+    current) page to rank 24 - outside max_pages. Capping the regulation
+    editions alone was not enough: five cineca course-catalogue pages for the
+    same course then filled the freed slots instead. Fixing recency scoring
+    alone does not address either case, because the crowding is about *count*
+    of near-duplicate slots, not their individual scores.
+
+    Two patterns recognised, in order:
+
+    1. A cineca course-catalogue page - grouped by ``(academic year, course
+       id)``, so the course page and every one of its insegnamenti children
+       collapse together regardless of which specific module they describe.
+    2. A bare edition year at the tail of the filename, before the extension
+       - the shape ``year_from_title`` already recognises as an edition
+       label, e.g. 'regolamento-didattico-lm-hci-2015.pdf'.
+
+    Returns None for anything matching neither, so a document is never
+    grouped with another by guesswork.
+    """
+    if not url:
+        return None
+
+    parts = urlsplit(url)
+    if parts.netloc.lower().endswith("coursecatalogue.cineca.it"):
+        m = _CINECA_COURSE_RE.match(parts.path)
+        if m:
+            return f"cineca-course:{m.group(1)}:{m.group(2)}"
+
+    stem = _dashed(unquote(parts.path.rsplit("/", 1)[-1]))
+    m = _TITLE_TAIL_YEAR_RE.search(stem)
+    if not m:
+        return None
+    family = stem[: m.start()].rstrip("-_ ").lower()
+    return family or None
+
+
+# --------------------------------------------------------------------------
 # Freshness
 # --------------------------------------------------------------------------
 
@@ -561,6 +625,40 @@ def resolved_year(
     return effective_year
 
 
+def title_edition_year(title: str | None, url: str | None = None, current_year: int | None = None) -> int | None:
+    """Year from an explicit filename/title edition marker - nothing else.
+
+    ``resolved_year`` answers "what year is this document about", and a year
+    it recovers from crawl metadata (a body-text academic-year mention, a URL
+    date segment, a Last-Modified header) is a fine answer to that question -
+    'academic year 2023/2024' in the text is exactly the right year to surface
+    when someone asks about that year. It is a much weaker basis for "is this
+    document stale", which is what ``recency_penalty`` uses it for. Measured on
+    four regressions from the 2026-09-10 recency rollout: the CEILS transfer
+    guidelines (content-dated 2022), a missions-expense regulation (no
+    resolvable year at all), and a Giurisprudenza exam-calendar page
+    (correctly content-dated to the 2023/2024 academic year the question
+    asked about) were all outranked by unrelated pages that merely carried a
+    fresher metadata year - sociology internship pages, admission pages for
+    other courses, a different Giurisprudenza calendar for the *wrong* year.
+    None of the winners were more relevant; all of them just looked newer.
+
+    Only a year baked into the filename itself
+    ('regolamento-didattico-...-2017.pdf') is strong, low-noise evidence that
+    a document is one of several competing editions - that is the one case
+    (stale HCI regulation PDFs, verified against question #3) where the
+    penalty measurably helps. Everything else should read as "unknown" for
+    penalty purposes, even when ``resolved_year`` can say more for display.
+    """
+    from_title = year_from_title(_dashed(title), current_year)
+    if from_title is not None:
+        return from_title
+    if url:
+        stem = unquote(urlsplit(url).path.rsplit("/", 1)[-1])
+        return year_from_title(_dashed(stem), current_year)
+    return None
+
+
 def url_terms(url: str | None) -> frozenset[str]:
     """Content-bearing words in a URL: host labels and path/filename segments.
 
@@ -731,9 +829,34 @@ def resolve_effective_year(raw: dict, current_year: int | None = None) -> int | 
     )
 
 
-def recency_penalty(year: int | None, current_year: int) -> float:
-    """1 / (1 + age) multiplier from your Timestamps note. Unknown year -> mild penalty."""
-    if year is None:
-        return 0.5
-    age = max(0, current_year - year)
-    return 1.0 / (1.0 + age)
+def recency_penalty(
+    year: int | None,
+    current_year: int,
+    weight: float = 1.0,
+    unknown: float = 0.5,
+) -> float:
+    """Freshness multiplier, 1/(1+age), with two knobs measured into existence.
+
+    ``unknown`` - what an undated document is worth. 0.5 treats "no evidence"
+    as "old", which penalises the *crawler* rather than the document: the CEILS
+    transfer guidelines are current but carry no parseable year, and took the
+    same x0.5 as a genuinely stale file. Items 4, 5 and 13 all turn on this.
+
+    ``weight`` - how hard the curve bites. At 1.0 this is the original: three
+    years old is x0.25, which no relevance signal can overcome. That was
+    tolerable against raw cosine scores, whose spread is wide; it is not
+    against reranker scores squashed into (0, 1], where a strong and a
+    mediocre match may differ by a few hundredths. Turning recency off
+    entirely moved hit@10 from 0.750 to 0.800 but hit@1 from 0.525 to 0.375 -
+    it is doing real work and real damage at once, so the useful setting is
+    somewhere between veto and silence:
+
+        effective = 1 - weight * (1 - raw)
+
+    weight 1.0 keeps today's behaviour, 0.3 turns a x0.25 into x0.78, 0.0
+    disables it.
+    """
+    raw = unknown if year is None else 1.0 / (1.0 + max(0, current_year - year))
+    if weight == 1.0:
+        return raw
+    return 1.0 - weight * (1.0 - raw)

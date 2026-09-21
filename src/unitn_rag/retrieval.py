@@ -16,11 +16,15 @@ from dataclasses import dataclass
 from datetime import date
 
 from .config import RetrievalCfg
+from .rerank import rerank as _rerank
+from .translate import union_nodes
 from .text import (
     _WORD_RE,
     detect_language_from_text,
+    document_family_key,
     recency_penalty,
     resolved_year,
+    title_edition_year,
     url_host_terms,
     url_terms,
 )
@@ -198,7 +202,17 @@ def select_pages(
 
         score = float(r.score) if r.score is not None else 0.0
         if apply_recency:
-            score *= recency_penalty(year, current_year)
+            # Penalise only a year with title-edition evidence (see
+            # title_edition_year docstring) - a metadata-only year describes
+            # what the document is about, not whether it has been superseded,
+            # and penalising on it punishes correct-but-undated documents in
+            # favour of irrelevant-but-freshly-dated ones.
+            penalty_year = title_edition_year(meta.get("title"), url, current_year)
+            score *= recency_penalty(
+                penalty_year, current_year,
+                weight=getattr(cfg, "recency_weight", 1.0),
+                unknown=getattr(cfg, "recency_unknown", 0.5),
+            )
         if cfg.prefer_query_language and meta.get("lang") == query_lang:
             score *= 1.10          # mild tie-break, not an override
         if q_terms:
@@ -224,7 +238,8 @@ def select_pages(
         if key not in best or candidate["score"] > best[key]["score"]:
             best[key] = candidate
 
-    ranked = sorted(best.values(), key=lambda c: c["score"], reverse=True)[:limit]
+    ranked = sorted(best.values(), key=lambda c: c["score"], reverse=True)
+    ranked = _cap_by_family(ranked, limit, getattr(cfg, "family_cap", 0))
 
     return [
         RetrievedPage(
@@ -240,23 +255,82 @@ def select_pages(
     ]
 
 
+def _cap_by_family(ranked: list[dict], limit: int, family_cap: int) -> list[dict]:
+    """Limit how many of the top ``limit`` candidates may share a document family.
+
+    Runs after doc_group dedup, before the ``limit`` cut. A document without a
+    detected family (``document_family_key`` returns None - the common case) is
+    never capped. Capped candidates are not discarded outright: if too few
+    distinct families exist to fill ``limit`` on their own, the excess
+    same-family candidates backfill the remaining slots rather than returning
+    fewer than ``limit`` pages purely because of this cap.
+    """
+    if not family_cap:
+        return ranked[:limit]
+
+    accepted: list[dict] = []
+    deferred: list[dict] = []
+    counts: dict[str, int] = {}
+    for c in ranked:
+        fam = document_family_key(c["url"])
+        if fam is None or counts.get(fam, 0) < family_cap:
+            if fam is not None:
+                counts[fam] = counts.get(fam, 0) + 1
+            accepted.append(c)
+        else:
+            deferred.append(c)
+
+    if len(accepted) < limit:
+        accepted += deferred
+    return accepted[:limit]
+
+
 class Retriever:
     """Thin wrapper binding a LlamaIndex retriever to the project's dedup logic."""
 
-    def __init__(self, index, cfg: RetrievalCfg):
+    def __init__(self, index, cfg: RetrievalCfg, translator=None):
         self.cfg = cfg
-        self._retriever = index.as_retriever(similarity_top_k=cfg.similarity_top_k)
+        # Injected by RagPipeline, which owns the LLM client. None means
+        # single-language retrieval, exactly as before.
+        self.translator = translator
+        # Reranking needs a deeper pool to be worth anything. Dense-only does
+        # not: 60 was measured identical to 20, because re-scoring by at most
+        # x1.375 cannot reorder what cosine already ranked. A reranker assigns
+        # new scores, so depth starts to pay.
+        top_k = cfg.rerank_top_k if getattr(cfg, "rerank", False) else cfg.similarity_top_k
+        self._retriever = index.as_retriever(similarity_top_k=top_k)
 
     def retrieve(
         self,
         question: str,
         query_lang: str | None = None,
         max_pages: int | None = None,
+        apply_recency: bool = True,
     ) -> list[RetrievedPage]:
         lang = query_lang or detect_query_language(question)
         raw = self._retriever.retrieve(question)
+
+        # Retrieve for the translated question too and union the candidates.
+        # Union, not fusion: the reranker rescores everything below, so a
+        # blended pre-score would just be overwritten - what matters is that a
+        # chunk found by either phrasing survives to be scored.
+        if self.translator is not None and getattr(self.cfg, "translate_query", False):
+            other = self.translator.translate(question, lang)
+            if other:
+                raw = union_nodes(raw, self._retriever.retrieve(other))
+
+        if getattr(self.cfg, "rerank", False):
+            raw = _rerank(
+                question,
+                raw,
+                model_name=self.cfg.rerank_model,
+                backend=self.cfg.rerank_backend,
+                strip_header=self.cfg.rerank_strip_header,
+                batch_size=self.cfg.rerank_batch_size,
+            )
         return select_pages(
-            raw, self.cfg, query_lang=lang, max_pages=max_pages, question=question
+            raw, self.cfg, query_lang=lang, max_pages=max_pages, question=question,
+            apply_recency=apply_recency,
         )
 
 
